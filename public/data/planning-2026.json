@@ -1,0 +1,356 @@
+{
+  "annee": 2026,
+  "point_reference": {
+    "nom": "Guilheméry, Toulouse",
+    "latitude": 43.59833,
+    "longitude": 1.47278
+  },
+  "enfants": [
+    { "prenom": "Hélia", "age": 8, "naissance": "2017" },
+    { "prenom": "Noé", "age": 6, "naissance": "2019" }
+  ],
+  "regle_garde": {
+    "type": "alternée",
+    "pere": "Sébastien",
+    "mere": "Nathalie",
+    "semaines_pere": "impaires",
+    "jour_echange": "vendredi",
+    "heure_coucher": "20:00"
+  },
+  "exceptions_garde": [
+    {
+      "debut": "2026-03-02",
+      "fin": "2026-03-06",
+      "garde": "rosy_bernard",
+      "note": "Garde grands-parents (au lieu de Nathalie)"
+    },
+    {
+      "debut": "2026-03-30",
+      "fin": "2026-04-01",
+      "garde": "nathalie",
+      "note": ""
+    },
+    {
+      "debut": "2026-04-02",
+      "fin": "2026-04-08",
+      "garde": "sebastien",
+      "note": "Garde Sébastien"
+    },
+    {
+      "debut": "2026-04-09",
+      "fin": "2026-04-09",
+      "garde": "partage",
+      "garde_matin": "sebastien",
+      "garde_soir": "nathalie",
+      "note": "Échange de garde"
+    },
+    {
+      "debut": "2026-04-10",
+      "fin": "2026-04-16",
+      "garde": "nathalie",
+      "note": ""
+    },
+    {
+      "debut": "2026-04-17",
+      "fin": "2026-04-17",
+      "garde": "partage",
+      "garde_matin": "nathalie",
+      "garde_soir": "sebastien",
+      "note": "Échange de garde (vendredi)"
+    },
+    {
+      "debut": "2026-04-18",
+      "fin": "2026-04-22",
+      "garde": "sebastien",
+      "note": "Garde Sébastien (vacances de printemps)"
+    },
+    {
+      "debut": "2026-04-23",
+      "fin": "2026-04-23",
+      "garde": "partage",
+      "garde_matin": "sebastien",
+      "garde_soir": "nathalie",
+      "note": "Échange de garde"
+    },
+    {
+      "debut": "2026-04-24",
+      "fin": "2026-04-25",
+      "garde": "nathalie",
+      "note": ""
+    },
+    {
+      "debut": "2026-04-26",
+      "fin": "2026-04-26",
+      "garde": "partage",
+      "garde_matin": "nathalie",
+      "garde_soir": "rosy_bernard",
+      "note": "Échange de garde — début garde Rosy & Bernard"
+    },
+    {
+      "debut": "2026-04-27",
+      "fin": "2026-05-01",
+      "garde": "rosy_bernard",
+      "note": "2e semaine vacances de printemps"
+    },
+    {
+      "debut": "2026-05-02",
+      "fin": "2026-05-02",
+      "garde": "partage",
+      "garde_matin": "rosy_bernard",
+      "garde_soir": "nathalie",
+      "note": "Échange de garde — fin garde Rosy & Bernard"
+    },
+    {
+      "debut": "2026-05-03",
+      "fin": "2026-05-07",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
+    },
+    {
+      "debut": "2026-05-08",
+      "fin": "2026-05-15",
+      "garde": "famille_elargie",
+      "note": "Voyage en famille élargie (Sardaigne)"
+    },
+    {
+      "debut": "2026-05-16",
+      "fin": "2026-05-17",
+      "garde": "nathalie",
+      "note": "Garde exceptionnelle Nathalie"
+    },
+    {
+      "debut": "2026-05-18",
+      "fin": "2026-05-24",
+      "garde": "sebastien",
+      "note": "Garde Sébastien"
+    },
+    {
+      "debut": "2026-06-01",
+      "fin": "2026-06-12",
+      "garde": "sebastien",
+      "note": "Garde Sébastien (à défaut de Nathalie)"
+    },
+    {
+      "debut": "2026-06-13",
+      "fin": "2026-06-13",
+      "garde": "partage",
+      "garde_matin": "sebastien",
+      "garde_soir": "rosy_bernard",
+      "note": "Échange de garde — début garde Rosy & Bernard"
+    },
+    {
+      "debut": "2026-06-14",
+      "fin": "2026-06-14",
+      "garde": "rosy_bernard",
+      "note": "Garde Rosy & Bernard"
+    },
+    {
+      "debut": "2026-06-15",
+      "fin": "2026-06-15",
+      "garde": "partage",
+      "garde_matin": "rosy_bernard",
+      "garde_soir": "nathalie",
+      "note": "Échange de garde — fin garde Rosy & Bernard"
+    },
+    {
+      "debut": "2026-06-16",
+      "fin": "2026-06-19",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
+    },
+    {
+      "debut": "2026-06-20",
+      "fin": "2026-06-26",
+      "garde": "sebastien",
+      "note": "Garde Sébastien"
+    },
+    {
+      "debut": "2026-06-27",
+      "fin": "2026-07-05",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
+    },
+    {
+      "debut": "2026-07-06",
+      "fin": "2026-07-06",
+      "garde": "partage",
+      "garde_matin": "nathalie",
+      "garde_soir": "rosy_bernard",
+      "note": "Échange de garde — début garde Rosy & Bernard"
+    },
+    {
+      "debut": "2026-07-07",
+      "fin": "2026-07-14",
+      "garde": "rosy_bernard",
+      "note": "Garde Rosy & Bernard (vacances été)"
+    },
+    {
+      "debut": "2026-07-15",
+      "fin": "2026-07-15",
+      "garde": "partage",
+      "garde_matin": "rosy_bernard",
+      "garde_soir": "sebastien",
+      "note": "Échange de garde — fin garde Rosy & Bernard"
+    },
+    {
+      "debut": "2026-07-16",
+      "fin": "2026-07-17",
+      "garde": "sebastien",
+      "note": "Garde Sébastien (vacances été)"
+    },
+    {
+      "debut": "2026-07-18",
+      "fin": "2026-07-25",
+      "garde": "nathalie",
+      "note": "Garde Nathalie (vacances été)"
+    },
+    {
+      "debut": "2026-07-26",
+      "fin": "2026-07-26",
+      "garde": "sebastien",
+      "note": "Garde Sébastien (vacances été)"
+    },
+    {
+      "debut": "2026-07-27",
+      "fin": "2026-07-27",
+      "garde": "partage",
+      "garde_matin": "sebastien",
+      "garde_soir": "rosy_bernard",
+      "note": "Échange de garde — début garde Rosy & Bernard"
+    },
+    {
+      "debut": "2026-07-28",
+      "fin": "2026-08-01",
+      "garde": "rosy_bernard",
+      "note": "Garde Rosy & Bernard (vacances été)"
+    },
+    {
+      "debut": "2026-08-02",
+      "fin": "2026-08-02",
+      "garde": "partage",
+      "garde_matin": "rosy_bernard",
+      "garde_soir": "sebastien",
+      "note": "Échange de garde — fin garde Rosy & Bernard"
+    },
+    {
+      "debut": "2026-08-03",
+      "fin": "2026-08-09",
+      "garde": "sebastien",
+      "note": "Garde Sébastien (vacances été)"
+    },
+    {
+      "debut": "2026-08-10",
+      "fin": "2026-08-16",
+      "garde": "sebastien",
+      "note": "Garde Sébastien (vacances été)"
+    },
+    {
+      "debut": "2026-08-17",
+      "fin": "2026-08-22",
+      "garde": "nathalie",
+      "note": "Garde Nathalie (vacances été)"
+    },
+    {
+      "debut": "2026-08-23",
+      "fin": "2026-08-23",
+      "garde": "partage",
+      "garde_matin": "nathalie",
+      "garde_soir": "rosy_bernard",
+      "note": "Échange de garde — début garde Rosy & Bernard"
+    },
+    {
+      "debut": "2026-08-24",
+      "fin": "2026-08-28",
+      "garde": "rosy_bernard",
+      "note": "Garde Rosy & Bernard (fin vacances été)"
+    },
+    {
+      "debut": "2026-08-29",
+      "fin": "2026-08-29",
+      "garde": "partage",
+      "garde_matin": "rosy_bernard",
+      "garde_soir": "sebastien",
+      "note": "Échange de garde — fin garde Rosy & Bernard"
+    },
+    {
+      "debut": "2026-10-18",
+      "fin": "2026-10-18",
+      "garde": "partage",
+      "garde_matin": "sebastien",
+      "garde_soir": "rosy_bernard",
+      "note": "Échange de garde — début garde Rosy & Bernard"
+    },
+    {
+      "debut": "2026-10-19",
+      "fin": "2026-10-24",
+      "garde": "rosy_bernard",
+      "note": "1re semaine vacances Toussaint"
+    },
+    {
+      "debut": "2026-10-25",
+      "fin": "2026-10-25",
+      "garde": "partage",
+      "garde_matin": "rosy_bernard",
+      "garde_soir": "nathalie",
+      "note": "Échange de garde — fin garde Rosy & Bernard"
+    },
+    {
+      "debut": "2026-10-26",
+      "fin": "2026-10-31",
+      "garde": "nathalie",
+      "note": "2e semaine vacances Toussaint"
+    },
+    {
+      "debut": "2026-12-22",
+      "fin": "2026-12-25",
+      "garde": "a_determiner",
+      "note": "Noël — garde en discussion entre Sébastien et Nathalie"
+    }
+  ],
+  "vacances_scolaires": [
+    { "nom": "Printemps", "debut": "2026-04-18", "fin": "2026-05-03" },
+    { "nom": "Été", "debut": "2026-07-04", "fin": "2026-08-31" },
+    { "nom": "Toussaint", "debut": "2026-10-17", "fin": "2026-11-01" },
+    { "nom": "Noël", "debut": "2026-12-19", "fin": "2027-01-03" }
+  ],
+  "deplacements": [
+    { "qui": "nathalie", "debut": "2026-04-18", "fin": "2026-04-21", "destination": "Bruxelles" },
+    { "qui": "sebastien", "debut": "2026-04-24", "fin": "2026-04-28", "destination": "Barcelone (TBS Education)" },
+    { "qui": "sebastien", "debut": "2026-05-26", "fin": "2026-05-29", "destination": "Lille" },
+    { "qui": "nathalie", "debut": "2026-06-05", "fin": "2026-06-07", "destination": "Giroussens" },
+    { "qui": "nathalie", "debut": "2026-06-08", "fin": "2026-06-11", "destination": "ArtiCeram, Deux-Sèvres" },
+    { "qui": "sebastien", "debut": "2026-06-30", "fin": "2026-07-14", "destination": "Île de la Réunion" },
+    { "qui": "nathalie", "debut": "2026-09-11", "fin": "2026-09-14", "destination": "Festival des Tupiniers de Villedieu" }
+  ],
+  "stages_enfants": [
+    {
+      "debut": "2026-04-20",
+      "fin": "2026-04-24",
+      "lieu": "Le Caousous, Toulouse",
+      "type": "journée",
+      "detail": [
+        { "enfant": "Noé", "activite": "Stage natation" },
+        { "enfant": "Hélia", "activite": "Stage poney" }
+      ]
+    }
+  ],
+  "voyages_famille": [
+    {
+      "debut": "2026-05-08",
+      "fin": "2026-05-15",
+      "destination": "Sardaigne",
+      "participants": ["Rosy", "Bernard", "Vincent", "Marlène", "Hélia", "Noé", "Sébastien"]
+    }
+  ],
+  "jours_feries": [
+    { "date": "2026-05-01", "nom": "Fête du Travail" },
+    { "date": "2026-05-08", "nom": "Victoire 1945" },
+    { "date": "2026-05-14", "nom": "Ascension" },
+    { "date": "2026-05-25", "nom": "Pentecôte" },
+    { "date": "2026-07-14", "nom": "Fête nationale" },
+    { "date": "2026-08-15", "nom": "Assomption" },
+    { "date": "2026-11-01", "nom": "Toussaint" },
+    { "date": "2026-11-11", "nom": "Armistice" },
+    { "date": "2026-12-25", "nom": "Noël" }
+  ]
+}
