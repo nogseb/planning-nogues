@@ -251,11 +251,3 @@
   border-radius: 1rem;
 }
 
-/* A) Hide the injected "Made with Manus" badge */
-#manus-watermark,
-[data-manus-watermark],
-a[href*="manus.im"],
-div[class*="manus-badge"],
-div[class*="manus-watermark"] {
-  display: none !important;
-}
