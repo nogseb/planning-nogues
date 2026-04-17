@@ -6,8 +6,8 @@
     "longitude": 1.47278
   },
   "enfants": [
-    { "prenom": "Hélia", "age": 8, "naissance": "2017" },
-    { "prenom": "Noé", "age": 6, "naissance": "2019" }
+    { "prenom": "Hélia", "age": 8, "naissance": "2018" },
+    { "prenom": "Noé", "age": 6, "naissance": "2020" }
   ],
   "regle_garde": {
     "type": "alternée",
