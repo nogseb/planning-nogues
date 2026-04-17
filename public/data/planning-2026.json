@@ -135,34 +135,42 @@
       "fin": "2026-06-13",
       "garde": "partage",
       "garde_matin": "sebastien",
-      "garde_soir": "rosy_bernard",
-      "note": "Échange de garde — début garde Rosy & Bernard"
+      "garde_soir": "nathalie",
+      "note": "Journée partagée : Sébastien matin, Nathalie après-midi"
     },
     {
       "debut": "2026-06-14",
-      "fin": "2026-06-14",
-      "garde": "rosy_bernard",
-      "note": "Garde Rosy & Bernard"
-    },
-    {
-      "debut": "2026-06-15",
       "fin": "2026-06-15",
-      "garde": "partage",
-      "garde_matin": "rosy_bernard",
-      "garde_soir": "nathalie",
-      "note": "Échange de garde — fin garde Rosy & Bernard"
-    },
-    {
-      "debut": "2026-06-16",
-      "fin": "2026-06-19",
       "garde": "nathalie",
       "note": "Garde Nathalie"
     },
     {
+      "debut": "2026-06-16",
+      "fin": "2026-06-18",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
+    },
+    {
+      "debut": "2026-06-19",
+      "fin": "2026-06-19",
+      "garde": "partage",
+      "garde_matin": "sebastien",
+      "garde_soir": "nathalie",
+      "note": "Journée partagée : Sébastien matin, Nathalie après-midi"
+    },
+    {
       "debut": "2026-06-20",
-      "fin": "2026-06-26",
+      "fin": "2026-06-25",
       "garde": "sebastien",
       "note": "Garde Sébastien"
+    },
+    {
+      "debut": "2026-06-26",
+      "fin": "2026-06-26",
+      "garde": "partage",
+      "garde_matin": "nathalie",
+      "garde_soir": "sebastien",
+      "note": "Journée partagée : Nathalie matin, Sébastien après-midi"
     },
     {
       "debut": "2026-06-27",
@@ -200,6 +208,20 @@
     },
     {
       "debut": "2026-07-18",
+      "fin": "2026-07-18",
+      "garde": "nathalie",
+      "note": "Garde Nathalie (vacances été)"
+    },
+    {
+      "debut": "2026-07-19",
+      "fin": "2026-07-19",
+      "garde": "partage",
+      "garde_matin": "sebastien",
+      "garde_soir": "nathalie",
+      "note": "Journée partagée : Sébastien matin, Nathalie après-midi"
+    },
+    {
+      "debut": "2026-07-20",
       "fin": "2026-07-26",
       "garde": "nathalie",
       "note": "Garde Nathalie (vacances été)"
@@ -208,9 +230,9 @@
       "debut": "2026-07-27",
       "fin": "2026-07-27",
       "garde": "partage",
-      "garde_matin": "sebastien",
+      "garde_matin": "nathalie",
       "garde_soir": "rosy_bernard",
-      "note": "Échange de garde — début garde Rosy & Bernard"
+      "note": "Échange de garde — début garde Rosy & Bernard (matinée Nathalie)"
     },
     {
       "debut": "2026-07-28",
@@ -234,9 +256,17 @@
     },
     {
       "debut": "2026-08-10",
-      "fin": "2026-08-16",
+      "fin": "2026-08-15",
       "garde": "sebastien",
       "note": "Garde Sébastien (vacances été)"
+    },
+    {
+      "debut": "2026-08-16",
+      "fin": "2026-08-16",
+      "garde": "partage",
+      "garde_matin": "sebastien",
+      "garde_soir": "nathalie",
+      "note": "Journée partagée : Sébastien matin, Nathalie après-midi"
     },
     {
       "debut": "2026-08-17",
@@ -263,8 +293,14 @@
       "fin": "2026-08-29",
       "garde": "partage",
       "garde_matin": "rosy_bernard",
-      "garde_soir": "sebastien",
-      "note": "Échange de garde — fin garde Rosy & Bernard"
+      "garde_soir": "nathalie",
+      "note": "Échange de garde — fin garde Rosy & Bernard (après-midi Nathalie)"
+    },
+    {
+      "debut": "2026-08-30",
+      "fin": "2026-08-30",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-10-18",
