@@ -1,5 +1,8 @@
+/*
+ * Bento Box design: Map page — Google Maps via built-in proxy
+ * Rounded map container, floating bento sidebar, pill filters
+ */
 import { useState, useRef, useMemo, useCallback, useEffect } from "react";
-import L from "leaflet";
 import { useWeekData } from "@/hooks/useWeekData";
 import { TYPE_COLORS, TYPE_LABELS, GUILHEMERY, AVAILABLE_WEEKS } from "@/lib/types";
 import type { Activity } from "@/lib/types";
@@ -12,7 +15,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { Loader as Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 function ToggleChip({
   label, active, color, onClick,
@@ -33,9 +36,10 @@ export default function Carte() {
   const [weekIdx, setWeekIdx] = useState(0);
   const currentWeek = AVAILABLE_WEEKS[weekIdx];
   const { data, loading } = useWeekData(currentWeek.id);
-  const mapRef = useRef<L.Map | null>(null);
-  const markersRef = useRef<L.CircleMarker[]>([]);
-  const circlesRef = useRef<L.Circle[]>([]);
+  const mapRef = useRef<google.maps.Map | null>(null);
+  const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([]);
+  const circlesRef = useRef<google.maps.Circle[]>([]);
+  const infoWindowRef = useRef<google.maps.InfoWindow | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [typeFilters, setTypeFilters] = useState<Set<string>>(new Set());
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
@@ -55,74 +59,82 @@ export default function Carte() {
     return list;
   }, [data, typeFilters]);
 
-  const handleMapReady = useCallback((map: L.Map) => {
+  const handleMapReady = useCallback((map: google.maps.Map) => {
     mapRef.current = map;
+    infoWindowRef.current = new google.maps.InfoWindow();
 
-    const homeIcon = L.divIcon({
-      html: `<div style="width:28px;height:28px;border-radius:14px;background:#1C1C1E;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-      </div>`,
-      className: "",
-      iconSize: [28, 28],
-      iconAnchor: [14, 14],
+    // Home marker
+    const homeEl = document.createElement("div");
+    homeEl.innerHTML = `<div style="width:28px;height:28px;border-radius:14px;background:#1C1C1E;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    </div>`;
+    const homeMarker = new google.maps.marker.AdvancedMarkerElement({
+      map,
+      position: { lat: GUILHEMERY.lat, lng: GUILHEMERY.lng },
+      content: homeEl,
+  title: "Maison \u2014 Guilheméry",    });
+    homeMarker.addListener("click", () => {
+    infoWindowRef.current?.setContent("<strong style='font-family:Inter,sans-serif'>Maison \u2014 Guilheméry</strong>");    infoWindowRef.current?.open(map, homeMarker);
     });
 
-    L.marker([GUILHEMERY.lat, GUILHEMERY.lng], { icon: homeIcon })
-      .addTo(map)
-      .bindPopup("<strong style='font-family:Inter,sans-serif'>Maison \u2014 Guilh\u00e9m\u00e9ry</strong>");
-
-    const circleStyle = { fillOpacity: 0.03, weight: 1, opacity: 0.5 };
+    // Distance circles
+    const circleStyle = { fillOpacity: 0.03, strokeWeight: 1, strokeOpacity: 0.5 };
     circlesRef.current = [
-      L.circle([GUILHEMERY.lat, GUILHEMERY.lng], { radius: 5000, color: "#2d9d5f", fillColor: "#2d9d5f", ...circleStyle }).addTo(map),
-      L.circle([GUILHEMERY.lat, GUILHEMERY.lng], { radius: 10000, color: "#0891b2", fillColor: "#0891b2", ...circleStyle }).addTo(map),
-      L.circle([GUILHEMERY.lat, GUILHEMERY.lng], { radius: 30000, color: "#ca8a04", fillColor: "#ca8a04", ...circleStyle }).addTo(map),
+      new google.maps.Circle({ map, center: { lat: GUILHEMERY.lat, lng: GUILHEMERY.lng }, radius: 5000, strokeColor: "#2d9d5f", fillColor: "#2d9d5f", ...circleStyle }),
+      new google.maps.Circle({ map, center: { lat: GUILHEMERY.lat, lng: GUILHEMERY.lng }, radius: 10000, strokeColor: "#0891b2", fillColor: "#0891b2", ...circleStyle }),
+      new google.maps.Circle({ map, center: { lat: GUILHEMERY.lat, lng: GUILHEMERY.lng }, radius: 30000, strokeColor: "#ca8a04", fillColor: "#ca8a04", ...circleStyle }),
     ];
 
     setMapReady(true);
   }, []);
 
+  // Update markers when filtered activities change
   useEffect(() => {
     if (!mapReady || !mapRef.current) return;
 
+    // Clear old markers
     for (const m of markersRef.current) {
-      m.remove();
+      m.map = null;
     }
     markersRef.current = [];
 
     for (const a of filtered) {
       if (!a.latitude || !a.longitude) continue;
       const color = TYPE_COLORS[a.type] || "#666";
-      const radius = a.priorite === "incontournable" ? 9 : a.priorite === "recommande" ? 7 : 5;
+      const size = a.priorite === "incontournable" ? 18 : a.priorite === "recommande" ? 13 : 10;
+      const border = a.priorite === "incontournable" ? 3 : 2;
 
-      const marker = L.circleMarker([a.latitude, a.longitude], {
-        radius,
-        fillColor: color,
-        color: "white",
-        weight: 2,
-        fillOpacity: 1,
-      }).addTo(mapRef.current!);
+      const el = document.createElement("div");
+      el.innerHTML = `<div style="width:${size}px;height:${size}px;border-radius:${size/2}px;background:${color};border:${border}px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.25);cursor:pointer;"></div>`;
 
-      const popupContent = `
-        <div style="font-family:'DM Sans',sans-serif;max-width:270px;">
-          <div style="display:inline-block;padding:3px 10px;border-radius:8px;font-size:11px;font-weight:600;color:white;background:${color};margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">
-            ${TYPE_LABELS[a.type] || a.type}
-          </div>
-          ${a.priorite === "incontournable" ? '<span style="margin-left:4px;padding:3px 8px;border-radius:8px;font-size:10px;font-weight:700;background:#fef3c7;color:#92400e;">Incontournable</span>' : ""}
-          <h3 style="font-family:'Inter',sans-serif;font-size:14px;font-weight:700;margin:6px 0 4px;letter-spacing:-0.01em;">${a.titre}</h3>
-          <p style="font-size:12px;color:#888;margin:0 0 8px;line-height:1.5;">${a.description.slice(0, 120)}${a.description.length > 120 ? "..." : ""}</p>
-          <div style="font-size:11px;color:#999;line-height:1.7;">
-            <div>${a.lieu.split(",")[0]}</div>
-            <div>${a.horaire} (${a.duree})</div>
-            <div>${a.distance_km} km — ${a.distance_temps}</div>
-            <div>${a.tarif}</div>
-          </div>
-          ${a.url && a.url !== "https://metropole.toulouse.fr/agenda" ? `<a href="${a.url}" target="_blank" style="display:inline-block;margin-top:8px;font-size:11px;color:#7c3aed;font-weight:600;text-decoration:none;">Plus d'infos &rarr;</a>` : ""}
-        </div>
-      `;
+      const marker = new google.maps.marker.AdvancedMarkerElement({
+        map: mapRef.current,
+        position: { lat: a.latitude, lng: a.longitude },
+        content: el,
+        title: a.titre,
+      });
 
-      marker.bindPopup(popupContent);
-      marker.on("click", () => {
+      marker.addListener("click", () => {
         setSelectedActivity(a);
+        const popupContent = `
+          <div style="font-family:'DM Sans',sans-serif;max-width:270px;">
+            <div style="display:inline-block;padding:3px 10px;border-radius:8px;font-size:11px;font-weight:600;color:white;background:${color};margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">
+              ${TYPE_LABELS[a.type] || a.type}
+            </div>
+            ${a.priorite === "incontournable" ? '<span style="margin-left:4px;padding:3px 8px;border-radius:8px;font-size:10px;font-weight:700;background:#fef3c7;color:#92400e;">Incontournable</span>' : ""}
+            <h3 style="font-family:'Inter',sans-serif;font-size:14px;font-weight:700;margin:6px 0 4px;letter-spacing:-0.01em;">${a.titre}</h3>
+            <p style="font-size:12px;color:#888;margin:0 0 8px;line-height:1.5;">${a.description.slice(0, 120)}${a.description.length > 120 ? "..." : ""}</p>
+            <div style="font-size:11px;color:#999;line-height:1.7;">
+              <div>📍 ${a.lieu.split(",")[0]}</div>
+              <div>🕐 ${a.horaire} (${a.duree})</div>
+              <div>${a.transport === "velo" ? "🚲" : "🚗"} ${a.distance_km} km — ${a.distance_temps}</div>
+              <div>💰 ${a.tarif}</div>
+            </div>
+            ${a.url && a.url !== "https://metropole.toulouse.fr/agenda" ? `<a href="${a.url}" target="_blank" style="display:inline-block;margin-top:8px;font-size:11px;color:#7c3aed;font-weight:600;text-decoration:none;">Plus d'infos →</a>` : ""}
+          </div>
+        `;
+        infoWindowRef.current?.setContent(popupContent);
+        infoWindowRef.current?.open(mapRef.current!, marker);
       });
 
       markersRef.current.push(marker);
@@ -130,12 +142,14 @@ export default function Carte() {
   }, [filtered, mapReady]);
 
   const centerOnHome = useCallback(() => {
-    mapRef.current?.setView([GUILHEMERY.lat, GUILHEMERY.lng], 12);
+    mapRef.current?.setCenter({ lat: GUILHEMERY.lat, lng: GUILHEMERY.lng });
+    mapRef.current?.setZoom(12);
   }, []);
 
   const flyToActivity = useCallback((a: Activity) => {
     if (!mapRef.current) return;
-    mapRef.current.setView([a.latitude, a.longitude], 14);
+    mapRef.current.panTo({ lat: a.latitude, lng: a.longitude });
+    mapRef.current.setZoom(14);
     setSelectedActivity(a);
   }, []);
 
@@ -149,19 +163,21 @@ export default function Carte() {
 
   return (
     <div className="relative" style={{ height: "calc(100vh - 64px)" }}>
+      {/* Map */}
       <MapView
-        className="absolute inset-0 w-full h-full !rounded-none"
+        className="absolute inset-0 w-full h-full rounded-none"
         initialCenter={{ lat: GUILHEMERY.lat, lng: GUILHEMERY.lng }}
         initialZoom={12}
         onMapReady={handleMapReady}
       />
 
+      {/* Floating controls */}
       <div className="absolute top-4 left-4 z-[1000] flex gap-2">
         <button onClick={centerOnHome}
           className="bento-card px-4 py-2.5 flex items-center gap-2 text-[13px] font-semibold hover:bg-muted/50 transition-colors"
         >
           <Crosshair className="w-4 h-4" />
-          <span className="hidden sm:inline">Guilh&eacute;m&eacute;ry</span>
+          <span className="hidden sm:inline">Guilheméry</span>
         </button>
         {AVAILABLE_WEEKS.length > 1 && (
           <div className="bento-card px-2 py-1.5 flex items-center gap-1">
@@ -183,23 +199,26 @@ export default function Carte() {
         )}
       </div>
 
+      {/* Mobile sidebar toggle */}
       <button onClick={() => setSidebarOpen(!sidebarOpen)}
         className="absolute top-4 right-16 z-[1000] sm:hidden bento-card p-2.5"
       >
         {sidebarOpen ? <X className="w-4 h-4" /> : <SlidersHorizontal className="w-4 h-4" />}
       </button>
 
+      {/* Sidebar */}
       <div className={`absolute top-3 right-3 bottom-3 z-[999] w-[280px] bento-card overflow-hidden transition-transform duration-200 ${
         sidebarOpen ? "translate-x-0" : "translate-x-[calc(100%+12px)] sm:translate-x-0"
       }`}>
         <div className="h-full overflow-y-auto p-4 space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="font-heading font-bold text-[13px]">Activit&eacute;s</h2>
+            <h2 className="font-heading font-bold text-[13px]">Activités</h2>
             <span className="text-[11px] text-muted-foreground font-medium bg-muted/60 px-2 py-0.5 rounded-lg">
               {filtered.length}
             </span>
           </div>
 
+          {/* Type filters */}
           <div className="flex flex-wrap gap-1.5">
             {Object.entries(TYPE_LABELS).map(([key, label]) => (
               <ToggleChip key={key} label={label} active={typeFilters.has(key)} color={TYPE_COLORS[key]}
@@ -207,6 +226,7 @@ export default function Carte() {
             ))}
           </div>
 
+          {/* Activity list */}
           <div className="space-y-2 pt-2 border-t border-border/50">
             {filtered.map((a, i) => (
               <button key={i} onClick={() => flyToActivity(a)}
