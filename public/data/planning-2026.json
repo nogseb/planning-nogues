@@ -135,26 +135,24 @@
       "fin": "2026-06-13",
       "garde": "partage",
       "garde_matin": "sebastien",
-      "garde_soir": "rosy_bernard",
-      "note": "Échange de garde — début garde Rosy & Bernard"
+      "garde_soir": "nathalie",
+      "note": "Journée partagée : Sébastien matin, Nathalie après-midi"
     },
     {
       "debut": "2026-06-14",
       "fin": "2026-06-14",
-      "garde": "rosy_bernard",
-      "note": "Garde Rosy & Bernard"
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-06-15",
       "fin": "2026-06-15",
-      "garde": "partage",
-      "garde_matin": "rosy_bernard",
-      "garde_soir": "nathalie",
-      "note": "Échange de garde — fin garde Rosy & Bernard"
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-06-16",
-      "fin": "2026-06-19",
+      "fin": "2026-06-18",
       "garde": "nathalie",
       "note": "Garde Nathalie"
     },
