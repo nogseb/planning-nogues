@@ -768,7 +768,7 @@ export default function Planning() {
             Planning 2026
           </h1>
           <p className="text-sm text-muted-foreground">
-            Calendrier de garde, vacances et événements {data?.derniere_maj && <span className="text-muted-foreground/60">&mdash; mise à jour le {new Date(data.derniere_maj + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}</span>}
+            Calendrier de garde, vacances et événements {data?.derniere_maj && <span className="text-muted-foreground/60">&mdash; {(() => { const d = new Date(data.derniere_maj); const date = d.toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" }); const h = d.getHours(); const m = String(d.getMinutes()).padStart(2, "0"); return `${date}, ${h}h${m}`; })()}</span>}
           </p>
         </div>
         <div className="flex items-center gap-2">
