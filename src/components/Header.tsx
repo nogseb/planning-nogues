@@ -22,15 +22,17 @@ export default function Header() {
       <div className="container flex items-center justify-between h-16">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 no-underline group">
-          <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm shadow-sm">
-            HN
-          </div>
+          <img
+            src="https://d2xsxph8kpxj0f.cloudfront.net/107695875/3qThhdLNSwZtCbMRAEQe6u/logo-helia-noe-f7WAx7KY6oRKafoPAtg4va.webp"
+            alt="Hélia & Noé"
+            className="w-9 h-9 rounded-xl shadow-sm object-cover"
+          />
           <div className="flex flex-col">
             <span className="font-heading font-bold text-sm leading-tight text-foreground">
               Hélia & Noé
             </span>
             <span className="text-[10px] text-muted-foreground leading-tight">
-              Toulouse
+              Planning & autres réjouissances
             </span>
           </div>
         </Link>
