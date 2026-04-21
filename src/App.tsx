@@ -10,6 +10,7 @@ import Calendrier from "./pages/Calendrier";
 import Liste from "./pages/Liste";
 import Carte from "./pages/Carte";
 import Planning from "./pages/Planning";
+import Stats from "./pages/Stats";
 
 function Router() {
   return (
@@ -19,6 +20,7 @@ function Router() {
       <Route path="/calendrier" component={Calendrier} />
       <Route path="/liste" component={Liste} />
       <Route path="/carte" component={Carte} />
+      <Route path="/stats" component={Stats} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
