@@ -768,7 +768,7 @@ export default function Planning() {
             Planning 2026
           </h1>
           <p className="text-sm text-muted-foreground">
-            Calendrier de garde, vacances et événements <span className="text-muted-foreground/60">&mdash; {new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}</span>
+            Calendrier de garde, vacances et événements {data?.derniere_maj && <span className="text-muted-foreground/60">&mdash; mise à jour le {new Date(data.derniere_maj + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}</span>}
           </p>
         </div>
         <div className="flex items-center gap-2">

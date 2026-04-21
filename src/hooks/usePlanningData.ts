@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 export interface PlanningData {
   annee: number;
+  derniere_maj?: string;
   point_reference: { nom: string; latitude: number; longitude: number };
   enfants: { prenom: string; age: number; naissance: string }[];
   regle_garde: {

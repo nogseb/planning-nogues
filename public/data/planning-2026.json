@@ -1,13 +1,14 @@
 {
   "annee": 2026,
+  "derniere_maj": "2026-04-21",
   "point_reference": {
     "nom": "Guilheméry, Toulouse",
     "latitude": 43.59833,
     "longitude": 1.47278
   },
   "enfants": [
-    { "prenom": "Hélia", "age": 8, "naissance": "2018" },
-    { "prenom": "Noé", "age": 6, "naissance": "2020" }
+    { "prenom": "Hélia", "age": 8, "naissance": "2017" },
+    { "prenom": "Noé", "age": 6, "naissance": "2019" }
   ],
   "regle_garde": {
     "type": "alternée",
@@ -135,24 +136,26 @@
       "fin": "2026-06-13",
       "garde": "partage",
       "garde_matin": "sebastien",
-      "garde_soir": "nathalie",
-      "note": "Journée partagée : Sébastien matin, Nathalie après-midi"
+      "garde_soir": "rosy_bernard",
+      "note": "Échange de garde — début garde Rosy & Bernard"
     },
     {
       "debut": "2026-06-14",
       "fin": "2026-06-14",
-      "garde": "nathalie",
-      "note": "Garde Nathalie"
+      "garde": "rosy_bernard",
+      "note": "Garde Rosy & Bernard"
     },
     {
       "debut": "2026-06-15",
       "fin": "2026-06-15",
-      "garde": "nathalie",
-      "note": "Garde Nathalie"
+      "garde": "partage",
+      "garde_matin": "rosy_bernard",
+      "garde_soir": "nathalie",
+      "note": "Échange de garde — fin garde Rosy & Bernard"
     },
     {
       "debut": "2026-06-16",
-      "fin": "2026-06-18",
+      "fin": "2026-06-19",
       "garde": "nathalie",
       "note": "Garde Nathalie"
     },
