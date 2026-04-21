@@ -2,7 +2,7 @@
  * Bento Box design: clean floating header with pill navigation
  */
 import { Link, useLocation } from "wouter";
-import { Calendar, List, Map, LayoutGrid, Sun, Moon, CalendarDays } from "lucide-react";
+import { Calendar, List, Map, LayoutGrid, Sun, Moon, CalendarDays, BarChart3 } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 
 const NAV_ITEMS = [
@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { path: "/agenda", label: "Activités", icon: LayoutGrid },
   { path: "/liste", label: "Liste", icon: List },
   { path: "/carte", label: "Carte", icon: Map },
+  { path: "/stats", label: "Stats", icon: BarChart3 },
 ];
 
 export default function Header() {
