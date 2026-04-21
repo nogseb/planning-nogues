@@ -7,7 +7,7 @@ import { useWeekData } from "@/hooks/useWeekData";
 import { usePlanningData, getDayInfo, GARDE_COLORS } from "@/hooks/usePlanningData";
 import ActivityCard from "@/components/ActivityCard";
 import { TYPE_COLORS, TYPE_LABELS, PRIORITE_LABELS, CRENEAU_LABELS, AVAILABLE_WEEKS } from "@/lib/types";
-import { Search, X, SlidersHorizontal, Bike, Car, RotateCcw, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, X, SlidersHorizontal, Bike, Car, RotateCcw, ChevronLeft, ChevronRight, ChevronDown, Check } from "lucide-react";
 import { Loader2 } from "lucide-react";
 
 function ToggleChip({
@@ -51,6 +51,7 @@ export default function Liste() {
   const [transportFilter, setTransportFilter] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<"date" | "priorite">("date");
   const [showFilters, setShowFilters] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const toggleSet = (set: Set<string>, value: string): Set<string> => {
     const next = new Set(set);
@@ -191,8 +192,39 @@ export default function Liste() {
         )}
       </div>
 
-      {/* Filters panel */}
-      <div className={`bento-card p-4 sm:p-5 space-y-4 ${showFilters ? "block" : "hidden sm:block"}`}>
+      {/* Filters panel — accordion */}
+      <div className={`bento-card overflow-hidden transition-all duration-300 ${showFilters ? "block" : "hidden sm:block"}`}>
+        {/* Accordion header */}
+        <button
+          onClick={() => setFiltersOpen(!filtersOpen)}
+          className="w-full flex items-center justify-between px-4 sm:px-5 py-3 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <span className="flex items-center gap-2">
+            <SlidersHorizontal className="w-4 h-4" />
+            Filtres
+            {hasActiveFilters && (
+              <span className="ml-1 px-1.5 py-0.5 text-[10px] font-bold rounded-md bg-primary/10 text-primary">
+                actifs
+              </span>
+            )}
+          </span>
+          <span className="flex items-center gap-1.5">
+            {filtersOpen ? (
+              <Check className="w-4 h-4" />
+            ) : (
+              <ChevronDown className="w-4 h-4" />
+            )}
+          </span>
+        </button>
+
+        {/* Accordion content */}
+        <div
+          className={`grid transition-all duration-300 ease-in-out ${
+            filtersOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+          }`}
+        >
+        <div className="overflow-hidden">
+        <div className="px-4 sm:px-5 pb-4 sm:pb-5 space-y-4">
         {/* Garde */}
         <div>
           <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider mb-2">Garde</p>
@@ -301,6 +333,9 @@ export default function Liste() {
               </button>
             )}
           </div>
+        </div>
+        </div>
+        </div>
         </div>
       </div>
 
