@@ -155,7 +155,7 @@ export function usePlanningData() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/data/planning-2026.json")
+    fetch(`/data/planning-2026.json?v=${Date.now()}`)
       .then((r) => {
         if (!r.ok) throw new Error("Erreur chargement planning");
         return r.json();

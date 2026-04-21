@@ -8,7 +8,7 @@ export function useWeekData(weekId: string = "2026-W17") {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`/data/${weekId}.json`)
+    fetch(`/data/${weekId}.json?v=${Date.now()}`)
       .then((res) => {
         if (!res.ok) throw new Error("Fichier non trouvé");
         return res.json();
