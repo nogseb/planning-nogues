@@ -923,7 +923,7 @@ export default function Stats() {
       <p className="text-[11px] text-muted-foreground text-center pb-4">
         Données calculées à partir de planning-2026.json
         {data.derniere_maj && (
-          <> — dernière mise à jour : {new Date(data.derniere_maj).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}</>
+          <> — dernière mise à jour : {new Date(data.derniere_maj).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric", timeZone: "Europe/Paris" })}</>
         )}
       </p>
     </div>
