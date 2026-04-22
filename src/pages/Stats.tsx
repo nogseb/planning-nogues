@@ -2,10 +2,12 @@
  * Page statistiques cachée — accessible uniquement via /stats
  * Indicateurs calculés dynamiquement depuis planning-2026.json
  */
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { usePlanningData, getDayInfo, GARDE_COLORS } from "@/hooks/usePlanningData";
 import type { PlanningData, GardeType } from "@/hooks/usePlanningData";
-import { Loader2, BarChart3, Calendar, Users, Plane, Sun, ArrowLeft } from "lucide-react";
+import { Loader2, BarChart3, Calendar, Users, Plane, Sun, ArrowLeft, TrendingUp } from "lucide-react";
+import { AVAILABLE_WEEKS } from "@/lib/types";
+import type { WeekData } from "@/lib/types";
 import { Link } from "wouter";
 
 /* ── Helpers ── */
@@ -186,6 +188,230 @@ function MonthGardeRow({ month, gardeData, monthNames }: {
   );
 }
 
+/* ── Activities Line Chart ── */
+function ActivitiesChart() {
+  const [allWeeks, setAllWeeks] = useState<WeekData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAll = async () => {
+      const results: WeekData[] = [];
+      for (const week of AVAILABLE_WEEKS) {
+        try {
+          const res = await fetch(`/data/${week.id}.json?v=${Date.now()}`);
+          if (res.ok) {
+            const json: WeekData = await res.json();
+            results.push(json);
+          }
+        } catch { /* skip */ }
+      }
+      setAllWeeks(results);
+      setLoading(false);
+    };
+    fetchAll();
+  }, []);
+
+  const chartData = useMemo(() => {
+    if (allWeeks.length === 0) return { days: [], max: 0, total: 0 };
+
+    // Aggregate activities by date across all weeks
+    const byDate: Record<string, number> = {};
+    let total = 0;
+    for (const week of allWeeks) {
+      for (const act of week.activites) {
+        byDate[act.date] = (byDate[act.date] || 0) + 1;
+        total++;
+      }
+    }
+
+    // Sort dates and build chart points
+    const sortedDates = Object.keys(byDate).sort();
+    const days = sortedDates.map(d => ({
+      date: d,
+      count: byDate[d],
+      label: new Date(d + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "short" }),
+      weekday: new Date(d + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "short" }),
+    }));
+    const max = Math.max(...days.map(d => d.count), 1);
+
+    return { days, max, total };
+  }, [allWeeks]);
+
+  if (loading) {
+    return (
+      <div className="bento-card p-5 flex items-center justify-center h-40">
+        <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  if (chartData.days.length === 0) {
+    return (
+      <div className="bento-card p-5">
+        <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+          <TrendingUp className="w-4 h-4" />
+          Activités par jour
+        </h2>
+        <p className="text-sm text-muted-foreground mt-2">Aucune donnée d'activités disponible.</p>
+      </div>
+    );
+  }
+
+  const CHART_H = 180;
+  const CHART_PAD_TOP = 10;
+  const CHART_PAD_BOTTOM = 40;
+  const CHART_PAD_LEFT = 32;
+  const CHART_PAD_RIGHT = 12;
+  const usableH = CHART_H - CHART_PAD_TOP - CHART_PAD_BOTTOM;
+  const usableW_pct = 100; // we'll use SVG viewBox
+
+  // Build SVG path
+  const svgW = Math.max(chartData.days.length * 48, 600);
+  const pointSpacing = (svgW - CHART_PAD_LEFT - CHART_PAD_RIGHT) / Math.max(chartData.days.length - 1, 1);
+
+  const points = chartData.days.map((d, i) => ({
+    x: CHART_PAD_LEFT + i * pointSpacing,
+    y: CHART_PAD_TOP + usableH - (d.count / chartData.max) * usableH,
+    ...d,
+  }));
+
+  // Line path
+  const linePath = points.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
+
+  // Area path (fill under curve)
+  const areaPath = linePath + ` L ${points[points.length - 1].x} ${CHART_PAD_TOP + usableH} L ${points[0].x} ${CHART_PAD_TOP + usableH} Z`;
+
+  // Y-axis ticks
+  const yTicks = [];
+  const step = chartData.max <= 5 ? 1 : chartData.max <= 12 ? 2 : Math.ceil(chartData.max / 5);
+  for (let v = 0; v <= chartData.max; v += step) {
+    yTicks.push(v);
+  }
+  if (yTicks[yTicks.length - 1] !== chartData.max) yTicks.push(chartData.max);
+
+  return (
+    <div className="bento-card p-5 space-y-3">
+      <div className="flex items-center justify-between">
+        <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+          <TrendingUp className="w-4 h-4" />
+          Activités par jour
+        </h2>
+        <span className="text-[12px] text-muted-foreground font-mono">
+          {chartData.total} activités sur {chartData.days.length} jours ({AVAILABLE_WEEKS.length} semaines)
+        </span>
+      </div>
+
+      <div className="overflow-x-auto -mx-2 px-2">
+        <svg
+          viewBox={`0 0 ${svgW} ${CHART_H}`}
+          className="w-full"
+          style={{ minWidth: `${Math.max(chartData.days.length * 36, 400)}px`, height: `${CHART_H}px` }}
+          preserveAspectRatio="none"
+        >
+          {/* Grid lines */}
+          {yTicks.map(v => {
+            const y = CHART_PAD_TOP + usableH - (v / chartData.max) * usableH;
+            return (
+              <g key={v}>
+                <line
+                  x1={CHART_PAD_LEFT}
+                  y1={y}
+                  x2={svgW - CHART_PAD_RIGHT}
+                  y2={y}
+                  className="stroke-border/40"
+                  strokeWidth={0.5}
+                  strokeDasharray="4 3"
+                />
+                <text
+                  x={CHART_PAD_LEFT - 6}
+                  y={y + 3}
+                  textAnchor="end"
+                  className="fill-muted-foreground"
+                  fontSize={9}
+                  fontFamily="monospace"
+                >
+                  {v}
+                </text>
+              </g>
+            );
+          })}
+
+          {/* Area fill */}
+          <path
+            d={areaPath}
+            fill="url(#areaGradient)"
+            opacity={0.3}
+          />
+
+          {/* Gradient definition */}
+          <defs>
+            <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#f43f5e" stopOpacity={0.4} />
+              <stop offset="100%" stopColor="#f43f5e" stopOpacity={0.02} />
+            </linearGradient>
+          </defs>
+
+          {/* Line */}
+          <path
+            d={linePath}
+            fill="none"
+            stroke="#f43f5e"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+
+          {/* Points and labels */}
+          {points.map((p, i) => (
+            <g key={i}>
+              <circle
+                cx={p.x}
+                cy={p.y}
+                r={3.5}
+                fill="#fff"
+                stroke="#f43f5e"
+                strokeWidth={2}
+              />
+              {/* Count label above point */}
+              <text
+                x={p.x}
+                y={p.y - 10}
+                textAnchor="middle"
+                className="fill-foreground"
+                fontSize={10}
+                fontWeight={600}
+              >
+                {p.count}
+              </text>
+              {/* Date label below */}
+              <text
+                x={p.x}
+                y={CHART_PAD_TOP + usableH + 14}
+                textAnchor="middle"
+                className="fill-muted-foreground"
+                fontSize={8}
+                fontFamily="monospace"
+              >
+                {p.weekday}
+              </text>
+              <text
+                x={p.x}
+                y={CHART_PAD_TOP + usableH + 26}
+                textAnchor="middle"
+                className="fill-muted-foreground"
+                fontSize={8}
+                fontFamily="monospace"
+              >
+                {p.label}
+              </text>
+            </g>
+          ))}
+        </svg>
+      </div>
+    </div>
+  );
+}
+
 /* ── Main page ── */
 export default function Stats() {
   const { data, loading } = usePlanningData();
@@ -321,6 +547,9 @@ export default function Stats() {
           })}
         </div>
       </div>
+
+      {/* Graphique activités par jour */}
+      <ActivitiesChart />
 
       {/* Two columns: Vacances + Jours fériés */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
