@@ -5,8 +5,8 @@
 import { useMemo, useState, useEffect } from "react";
 import { usePlanningData, getDayInfo, GARDE_COLORS } from "@/hooks/usePlanningData";
 import type { PlanningData, GardeType } from "@/hooks/usePlanningData";
-import { Loader2, BarChart3, Calendar, Users, Plane, Sun, ArrowLeft, TrendingUp } from "lucide-react";
-import { AVAILABLE_WEEKS } from "@/lib/types";
+import { Loader2, BarChart3, Calendar, Users, Plane, Sun, ArrowLeft, TrendingUp, PieChart } from "lucide-react";
+import { AVAILABLE_WEEKS, TYPE_COLORS, TYPE_LABELS } from "@/lib/types";
 import type { WeekData } from "@/lib/types";
 import { Link } from "wouter";
 
@@ -412,6 +412,186 @@ function ActivitiesChart() {
   );
 }
 
+/* ── Activities Pie Chart ── */
+function ActivitiesPieChart() {
+  const [allWeeks, setAllWeeks] = useState<WeekData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAll = async () => {
+      const results: WeekData[] = [];
+      for (const week of AVAILABLE_WEEKS) {
+        try {
+          const res = await fetch(`/data/${week.id}.json?v=${Date.now()}`);
+          if (res.ok) {
+            const json: WeekData = await res.json();
+            results.push(json);
+          }
+        } catch { /* skip */ }
+      }
+      setAllWeeks(results);
+      setLoading(false);
+    };
+    fetchAll();
+  }, []);
+
+  const pieData = useMemo(() => {
+    if (allWeeks.length === 0) return { slices: [], total: 0 };
+
+    const byType: Record<string, number> = {};
+    let total = 0;
+    for (const week of allWeeks) {
+      for (const act of week.activites) {
+        byType[act.type] = (byType[act.type] || 0) + 1;
+        total++;
+      }
+    }
+
+    // Sort by count descending
+    const sorted = Object.entries(byType).sort((a, b) => b[1] - a[1]);
+    let cumAngle = 0;
+    const slices = sorted.map(([type, count]) => {
+      const pct = count / total;
+      const startAngle = cumAngle;
+      const angle = pct * 360;
+      cumAngle += angle;
+      return {
+        type,
+        count,
+        pct,
+        startAngle,
+        angle,
+        color: TYPE_COLORS[type] || "#94a3b8",
+        label: TYPE_LABELS[type] || type,
+      };
+    });
+
+    return { slices, total };
+  }, [allWeeks]);
+
+  if (loading) {
+    return (
+      <div className="bento-card p-5 flex items-center justify-center h-40">
+        <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  if (pieData.slices.length === 0) {
+    return (
+      <div className="bento-card p-5">
+        <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+          <PieChart className="w-4 h-4" />
+          Répartition par type
+        </h2>
+        <p className="text-sm text-muted-foreground mt-2">Aucune donnée d'activités disponible.</p>
+      </div>
+    );
+  }
+
+  // SVG pie chart helpers
+  const cx = 120;
+  const cy = 120;
+  const r = 100;
+  const ir = 55; // inner radius for donut
+
+  function polarToCartesian(angle: number, radius: number) {
+    const rad = ((angle - 90) * Math.PI) / 180;
+    return {
+      x: cx + radius * Math.cos(rad),
+      y: cy + radius * Math.sin(rad),
+    };
+  }
+
+  function describeArc(startAngle: number, endAngle: number, outerR: number, innerR: number) {
+    const start1 = polarToCartesian(startAngle, outerR);
+    const end1 = polarToCartesian(endAngle, outerR);
+    const start2 = polarToCartesian(endAngle, innerR);
+    const end2 = polarToCartesian(startAngle, innerR);
+    const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+    return [
+      `M ${start1.x} ${start1.y}`,
+      `A ${outerR} ${outerR} 0 ${largeArc} 1 ${end1.x} ${end1.y}`,
+      `L ${start2.x} ${start2.y}`,
+      `A ${innerR} ${innerR} 0 ${largeArc} 0 ${end2.x} ${end2.y}`,
+      `Z`,
+    ].join(" ");
+  }
+
+  return (
+    <div className="bento-card p-5 space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+          <PieChart className="w-4 h-4" />
+          Répartition par type d'activité
+        </h2>
+        <span className="text-[12px] text-muted-foreground font-mono">
+          {pieData.total} activités ({AVAILABLE_WEEKS.length} semaines)
+        </span>
+      </div>
+
+      <div className="flex flex-col sm:flex-row items-center gap-6">
+        {/* Donut chart */}
+        <div className="relative flex-shrink-0">
+          <svg width={240} height={240} viewBox={`0 0 ${cx * 2} ${cy * 2}`}>
+            {pieData.slices.map((slice, i) => {
+              // Avoid rendering a full 360 arc (SVG limitation)
+              const endAngle = slice.startAngle + Math.min(slice.angle, 359.99);
+              return (
+                <path
+                  key={i}
+                  d={describeArc(slice.startAngle, endAngle, r, ir)}
+                  fill={slice.color}
+                  stroke="var(--background)"
+                  strokeWidth={2}
+                  className="transition-opacity duration-200 hover:opacity-80"
+                />
+              );
+            })}
+            {/* Center text */}
+            <text
+              x={cx}
+              y={cy - 6}
+              textAnchor="middle"
+              className="fill-foreground"
+              fontSize={22}
+              fontWeight={800}
+            >
+              {pieData.total}
+            </text>
+            <text
+              x={cx}
+              y={cy + 14}
+              textAnchor="middle"
+              className="fill-muted-foreground"
+              fontSize={10}
+            >
+              activités
+            </text>
+          </svg>
+        </div>
+
+        {/* Legend */}
+        <div className="flex-1 space-y-2 w-full">
+          {pieData.slices.map((slice, i) => (
+            <div key={i} className="flex items-center gap-3">
+              <div
+                className="w-3 h-3 rounded-sm flex-shrink-0"
+                style={{ backgroundColor: slice.color }}
+              />
+              <span className="text-sm flex-1">{slice.label}</span>
+              <span className="text-sm font-semibold tabular-nums">{slice.count}</span>
+              <span className="text-[12px] text-muted-foreground font-mono w-12 text-right">
+                {(slice.pct * 100).toFixed(0)}%
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ── Main page ── */
 export default function Stats() {
   const { data, loading } = usePlanningData();
@@ -550,6 +730,9 @@ export default function Stats() {
 
       {/* Graphique activités par jour */}
       <ActivitiesChart />
+
+      {/* Camembert répartition par type */}
+      <ActivitiesPieChart />
 
       {/* Two columns: Vacances + Jours fériés */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
