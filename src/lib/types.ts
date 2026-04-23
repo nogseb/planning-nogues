@@ -50,6 +50,11 @@ export const AVAILABLE_WEEKS = [
   { id: "2026-W19", label: "S19 — 4-10 mai", short: "S19" },
   { id: "2026-W21", label: "S21 — 18-24 mai", short: "S21" },
   { id: "2026-W22", label: "S22 — 25-31 mai", short: "S22" },
+  { id: "2026-W23", label: "S23 — 1-7 juin", short: "S23" },
+  { id: "2026-W24", label: "S24 — 8-14 juin", short: "S24" },
+  { id: "2026-W25", label: "S25 — 15-21 juin", short: "S25" },
+  { id: "2026-W26", label: "S26 — 22-28 juin", short: "S26" },
+  { id: "2026-W27", label: "S27 — 29 juin-5 juil.", short: "S27" },
 ];
 
 export const TYPE_COLORS: Record<string, string> = {
