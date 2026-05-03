@@ -1,6 +1,6 @@
 {
   "annee": 2026,
-  "derniere_maj": "2026-04-23T09:45",
+  "derniere_maj": "2026-04-23T10:15",
   "point_reference": {
     "nom": "Guilheméry, Toulouse",
     "latitude": 43.59833,
@@ -127,23 +127,23 @@
     },
     {
       "debut": "2026-06-01",
-      "fin": "2026-06-12",
+      "fin": "2026-06-11",
       "garde": "sebastien",
       "note": "Garde Sébastien (à défaut de Nathalie)"
     },
     {
-      "debut": "2026-06-13",
-      "fin": "2026-06-13",
+      "debut": "2026-06-12",
+      "fin": "2026-06-12",
       "garde": "partage",
       "garde_matin": "sebastien",
-      "garde_soir": "rosy_bernard",
-      "note": "Échange de garde — début garde Rosy & Bernard"
+      "garde_soir": "nathalie",
+      "note": "Échange de garde"
     },
     {
-      "debut": "2026-06-14",
+      "debut": "2026-06-13",
       "fin": "2026-06-14",
-      "garde": "rosy_bernard",
-      "note": "Garde Rosy & Bernard"
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-06-15",
