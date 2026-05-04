@@ -218,6 +218,7 @@ function ActivitiesChart() {
     const byDate: Record<string, number> = {};
     let total = 0;
     for (const week of allWeeks) {
+      if (!Array.isArray(week.activites)) continue;
       for (const act of week.activites) {
         byDate[act.date] = (byDate[act.date] || 0) + 1;
         total++;
@@ -441,6 +442,7 @@ function ActivitiesPieChart() {
     const byType: Record<string, number> = {};
     let total = 0;
     for (const week of allWeeks) {
+      if (!Array.isArray(week.activites)) continue;
       for (const act of week.activites) {
         byType[act.type] = (byType[act.type] || 0) + 1;
         total++;
