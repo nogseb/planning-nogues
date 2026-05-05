@@ -5,7 +5,8 @@
  */
 import { useState, useMemo } from "react";
 import { useWeekData } from "@/hooks/useWeekData";
-import { usePlanningData, getDayInfo, GARDE_COLORS } from "@/hooks/usePlanningData";
+import { usePlanningData, getDayInfo, GARDE_COLORS, EVENT_COLORS } from "@/hooks/usePlanningData";
+import type { PlanningData } from "@/hooks/usePlanningData";
 import ActivityCard from "@/components/ActivityCard";
 import { formatDateFr, getDatesForWeek, isWeekend } from "@/lib/utils";
 import type { Activity } from "@/lib/types";
@@ -24,6 +25,11 @@ import {
   AlertTriangle,
   ChevronLeft,
   ChevronRight,
+  Plane,
+  MapPin,
+  Backpack,
+  Star,
+  PartyPopper,
 } from "lucide-react";
 import { Loader2 } from "lucide-react";
 
@@ -42,6 +48,168 @@ function extractTemp(text: string): { high: string; low: string } | null {
   const match = text.match(/(\d+)\/(\d+)/);
   if (match) return { high: match[1], low: match[2] };
   return null;
+}
+
+/* ── Upcoming Events Component ── */
+function UpcomingEvents({ planning }: { planning: PlanningData }) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todayStr = today.toISOString().split("T")[0];
+  const horizonDate = new Date(today);
+  horizonDate.setDate(today.getDate() + 60); // 60 jours d'horizon
+  const horizonStr = horizonDate.toISOString().split("T")[0];
+
+  type UpcomingEvent = {
+    date: string;
+    endDate?: string;
+    label: string;
+    sublabel?: string;
+    type: "deplacement" | "voyage" | "stage" | "ferie" | "vacances";
+    icon: React.ReactNode;
+    color: { bg: string; text: string };
+  };
+
+  const events: UpcomingEvent[] = [];
+
+  // Déplacements
+  for (const dep of planning.deplacements) {
+    if (dep.fin >= todayStr && dep.debut <= horizonStr) {
+      const qui = dep.qui === "sebastien" ? "Sébastien" : dep.qui === "nathalie" ? "Nathalie" : dep.qui;
+      events.push({
+        date: dep.debut,
+        endDate: dep.fin,
+        label: `${qui} → ${dep.destination}`,
+        sublabel: dep.debut === dep.fin ? undefined : `jusqu'au ${new Date(dep.fin + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "short" })}`,
+        type: "deplacement",
+        icon: <Plane className="w-3.5 h-3.5" />,
+        color: EVENT_COLORS.deplacement,
+      });
+    }
+  }
+
+  // Voyages famille
+  for (const v of planning.voyages_famille) {
+    if (v.fin >= todayStr && v.debut <= horizonStr) {
+      const participants = v.participants.map(p =>
+        p === "sebastien" ? "Sébastien" : p === "nathalie" ? "Nathalie" : p === "helia" ? "Hélia" : p === "noe" ? "Noé" : p
+      ).join(", ");
+      events.push({
+        date: v.debut,
+        endDate: v.fin,
+        label: `Voyage — ${v.destination}`,
+        sublabel: participants,
+        type: "voyage",
+        icon: <MapPin className="w-3.5 h-3.5" />,
+        color: EVENT_COLORS.voyage,
+      });
+    }
+  }
+
+  // Stages enfants
+  for (const st of planning.stages_enfants) {
+    if (st.fin >= todayStr && st.debut <= horizonStr) {
+      const enfants = st.detail.map(d => d.enfant === "helia" ? "Hélia" : d.enfant === "noe" ? "Noé" : d.enfant).join(" & ");
+      events.push({
+        date: st.debut,
+        endDate: st.fin,
+        label: `Stage ${st.type} — ${st.lieu}`,
+        sublabel: enfants,
+        type: "stage",
+        icon: <Backpack className="w-3.5 h-3.5" />,
+        color: EVENT_COLORS.stage,
+      });
+    }
+  }
+
+  // Jours fériés
+  for (const f of planning.jours_feries) {
+    if (f.date >= todayStr && f.date <= horizonStr) {
+      events.push({
+        date: f.date,
+        label: f.nom,
+        type: "ferie",
+        icon: <Star className="w-3.5 h-3.5" />,
+        color: { bg: "#fde8e8", text: "#9b1c1c" },
+      });
+    }
+  }
+
+  // Vacances scolaires (début uniquement si dans l'horizon)
+  for (const v of planning.vacances_scolaires) {
+    if (v.fin >= todayStr && v.debut <= horizonStr) {
+      events.push({
+        date: v.debut,
+        endDate: v.fin,
+        label: `Vacances ${v.nom}`,
+        sublabel: `jusqu'au ${new Date(v.fin + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "short" })}`,
+        type: "vacances",
+        icon: <PartyPopper className="w-3.5 h-3.5" />,
+        color: { bg: "#fef3c7", text: "#92400e" },
+      });
+    }
+  }
+
+  // Sort by date
+  events.sort((a, b) => a.date.localeCompare(b.date));
+
+  if (events.length === 0) return null;
+
+  return (
+    <div className="bento-card p-5 space-y-3">
+      <div className="flex items-center gap-2">
+        <CalendarDays className="w-4 h-4 text-primary" />
+        <h2 className="font-heading font-bold text-sm uppercase tracking-wider text-muted-foreground">
+          Événements à venir
+        </h2>
+        <span className="text-[10px] text-muted-foreground bg-muted/60 px-2 py-0.5 rounded-lg">
+          60 prochains jours
+        </span>
+      </div>
+      <div className="flex flex-col gap-2">
+        {events.map((ev, i) => {
+          const dateObj = new Date(ev.date + "T12:00:00");
+          const dateLabel = dateObj.toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short", timeZone: "Europe/Paris" });
+          const isToday = ev.date === todayStr;
+          const isPast = ev.endDate ? ev.endDate < todayStr : ev.date < todayStr;
+          const isOngoing = ev.endDate && ev.date <= todayStr && ev.endDate >= todayStr;
+          return (
+            <div
+              key={i}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
+                isPast ? "opacity-40" : ""
+              }`}
+              style={{ backgroundColor: ev.color.bg }}
+            >
+              <div className="flex-shrink-0" style={{ color: ev.color.text }}>
+                {ev.icon}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[13px] font-semibold leading-tight truncate" style={{ color: ev.color.text }}>
+                  {ev.label}
+                </p>
+                {ev.sublabel && (
+                  <p className="text-[11px] opacity-75 mt-0.5" style={{ color: ev.color.text }}>
+                    {ev.sublabel}
+                  </p>
+                )}
+              </div>
+              <div className="flex-shrink-0 text-right">
+                {isOngoing ? (
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-white/50" style={{ color: ev.color.text }}>
+                    En cours
+                  </span>
+                ) : (
+                  <span className="text-[11px] font-semibold" style={{ color: ev.color.text }}>
+                    {isToday ? "Aujourd'hui" : dateLabel}
+                  </span>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 const JOUR_KEYS: Record<string, string> = {
@@ -234,6 +402,9 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      {/* ── Événements à venir ── */}
+      {planningData && <UpcomingEvents planning={planningData} />}
 
       {/* ── Day sections ── */}
       {dates.map((date) => {
