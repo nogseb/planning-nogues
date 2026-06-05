@@ -1,6 +1,6 @@
 {
   "annee": 2026,
-  "derniere_maj": "2026-05-04T18:00",
+  "derniere_maj": "2026-06-05T10:30",
   "point_reference": {
     "nom": "Guilheméry, Toulouse",
     "latitude": 43.59833,
@@ -127,17 +127,23 @@
     },
     {
       "debut": "2026-06-01",
-      "fin": "2026-06-11",
+      "fin": "2026-06-10",
       "garde": "sebastien",
       "note": "Garde Sébastien (à défaut de Nathalie)"
     },
     {
-      "debut": "2026-06-12",
-      "fin": "2026-06-12",
+      "debut": "2026-06-11",
+      "fin": "2026-06-11",
       "garde": "partage",
       "garde_matin": "sebastien",
       "garde_soir": "nathalie",
-      "note": "Échange de garde — Déplacement Sébastien sur Lyon"
+      "note": "Échange de garde"
+    },
+    {
+      "debut": "2026-06-12",
+      "fin": "2026-06-12",
+      "garde": "nathalie",
+      "note": "Garde Nathalie — Déplacement Sébastien sur Lyon"
     },
     {
       "debut": "2026-06-13",
@@ -147,9 +153,17 @@
     },
     {
       "debut": "2026-06-16",
-      "fin": "2026-06-19",
+      "fin": "2026-06-18",
       "garde": "nathalie",
       "note": "Garde Nathalie"
+    },
+    {
+      "debut": "2026-06-19",
+      "fin": "2026-06-19",
+      "garde": "partage",
+      "garde_matin": "nathalie",
+      "garde_soir": "sebastien",
+      "note": "Échange de garde"
     },
     {
       "debut": "2026-06-20",
@@ -264,8 +278,14 @@
       "fin": "2026-08-29",
       "garde": "partage",
       "garde_matin": "rosy_bernard",
-      "garde_soir": "sebastien",
+      "garde_soir": "nathalie",
       "note": "Échange de garde — fin garde Rosy & Bernard"
+    },
+    {
+      "debut": "2026-08-30",
+      "fin": "2026-08-30",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-10-18",
@@ -310,6 +330,7 @@
   ],
   "deplacements": [
     { "qui": "nathalie", "debut": "2026-04-18", "fin": "2026-04-21", "destination": "Bruxelles" },
+    { "qui": "nathalie", "debut": "2026-05-20", "fin": "2026-05-22", "destination": "Paris (Biennale de Sèvres)" },
     { "qui": "sebastien", "debut": "2026-06-12", "fin": "2026-06-15", "destination": "Lyon" },
     { "qui": "sebastien", "debut": "2026-04-24", "fin": "2026-04-28", "destination": "Barcelone & Costa Brava" },
     { "qui": "sebastien", "debut": "2026-05-25", "fin": "2026-05-30", "destination": "Majorque" },
