@@ -1,6 +1,6 @@
 {
   "annee": 2026,
-  "derniere_maj": "2026-06-27T12:20",
+  "derniere_maj": "2026-06-27T12:35",
   "point_reference": {
     "nom": "Guilheméry, Toulouse",
     "latitude": 43.59833,
@@ -449,15 +449,37 @@
     },
     {
       "debut": "2026-10-26",
-      "fin": "2026-10-31",
+      "fin": "2026-10-29",
       "garde": "sebastien",
       "note": "Garde Sébastien"
     },
     {
-      "debut": "2026-11-07",
-      "fin": "2026-11-08",
-      "garde": "sebastien",
-      "note": "Garde Sébastien"
+      "debut": "2026-10-30",
+      "fin": "2026-10-30",
+      "garde": "partage",
+      "garde_matin": "sebastien",
+      "garde_soir": "nathalie",
+      "note": "Échange de garde"
+    },
+    {
+      "debut": "2026-10-31",
+      "fin": "2026-10-31",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
+    },
+    {
+      "debut": "2026-11-01",
+      "fin": "2026-11-01",
+      "garde": "partage",
+      "garde_matin": "nathalie",
+      "garde_soir": "sebastien",
+      "note": "Échange de garde"
+    },
+    {
+      "debut": "2026-11-02",
+      "fin": "2026-11-05",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-11-06",
@@ -468,10 +490,16 @@
       "note": "Échange de garde"
     },
     {
-      "debut": "2026-11-14",
-      "fin": "2026-11-15",
-      "garde": "nathalie",
-      "note": "Garde Nathalie"
+      "debut": "2026-11-07",
+      "fin": "2026-11-08",
+      "garde": "sebastien",
+      "note": "Garde Sébastien"
+    },
+    {
+      "debut": "2026-11-09",
+      "fin": "2026-11-12",
+      "garde": "sebastien",
+      "note": "Garde Sébastien"
     },
     {
       "debut": "2026-11-13",
@@ -482,10 +510,16 @@
       "note": "Échange de garde"
     },
     {
-      "debut": "2026-11-21",
-      "fin": "2026-11-22",
-      "garde": "sebastien",
-      "note": "Garde Sébastien"
+      "debut": "2026-11-14",
+      "fin": "2026-11-15",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
+    },
+    {
+      "debut": "2026-11-16",
+      "fin": "2026-11-19",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-11-20",
@@ -496,10 +530,16 @@
       "note": "Échange de garde"
     },
     {
-      "debut": "2026-11-28",
-      "fin": "2026-11-29",
-      "garde": "nathalie",
-      "note": "Garde Nathalie"
+      "debut": "2026-11-21",
+      "fin": "2026-11-22",
+      "garde": "sebastien",
+      "note": "Garde Sébastien"
+    },
+    {
+      "debut": "2026-11-23",
+      "fin": "2026-11-26",
+      "garde": "sebastien",
+      "note": "Garde Sébastien"
     },
     {
       "debut": "2026-11-27",
@@ -508,6 +548,12 @@
       "garde_matin": "sebastien",
       "garde_soir": "nathalie",
       "note": "Échange de garde"
+    },
+    {
+      "debut": "2026-11-28",
+      "fin": "2026-11-29",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-12-05",
