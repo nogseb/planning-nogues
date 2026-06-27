@@ -1,14 +1,22 @@
 {
   "annee": 2026,
-  "derniere_maj": "2026-06-27T11:30",
+  "derniere_maj": "2026-06-27T11:45",
   "point_reference": {
     "nom": "Guilheméry, Toulouse",
     "latitude": 43.59833,
     "longitude": 1.47278
   },
   "enfants": [
-    { "prenom": "Hélia", "age": 8, "naissance": "2017" },
-    { "prenom": "Noé", "age": 6, "naissance": "2019" }
+    {
+      "prenom": "Hélia",
+      "age": 8,
+      "naissance": "2017"
+    },
+    {
+      "prenom": "Noé",
+      "age": 6,
+      "naissance": "2019"
+    }
   ],
   "regle_garde": {
     "type": "alternée",
@@ -305,93 +313,93 @@
       "debut": "2026-09-07",
       "fin": "2026-09-07",
       "garde": "partage",
-      "garde_matin": "nathalie",
-      "garde_soir": "sebastien",
+      "garde_matin": "sebastien",
+      "garde_soir": "nathalie",
       "note": "Échange de garde"
     },
     {
       "debut": "2026-09-08",
       "fin": "2026-09-14",
-      "garde": "sebastien",
-      "note": "Garde Sébastien"
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-09-15",
       "fin": "2026-09-15",
       "garde": "partage",
-      "garde_matin": "sebastien",
-      "garde_soir": "nathalie",
+      "garde_matin": "nathalie",
+      "garde_soir": "sebastien",
       "note": "Échange de garde"
     },
     {
       "debut": "2026-09-18",
       "fin": "2026-09-18",
       "garde": "partage",
-      "garde_matin": "nathalie",
-      "garde_soir": "sebastien",
+      "garde_matin": "sebastien",
+      "garde_soir": "nathalie",
       "note": "Échange de garde"
     },
     {
       "debut": "2026-09-19",
       "fin": "2026-09-20",
-      "garde": "sebastien",
-      "note": "Garde Sébastien"
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-09-25",
       "fin": "2026-09-25",
       "garde": "partage",
-      "garde_matin": "sebastien",
-      "garde_soir": "nathalie",
+      "garde_matin": "nathalie",
+      "garde_soir": "sebastien",
       "note": "Échange de garde"
     },
     {
       "debut": "2026-09-26",
       "fin": "2026-09-27",
-      "garde": "nathalie",
-      "note": "Garde Nathalie"
-    },
-    {
-      "debut": "2026-10-02",
-      "fin": "2026-10-02",
-      "garde": "partage",
-      "garde_matin": "nathalie",
-      "garde_soir": "sebastien",
-      "note": "Échange de garde"
-    },
-    {
-      "debut": "2026-10-03",
-      "fin": "2026-10-04",
       "garde": "sebastien",
       "note": "Garde Sébastien"
     },
     {
-      "debut": "2026-10-09",
-      "fin": "2026-10-09",
+      "debut": "2026-10-02",
+      "fin": "2026-10-02",
       "garde": "partage",
       "garde_matin": "sebastien",
       "garde_soir": "nathalie",
       "note": "Échange de garde"
     },
     {
-      "debut": "2026-10-10",
-      "fin": "2026-10-11",
+      "debut": "2026-10-03",
+      "fin": "2026-10-04",
       "garde": "nathalie",
       "note": "Garde Nathalie"
     },
     {
-      "debut": "2026-10-16",
-      "fin": "2026-10-16",
+      "debut": "2026-10-09",
+      "fin": "2026-10-09",
       "garde": "partage",
       "garde_matin": "nathalie",
       "garde_soir": "sebastien",
       "note": "Échange de garde"
     },
     {
-      "debut": "2026-10-17",
-      "fin": "2026-10-17",
+      "debut": "2026-10-10",
+      "fin": "2026-10-11",
       "garde": "sebastien",
       "note": "Garde Sébastien"
+    },
+    {
+      "debut": "2026-10-16",
+      "fin": "2026-10-16",
+      "garde": "partage",
+      "garde_matin": "sebastien",
+      "garde_soir": "nathalie",
+      "note": "Échange de garde"
+    },
+    {
+      "debut": "2026-10-17",
+      "fin": "2026-10-17",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-10-18",
@@ -418,112 +426,112 @@
     {
       "debut": "2026-10-26",
       "fin": "2026-10-31",
-      "garde": "nathalie",
-      "note": "2e semaine vacances Toussaint"
+      "garde": "sebastien",
+      "note": "Garde Sébastien"
     },
     {
       "debut": "2026-11-07",
       "fin": "2026-11-08",
-      "garde": "nathalie",
-      "note": "Garde Nathalie"
+      "garde": "sebastien",
+      "note": "Garde Sébastien"
     },
     {
       "debut": "2026-11-06",
       "fin": "2026-11-06",
       "garde": "partage",
-      "garde_matin": "sebastien",
-      "garde_soir": "nathalie",
+      "garde_matin": "nathalie",
+      "garde_soir": "sebastien",
       "note": "Échange de garde"
     },
     {
       "debut": "2026-11-14",
       "fin": "2026-11-15",
-      "garde": "sebastien",
-      "note": "Garde Sébastien"
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-11-13",
       "fin": "2026-11-13",
       "garde": "partage",
-      "garde_matin": "nathalie",
-      "garde_soir": "sebastien",
+      "garde_matin": "sebastien",
+      "garde_soir": "nathalie",
       "note": "Échange de garde"
     },
     {
       "debut": "2026-11-21",
       "fin": "2026-11-22",
-      "garde": "nathalie",
-      "note": "Garde Nathalie"
+      "garde": "sebastien",
+      "note": "Garde Sébastien"
     },
     {
       "debut": "2026-11-20",
       "fin": "2026-11-20",
       "garde": "partage",
-      "garde_matin": "sebastien",
-      "garde_soir": "nathalie",
+      "garde_matin": "nathalie",
+      "garde_soir": "sebastien",
       "note": "Échange de garde"
     },
     {
       "debut": "2026-11-28",
       "fin": "2026-11-29",
-      "garde": "sebastien",
-      "note": "Garde Sébastien"
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-11-27",
       "fin": "2026-11-27",
       "garde": "partage",
-      "garde_matin": "nathalie",
-      "garde_soir": "sebastien",
+      "garde_matin": "sebastien",
+      "garde_soir": "nathalie",
       "note": "Échange de garde"
     },
     {
       "debut": "2026-12-05",
       "fin": "2026-12-06",
-      "garde": "nathalie",
-      "note": "Garde Nathalie"
-    },
-    {
-      "debut": "2026-12-04",
-      "fin": "2026-12-04",
-      "garde": "partage",
-      "garde_matin": "sebastien",
-      "garde_soir": "nathalie",
-      "note": "Échange de garde"
-    },
-    {
-      "debut": "2026-12-12",
-      "fin": "2026-12-13",
       "garde": "sebastien",
       "note": "Garde Sébastien"
     },
     {
-      "debut": "2026-12-11",
-      "fin": "2026-12-11",
+      "debut": "2026-12-04",
+      "fin": "2026-12-04",
       "garde": "partage",
       "garde_matin": "nathalie",
       "garde_soir": "sebastien",
       "note": "Échange de garde"
     },
     {
-      "debut": "2026-12-19",
-      "fin": "2026-12-20",
+      "debut": "2026-12-12",
+      "fin": "2026-12-13",
       "garde": "nathalie",
       "note": "Garde Nathalie"
     },
     {
-      "debut": "2026-12-18",
-      "fin": "2026-12-18",
+      "debut": "2026-12-11",
+      "fin": "2026-12-11",
       "garde": "partage",
       "garde_matin": "sebastien",
       "garde_soir": "nathalie",
       "note": "Échange de garde"
     },
     {
-      "debut": "2026-12-26",
-      "fin": "2026-12-27",
+      "debut": "2026-12-19",
+      "fin": "2026-12-20",
       "garde": "sebastien",
       "note": "Garde Sébastien"
+    },
+    {
+      "debut": "2026-12-18",
+      "fin": "2026-12-18",
+      "garde": "partage",
+      "garde_matin": "nathalie",
+      "garde_soir": "sebastien",
+      "note": "Échange de garde"
+    },
+    {
+      "debut": "2026-12-26",
+      "fin": "2026-12-27",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-12-22",
@@ -533,21 +541,82 @@
     }
   ],
   "vacances_scolaires": [
-    { "nom": "Printemps", "debut": "2026-04-18", "fin": "2026-05-03" },
-    { "nom": "Été", "debut": "2026-07-04", "fin": "2026-08-31" },
-    { "nom": "Toussaint", "debut": "2026-10-17", "fin": "2026-11-01" },
-    { "nom": "Noël", "debut": "2026-12-19", "fin": "2027-01-03" }
+    {
+      "nom": "Printemps",
+      "debut": "2026-04-18",
+      "fin": "2026-05-03"
+    },
+    {
+      "nom": "Été",
+      "debut": "2026-07-04",
+      "fin": "2026-08-31"
+    },
+    {
+      "nom": "Toussaint",
+      "debut": "2026-10-17",
+      "fin": "2026-11-01"
+    },
+    {
+      "nom": "Noël",
+      "debut": "2026-12-19",
+      "fin": "2027-01-03"
+    }
   ],
   "deplacements": [
-    { "qui": "nathalie", "debut": "2026-04-18", "fin": "2026-04-21", "destination": "Bruxelles" },
-    { "qui": "nathalie", "debut": "2026-05-20", "fin": "2026-05-22", "destination": "Paris (Biennale de Sèvres)" },
-    { "qui": "sebastien", "debut": "2026-06-12", "fin": "2026-06-15", "destination": "Lyon" },
-    { "qui": "sebastien", "debut": "2026-04-24", "fin": "2026-04-28", "destination": "Barcelone & Costa Brava" },
-    { "qui": "sebastien", "debut": "2026-05-25", "fin": "2026-05-30", "destination": "Majorque" },
-    { "qui": "nathalie", "debut": "2026-06-05", "fin": "2026-06-07", "destination": "Giroussens" },
-    { "qui": "nathalie", "debut": "2026-06-08", "fin": "2026-06-11", "destination": "ArtiCeram, Deux-Sèvres" },
-    { "qui": "sebastien", "debut": "2026-06-30", "fin": "2026-07-14", "destination": "Île de la Réunion" },
-    { "qui": "nathalie", "debut": "2026-09-11", "fin": "2026-09-14", "destination": "Festival des Tupiniers de Villedieu" }
+    {
+      "qui": "nathalie",
+      "debut": "2026-04-18",
+      "fin": "2026-04-21",
+      "destination": "Bruxelles"
+    },
+    {
+      "qui": "nathalie",
+      "debut": "2026-05-20",
+      "fin": "2026-05-22",
+      "destination": "Paris (Biennale de Sèvres)"
+    },
+    {
+      "qui": "sebastien",
+      "debut": "2026-06-12",
+      "fin": "2026-06-15",
+      "destination": "Lyon"
+    },
+    {
+      "qui": "sebastien",
+      "debut": "2026-04-24",
+      "fin": "2026-04-28",
+      "destination": "Barcelone & Costa Brava"
+    },
+    {
+      "qui": "sebastien",
+      "debut": "2026-05-25",
+      "fin": "2026-05-30",
+      "destination": "Majorque"
+    },
+    {
+      "qui": "nathalie",
+      "debut": "2026-06-05",
+      "fin": "2026-06-07",
+      "destination": "Giroussens"
+    },
+    {
+      "qui": "nathalie",
+      "debut": "2026-06-08",
+      "fin": "2026-06-11",
+      "destination": "ArtiCeram, Deux-Sèvres"
+    },
+    {
+      "qui": "sebastien",
+      "debut": "2026-06-30",
+      "fin": "2026-07-14",
+      "destination": "Île de la Réunion"
+    },
+    {
+      "qui": "nathalie",
+      "debut": "2026-09-11",
+      "fin": "2026-09-14",
+      "destination": "Festival des Tupiniers de Villedieu"
+    }
   ],
   "stages_enfants": [
     {
@@ -556,8 +625,14 @@
       "lieu": "Le Caousous, Toulouse",
       "type": "journée",
       "detail": [
-        { "enfant": "Noé", "activite": "Stage natation" },
-        { "enfant": "Hélia", "activite": "Stage poney" }
+        {
+          "enfant": "Noé",
+          "activite": "Stage natation"
+        },
+        {
+          "enfant": "Hélia",
+          "activite": "Stage poney"
+        }
       ]
     }
   ],
@@ -566,18 +641,53 @@
       "debut": "2026-05-08",
       "fin": "2026-05-15",
       "destination": "Sardaigne",
-      "participants": ["Rosy", "Bernard", "Vincent", "Marlène", "Hélia", "Noé", "Sébastien"]
+      "participants": [
+        "Rosy",
+        "Bernard",
+        "Vincent",
+        "Marlène",
+        "Hélia",
+        "Noé",
+        "Sébastien"
+      ]
     }
   ],
   "jours_feries": [
-    { "date": "2026-05-01", "nom": "Fête du Travail" },
-    { "date": "2026-05-08", "nom": "Victoire 1945" },
-    { "date": "2026-05-14", "nom": "Ascension" },
-    { "date": "2026-05-25", "nom": "Pentecôte" },
-    { "date": "2026-07-14", "nom": "Fête nationale" },
-    { "date": "2026-08-15", "nom": "Assomption" },
-    { "date": "2026-11-01", "nom": "Toussaint" },
-    { "date": "2026-11-11", "nom": "Armistice" },
-    { "date": "2026-12-25", "nom": "Noël" }
+    {
+      "date": "2026-05-01",
+      "nom": "Fête du Travail"
+    },
+    {
+      "date": "2026-05-08",
+      "nom": "Victoire 1945"
+    },
+    {
+      "date": "2026-05-14",
+      "nom": "Ascension"
+    },
+    {
+      "date": "2026-05-25",
+      "nom": "Pentecôte"
+    },
+    {
+      "date": "2026-07-14",
+      "nom": "Fête nationale"
+    },
+    {
+      "date": "2026-08-15",
+      "nom": "Assomption"
+    },
+    {
+      "date": "2026-11-01",
+      "nom": "Toussaint"
+    },
+    {
+      "date": "2026-11-11",
+      "nom": "Armistice"
+    },
+    {
+      "date": "2026-12-25",
+      "nom": "Noël"
+    }
   ]
 }
