@@ -1,6 +1,6 @@
 {
   "annee": 2026,
-  "derniere_maj": "2026-06-27T12:35",
+  "derniere_maj": "2026-06-27T12:50",
   "point_reference": {
     "nom": "Guilheméry, Toulouse",
     "latitude": 43.59833,
@@ -470,10 +470,8 @@
     {
       "debut": "2026-11-01",
       "fin": "2026-11-01",
-      "garde": "partage",
-      "garde_matin": "nathalie",
-      "garde_soir": "sebastien",
-      "note": "Échange de garde"
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-11-02",
@@ -491,12 +489,6 @@
     },
     {
       "debut": "2026-11-07",
-      "fin": "2026-11-08",
-      "garde": "sebastien",
-      "note": "Garde Sébastien"
-    },
-    {
-      "debut": "2026-11-09",
       "fin": "2026-11-12",
       "garde": "sebastien",
       "note": "Garde Sébastien"
@@ -511,12 +503,6 @@
     },
     {
       "debut": "2026-11-14",
-      "fin": "2026-11-15",
-      "garde": "nathalie",
-      "note": "Garde Nathalie"
-    },
-    {
-      "debut": "2026-11-16",
       "fin": "2026-11-19",
       "garde": "nathalie",
       "note": "Garde Nathalie"
@@ -531,12 +517,6 @@
     },
     {
       "debut": "2026-11-21",
-      "fin": "2026-11-22",
-      "garde": "sebastien",
-      "note": "Garde Sébastien"
-    },
-    {
-      "debut": "2026-11-23",
       "fin": "2026-11-26",
       "garde": "sebastien",
       "note": "Garde Sébastien"
@@ -551,15 +531,15 @@
     },
     {
       "debut": "2026-11-28",
-      "fin": "2026-11-29",
+      "fin": "2026-11-30",
       "garde": "nathalie",
       "note": "Garde Nathalie"
     },
     {
-      "debut": "2026-12-05",
-      "fin": "2026-12-06",
-      "garde": "sebastien",
-      "note": "Garde Sébastien"
+      "debut": "2026-12-01",
+      "fin": "2026-12-03",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-12-04",
@@ -570,10 +550,10 @@
       "note": "Échange de garde"
     },
     {
-      "debut": "2026-12-12",
-      "fin": "2026-12-13",
-      "garde": "nathalie",
-      "note": "Garde Nathalie"
+      "debut": "2026-12-05",
+      "fin": "2026-12-10",
+      "garde": "sebastien",
+      "note": "Garde Sébastien"
     },
     {
       "debut": "2026-12-11",
@@ -584,10 +564,10 @@
       "note": "Échange de garde"
     },
     {
-      "debut": "2026-12-19",
-      "fin": "2026-12-20",
-      "garde": "sebastien",
-      "note": "Garde Sébastien"
+      "debut": "2026-12-12",
+      "fin": "2026-12-17",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-12-18",
@@ -598,16 +578,28 @@
       "note": "Échange de garde"
     },
     {
-      "debut": "2026-12-26",
-      "fin": "2026-12-27",
-      "garde": "nathalie",
-      "note": "Garde Nathalie"
+      "debut": "2026-12-19",
+      "fin": "2026-12-21",
+      "garde": "sebastien",
+      "note": "Garde Sébastien"
     },
     {
       "debut": "2026-12-22",
       "fin": "2026-12-25",
       "garde": "a_determiner",
       "note": "Noël — garde en discussion entre Sébastien et Nathalie"
+    },
+    {
+      "debut": "2026-12-26",
+      "fin": "2026-12-27",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
+    },
+    {
+      "debut": "2026-12-28",
+      "fin": "2026-12-31",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     }
   ],
   "vacances_scolaires": [
