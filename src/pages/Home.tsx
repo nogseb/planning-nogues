@@ -11,6 +11,7 @@ import ActivityCard from "@/components/ActivityCard";
 import { formatDateFr, getDatesForWeek, isWeekend } from "@/lib/utils";
 import type { Activity } from "@/lib/types";
 import { AVAILABLE_WEEKS } from "@/lib/types";
+import WeekSelector, { getDefaultWeekIdx } from "@/components/WeekSelector";
 import {
   CloudRain,
   Sun,
@@ -23,8 +24,6 @@ import {
   CalendarDays,
   Thermometer,
   AlertTriangle,
-  ChevronLeft,
-  ChevronRight,
   Plane,
   MapPin,
   Backpack,
@@ -218,7 +217,7 @@ const JOUR_KEYS: Record<string, string> = {
 };
 
 export default function Home() {
-  const [weekIdx, setWeekIdx] = useState(0);
+  const [weekIdx, setWeekIdx] = useState(getDefaultWeekIdx);
   const currentWeek = AVAILABLE_WEEKS[weekIdx];
   const { data, loading, error } = useWeekData(currentWeek.id);
   const { data: planningData } = usePlanningData();
@@ -257,39 +256,7 @@ export default function Home() {
   return (
     <div className="container py-5 sm:py-8 space-y-6">
       {/* ── Week selector ── */}
-      {AVAILABLE_WEEKS.length > 1 && (
-        <div className="flex items-center justify-center gap-3">
-          <button
-            onClick={() => setWeekIdx(Math.max(0, weekIdx - 1))}
-            disabled={weekIdx === 0}
-            className="p-2 rounded-xl border border-border/60 text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <div className="flex gap-1.5">
-            {AVAILABLE_WEEKS.map((w, i) => (
-              <button
-                key={w.id}
-                onClick={() => setWeekIdx(i)}
-                className={`px-3 py-1.5 rounded-xl text-[12px] font-semibold transition-all duration-200 ${
-                  i === weekIdx
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground border border-border/40"
-                }`}
-              >
-                {w.short}
-              </button>
-            ))}
-          </div>
-          <button
-            onClick={() => setWeekIdx(Math.min(AVAILABLE_WEEKS.length - 1, weekIdx + 1))}
-            disabled={weekIdx === AVAILABLE_WEEKS.length - 1}
-            className="p-2 rounded-xl border border-border/60 text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-      )}
+      <WeekSelector weekIdx={weekIdx} setWeekIdx={setWeekIdx} />
 
       {/* ── Top Bento row: Week info + Meteo + Jeu mercredi ── */}
       <div className="bento-grid">

@@ -12,9 +12,8 @@ import {
   Star,
   SlidersHorizontal,
   X,
-  ChevronLeft,
-  ChevronRight,
 } from "lucide-react";
+import WeekSelector, { getDefaultWeekIdx } from "@/components/WeekSelector";
 import { Loader2 } from "lucide-react";
 
 function ToggleChip({
@@ -33,7 +32,7 @@ function ToggleChip({
 }
 
 export default function Carte() {
-  const [weekIdx, setWeekIdx] = useState(0);
+  const [weekIdx, setWeekIdx] = useState(getDefaultWeekIdx);
   const currentWeek = AVAILABLE_WEEKS[weekIdx];
   const { data, loading } = useWeekData(currentWeek.id);
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -179,24 +178,7 @@ export default function Carte() {
           <Crosshair className="w-4 h-4" />
           <span className="hidden sm:inline">Guilheméry</span>
         </button>
-        {AVAILABLE_WEEKS.length > 1 && (
-          <div className="bento-card px-2 py-1.5 flex items-center gap-1">
-            <button onClick={() => setWeekIdx(Math.max(0, weekIdx - 1))} disabled={weekIdx === 0}
-              className="p-1 rounded-lg text-muted-foreground hover:text-foreground transition-all disabled:opacity-30">
-              <ChevronLeft className="w-3.5 h-3.5" />
-            </button>
-            {AVAILABLE_WEEKS.map((w, i) => (
-              <button key={w.id} onClick={() => setWeekIdx(i)}
-                className={`px-2 py-1 rounded-lg text-[11px] font-semibold transition-all ${
-                  i === weekIdx ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"
-                }`}>{w.short}</button>
-            ))}
-            <button onClick={() => setWeekIdx(Math.min(AVAILABLE_WEEKS.length - 1, weekIdx + 1))} disabled={weekIdx === AVAILABLE_WEEKS.length - 1}
-              className="p-1 rounded-lg text-muted-foreground hover:text-foreground transition-all disabled:opacity-30">
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        )}
+        <WeekSelector weekIdx={weekIdx} setWeekIdx={setWeekIdx} compact />
       </div>
 
       {/* Mobile sidebar toggle */}

@@ -7,7 +7,8 @@ import { useWeekData } from "@/hooks/useWeekData";
 import { usePlanningData, getDayInfo, GARDE_COLORS } from "@/hooks/usePlanningData";
 import ActivityCard from "@/components/ActivityCard";
 import { TYPE_COLORS, TYPE_LABELS, PRIORITE_LABELS, CRENEAU_LABELS, AVAILABLE_WEEKS } from "@/lib/types";
-import { Search, X, SlidersHorizontal, Bike, Car, RotateCcw, ChevronLeft, ChevronRight, ChevronDown, Check } from "lucide-react";
+import WeekSelector, { getDefaultWeekIdx } from "@/components/WeekSelector";
+import { Search, X, SlidersHorizontal, Bike, Car, RotateCcw, ChevronDown, Check } from "lucide-react";
 import { Loader2 } from "lucide-react";
 
 function ToggleChip({
@@ -37,7 +38,7 @@ function ToggleChip({
 }
 
 export default function Liste() {
-  const [weekIdx, setWeekIdx] = useState(0);
+  const [weekIdx, setWeekIdx] = useState(getDefaultWeekIdx);
   const currentWeek = AVAILABLE_WEEKS[weekIdx];
   const { data, loading } = useWeekData(currentWeek.id);
   const { data: planningData } = usePlanningData();
@@ -125,39 +126,7 @@ export default function Liste() {
   return (
     <div className="container py-5 sm:py-8 space-y-5">
       {/* Week selector */}
-      {AVAILABLE_WEEKS.length > 1 && (
-        <div className="flex items-center justify-center gap-3">
-          <button
-            onClick={() => setWeekIdx(Math.max(0, weekIdx - 1))}
-            disabled={weekIdx === 0}
-            className="p-2 rounded-xl border border-border/60 text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <div className="flex gap-1.5">
-            {AVAILABLE_WEEKS.map((w, i) => (
-              <button
-                key={w.id}
-                onClick={() => setWeekIdx(i)}
-                className={`px-3 py-1.5 rounded-xl text-[12px] font-semibold transition-all duration-200 ${
-                  i === weekIdx
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground border border-border/40"
-                }`}
-              >
-                {w.short}
-              </button>
-            ))}
-          </div>
-          <button
-            onClick={() => setWeekIdx(Math.min(AVAILABLE_WEEKS.length - 1, weekIdx + 1))}
-            disabled={weekIdx === AVAILABLE_WEEKS.length - 1}
-            className="p-2 rounded-xl border border-border/60 text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-      )}
+      <WeekSelector weekIdx={weekIdx} setWeekIdx={setWeekIdx} />
 
       {/* Header */}
       <div className="flex items-center justify-between">
