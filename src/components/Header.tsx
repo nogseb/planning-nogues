@@ -39,7 +39,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 no-underline group">
             <img
-              src="https://d2xsxph8kpxj0f.cloudfront.net/107695875/3qThhdLNSwZtCbMRAEQe6u/logo-helia-noe-f7WAx7KY6oRKafoPAtg4va.webp"
+              src="https://d2xsxph8kpxj0f.cloudfront.net/107695875/3qThhdLNSwZtCbMRAEQe6u/logo-v3-saute-3Q9asQwSoAsCdJi56v7R5v.webp"
               alt="Hélia & Noé"
               className="w-9 h-9 rounded-xl shadow-sm object-cover"
             />
