@@ -380,6 +380,28 @@
       "distance_temps": "2 min",
       "compatible_rituel": "aucun",
       "note_papa": "Juste à côté de Guilheméry. L'Hers passe dans le quartier. Sortie ultra-rapide en fin d'après-midi avant le concert ou le ciné du soir. Noé peut compter les canards. Parfait pour se rafraîchir avant la soirée."
+    },
+    {
+      "titre": "Accrobranche — La Canopée Dentelée",
+      "description": "Parc accrobranche familial éco-responsable en pleine forêt du Lauragais. 9 parcours, 90 ateliers, 30 tyroliennes, ligne de vie continue (sécurité maximale). Parcours enfants dès 3 ans (Papillon, Écureuil), parcours famille dès 1m25, parcours sportifs dès 10 ans. Sans limite de temps. Tir à l'arc et course d'orientation également disponibles.",
+      "type": "sport",
+      "lieu": "La Canopée Dentelée, En Theulet, 11400 La Pomarède",
+      "latitude": 43.4030,
+      "longitude": 1.9152,
+      "date": "2026-07-17",
+      "horaire": "10:00 - 18:00",
+      "duree": "3h",
+      "age_min": 3,
+      "creneau": "semaine-soir",
+      "priorite": "recommande",
+      "gratuit": false,
+      "tarif": "12 EUR enfant (3-10 ans) / 20 EUR adulte. Tir à l'arc : 12 EUR/pers (dès 8 ans)",
+      "url": "https://lacanopeedentelee.fr/activites/",
+      "distance_km": 50,
+      "transport": "voiture",
+      "distance_temps": "45 min",
+      "compatible_rituel": "aucun",
+      "note_papa": "Sortie demi-journée idéale. Toujours à l'ombre sous les chênes centenaires (parfait par 35°C). Noé (6 ans) accède aux parcours Papillon, Écureuil (vert) et Lièvre (bleu, dès 1m). Hélia (8 ans) accède aux parcours famille (dès 1m25). Sans limite de temps. Tir à l'arc possible pour Hélia (dès 8 ans, 12 EUR, 1h). Prévoir pique-nique (15 tables), chaussures fermées, tenue sport. Réservation en ligne recommandée en juillet. Buvette produits locaux sur place. Attention : horaires adaptés canicule possibles (10h-15h, dernier départ 12h). Vérifier avant de partir."
     }
   ]
 }
