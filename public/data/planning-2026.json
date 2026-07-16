@@ -352,6 +352,12 @@
       "note": "Échange de garde"
     },
     {
+      "debut": "2026-09-19",
+      "fin": "2026-09-20",
+      "garde": "sebastien",
+      "note": "Garde Sébastien"
+    },
+    {
       "debut": "2026-09-21",
       "fin": "2026-09-24",
       "garde": "sebastien",
@@ -392,6 +398,12 @@
       "note": "Échange de garde"
     },
     {
+      "debut": "2026-10-03",
+      "fin": "2026-10-04",
+      "garde": "sebastien",
+      "note": "Garde Sébastien"
+    },
+    {
       "debut": "2026-10-05",
       "fin": "2026-10-08",
       "garde": "sebastien",
@@ -406,6 +418,12 @@
       "note": "Échange de garde"
     },
     {
+      "debut": "2026-10-10",
+      "fin": "2026-10-11",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
+    },
+    {
       "debut": "2026-10-12",
       "fin": "2026-10-15",
       "garde": "nathalie",
@@ -416,22 +434,22 @@
       "fin": "2026-10-16",
       "garde": "partage",
       "garde_matin": "nathalie",
-      "garde_soir": "sebastien",
-      "note": "Échange de garde"
+      "garde_soir": "nathalie",
+      "note": "Échange de garde — après-midi Nathalie"
     },
     {
       "debut": "2026-10-17",
       "fin": "2026-10-17",
-      "garde": "sebastien",
-      "note": "Garde Sébastien"
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-10-18",
       "fin": "2026-10-18",
       "garde": "partage",
-      "garde_matin": "sebastien",
+      "garde_matin": "nathalie",
       "garde_soir": "rosy_bernard",
-      "note": "Échange de garde — début garde Rosy & Bernard"
+      "note": "Échange de garde — matin Nathalie, début garde Rosy & Bernard"
     },
     {
       "debut": "2026-10-19",
