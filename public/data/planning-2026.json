@@ -300,14 +300,14 @@
       "fin": "2026-08-29",
       "garde": "partage",
       "garde_matin": "rosy_bernard",
-      "garde_soir": "sebastien",
-      "note": "Échange de garde — fin garde Rosy & Bernard"
+      "garde_soir": "nathalie",
+      "note": "Échange de garde — fin garde Rosy & Bernard, après-midi Nathalie"
     },
     {
       "debut": "2026-08-30",
       "fin": "2026-08-31",
-      "garde": "sebastien",
-      "note": "Garde Sébastien"
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
     },
     {
       "debut": "2026-09-01",
