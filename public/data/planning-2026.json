@@ -334,11 +334,25 @@
       "fin": "2026-09-11",
       "garde": "partage",
       "garde_matin": "sebastien",
-      "garde_soir": "nathalie",
-      "note": "Échange de garde"
+      "garde_soir": "sebastien",
+      "note": "Échange de garde — après-midi Sébastien"
     },
     {
       "debut": "2026-09-12",
+      "fin": "2026-09-13",
+      "garde": "sebastien",
+      "note": "Garde Sébastien"
+    },
+    {
+      "debut": "2026-09-14",
+      "fin": "2026-09-14",
+      "garde": "partage",
+      "garde_matin": "sebastien",
+      "garde_soir": "nathalie",
+      "note": "Échange de garde — matin Sébastien, après-midi Nathalie"
+    },
+    {
+      "debut": "2026-09-15",
       "fin": "2026-09-17",
       "garde": "nathalie",
       "note": "Garde Nathalie"
@@ -348,14 +362,22 @@
       "fin": "2026-09-18",
       "garde": "partage",
       "garde_matin": "nathalie",
-      "garde_soir": "sebastien",
-      "note": "Échange de garde"
+      "garde_soir": "nathalie",
+      "note": "Échange de garde — après-midi Nathalie"
     },
     {
       "debut": "2026-09-19",
+      "fin": "2026-09-19",
+      "garde": "nathalie",
+      "note": "Garde Nathalie"
+    },
+    {
+      "debut": "2026-09-20",
       "fin": "2026-09-20",
-      "garde": "sebastien",
-      "note": "Garde Sébastien"
+      "garde": "partage",
+      "garde_matin": "nathalie",
+      "garde_soir": "sebastien",
+      "note": "Échange de garde — matin Nathalie, après-midi Sébastien"
     },
     {
       "debut": "2026-09-21",
