@@ -11,6 +11,7 @@ import Liste from "./pages/Liste";
 import Carte from "./pages/Carte";
 import Planning from "./pages/Planning";
 import Stats from "./pages/Stats";
+import HomeExchangePage from "./pages/HomeExchange";
 
 function Router() {
   return (
@@ -21,6 +22,7 @@ function Router() {
       <Route path="/liste" component={Liste} />
       <Route path="/carte" component={Carte} />
       <Route path="/stats" component={Stats} />
+      <Route path="/homeexchange" component={HomeExchangePage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

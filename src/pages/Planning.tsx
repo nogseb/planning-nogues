@@ -138,6 +138,14 @@ function DayCell({
       } ${dimmed ? "opacity-25" : ""}`}
       style={bgStyle}
     >
+      {/* HomeExchange indicator dot */}
+      {info.homeExchange.length > 0 && (
+        <span
+          className="absolute top-[3px] left-[3px] w-[6px] h-[6px] rounded-full"
+          style={{ backgroundColor: EVENT_COLORS.home_exchange.text }}
+          title="HomeExchange"
+        />
+      )}
       <span
         className={`text-[11px] font-bold leading-none px-0.5 ${
           isToday

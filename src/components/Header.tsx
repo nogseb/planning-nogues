@@ -3,7 +3,7 @@
  * Mobile: burger menu with full-screen overlay navigation
  */
 import { Link, useLocation } from "wouter";
-import { Calendar, List, Map, LayoutGrid, Sun, Moon, CalendarDays, BarChart3, Menu, X } from "lucide-react";
+import { Calendar, List, Map, LayoutGrid, Sun, Moon, CalendarDays, BarChart3, Menu, X, Home } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useState, useEffect } from "react";
 
@@ -14,6 +14,7 @@ const NAV_ITEMS = [
   { path: "/liste", label: "Liste", icon: List },
   { path: "/carte", label: "Carte", icon: Map },
   { path: "/stats", label: "Stats", icon: BarChart3 },
+  { path: "/homeexchange", label: "HomeExchange", icon: Home },
 ];
 
 export default function Header() {
