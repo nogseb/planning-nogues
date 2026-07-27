@@ -791,5 +791,28 @@
       "date": "2026-12-25",
       "nom": "Noël"
     }
+  ],
+  "home_exchange": [
+    {
+      "logement": "Maison rue Bizet",
+      "debut": "2026-08-17",
+      "fin": "2026-08-18",
+      "voyageur": "Mylène",
+      "url": "https://www.homeexchange.fr/conversations/94391278"
+    },
+    {
+      "logement": "Appartement rue de l'Étoile",
+      "debut": "2026-08-20",
+      "fin": "2026-08-30",
+      "voyageur": "Aimée",
+      "url": "https://www.homeexchange.fr/conversations/94364763"
+    },
+    {
+      "logement": "Appartement rue de l'Étoile",
+      "debut": "2026-09-07",
+      "fin": "2026-09-09",
+      "voyageur": "Lady",
+      "url": "https://www.homeexchange.fr/conversations/94370994"
+    }
   ]
 }

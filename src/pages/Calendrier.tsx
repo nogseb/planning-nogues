@@ -203,6 +203,12 @@ export default function Calendrier() {
                           </span>
                         )}
                       </div>
+                      {/* HomeExchange indicator */}
+                      {dayInfo?.homeExchange && dayInfo.homeExchange.length > 0 && (
+                        <span className="absolute top-0.5 right-0.5 text-[7px] font-bold" style={{ color: "#92400e" }}>
+                          HE
+                        </span>
+                      )}
                       {/* Ferie label */}
                       {dayInfo?.isFerie && (
                         <span className="absolute bottom-0.5 right-0.5 text-[7px] text-red-500 font-bold">

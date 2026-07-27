@@ -29,6 +29,7 @@ import {
   Backpack,
   Star,
   PartyPopper,
+  Home as Home2,
 } from "lucide-react";
 import { Loader2 } from "lucide-react";
 
@@ -63,7 +64,7 @@ function UpcomingEvents({ planning }: { planning: PlanningData }) {
     endDate?: string;
     label: string;
     sublabel?: string;
-    type: "deplacement" | "voyage" | "stage" | "ferie" | "vacances";
+    type: "deplacement" | "voyage" | "stage" | "ferie" | "vacances" | "home_exchange";
     icon: React.ReactNode;
     color: { bg: string; text: string };
   };
@@ -130,6 +131,23 @@ function UpcomingEvents({ planning }: { planning: PlanningData }) {
         icon: <Star className="w-3.5 h-3.5" />,
         color: { bg: "#fde8e8", text: "#9b1c1c" },
       });
+    }
+  }
+
+  // HomeExchange
+  if (planning.home_exchange) {
+    for (const he of planning.home_exchange) {
+      if (he.fin >= todayStr && he.debut <= horizonStr) {
+        events.push({
+          date: he.debut,
+          endDate: he.fin,
+          label: `HomeExchange — ${he.logement.includes("Bizet") ? "Bizet" : "Étoile"}`,
+          sublabel: `Voyageur : ${he.voyageur}`,
+          type: "home_exchange",
+          icon: <Home2 className="w-3.5 h-3.5" />,
+          color: EVENT_COLORS.home_exchange,
+        });
+      }
     }
   }
 

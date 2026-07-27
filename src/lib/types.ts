@@ -1,3 +1,11 @@
+export interface HomeExchange {
+  logement: string;
+  debut: string;
+  fin: string;
+  voyageur: string;
+  url: string;
+}
+
 export interface Activity {
   titre: string;
   description: string;

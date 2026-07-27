@@ -171,7 +171,13 @@ function DayCell({
             colors={EVENT_COLORS.stage}
           />
         )}
-        {info.gardeNote && !info.deplacements.length && !info.voyages.length && !info.stages.length && (
+        {info.homeExchange.length > 0 && (
+          <EventBadge
+            text={info.homeExchange[0].logement.includes("Bizet") ? "HE Bizet" : "HE Étoile"}
+            colors={EVENT_COLORS.home_exchange}
+          />
+        )}
+        {info.gardeNote && !info.deplacements.length && !info.voyages.length && !info.stages.length && !info.homeExchange.length && (
           <EventBadge text={info.gardeNote.length > 20 ? info.gardeNote.slice(0, 18) + ".." : info.gardeNote} colors={EVENT_COLORS.note} />
         )}
       </div>
@@ -369,6 +375,20 @@ function DayDetail({ info, onClose }: { info: DayInfo; onClose: () => void }) {
           ))}
         </div>
       )}
+
+      {info.homeExchange.length > 0 && (
+        <div className="space-y-1">
+          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">HomeExchange</p>
+          {info.homeExchange.map((he, i) => (
+            <div key={i} className="flex items-center gap-2 text-sm">
+              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: EVENT_COLORS.home_exchange.text }} />
+              <a href={he.url} target="_blank" rel="noopener noreferrer" className="hover:underline" style={{ color: EVENT_COLORS.home_exchange.text }}>
+                {he.logement} — {he.voyageur}
+              </a>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -401,7 +421,7 @@ function Timeline({ data }: { data: PlanningData }) {
     <div className="bento-card p-4 mt-6 print:break-before-page">
       <h3 className="font-heading font-bold text-sm mb-4">Frise chronologique Mars — Décembre 2026</h3>
 
-      <div className="relative" style={{ height: "180px" }}>
+      <div className="relative" style={{ height: "210px" }}>
         {/* Month labels */}
         <div className="absolute top-0 left-0 right-0 h-5 flex">
           {months.map((m, i) => (
@@ -482,8 +502,24 @@ function Timeline({ data }: { data: PlanningData }) {
           })}
         </div>
 
+        {/* HomeExchange */}
+        {data.home_exchange && data.home_exchange.length > 0 && (
+          <div className="absolute top-[130px] left-0 right-0 h-5">
+            {data.home_exchange.map((he, i) => {
+              const style = rangeStyle(he.debut, he.fin);
+              return (
+                <div key={`he-${i}`} className="absolute h-5 rounded-md flex items-center px-1 overflow-hidden" style={{ ...style, top: "0px", backgroundColor: EVENT_COLORS.home_exchange.bg }}>
+                  <span className="text-[8px] font-bold truncate" style={{ color: EVENT_COLORS.home_exchange.text }}>
+                    {he.logement.includes("Bizet") ? "Bizet" : "Étoile"} — {he.voyageur}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         {/* Jours feries markers */}
-        <div className="absolute top-[130px] left-0 right-0 h-6">
+        <div className="absolute top-[155px] left-0 right-0 h-6">
           {data.jours_feries.map((f, i) => {
             const pct = dayToPercent(new Date(f.date + "T12:00:00"));
             return (
@@ -517,6 +553,10 @@ function Timeline({ data }: { data: PlanningData }) {
         <div className="flex items-center gap-1.5 text-[9px] text-muted-foreground">
           <span className="w-3 h-2 rounded-sm" style={{ backgroundColor: EVENT_COLORS.stage.bg }} />
           Stage
+        </div>
+        <div className="flex items-center gap-1.5 text-[9px] text-muted-foreground">
+          <span className="w-3 h-2 rounded-sm" style={{ backgroundColor: EVENT_COLORS.home_exchange.bg }} />
+          HomeExchange
         </div>
       </div>
     </div>

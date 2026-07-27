@@ -37,6 +37,13 @@ export interface PlanningData {
     participants: string[];
   }[];
   jours_feries: { date: string; nom: string }[];
+  home_exchange?: {
+    logement: string;
+    debut: string;
+    fin: string;
+    voyageur: string;
+    url: string;
+  }[];
 }
 
 export type GardeType = "sebastien" | "nathalie" | "rosy_bernard" | "famille_elargie" | "a_determiner" | "partage";
@@ -54,6 +61,7 @@ export interface DayInfo {
   deplacements: { qui: string; destination: string }[];
   stages: { enfant: string; activite: string }[];
   voyages: { destination: string; participants: string[] }[];
+  homeExchange: { logement: string; voyageur: string; url: string }[];
   isoWeek: number;
 }
 
@@ -146,7 +154,17 @@ export function getDayInfo(date: Date, data: PlanningData): DayInfo {
     }
   }
 
-  return { date: ds, garde, gardeMatin, gardeSoir, gardeNote, isVacances, vacancesNom, isFerie, ferieNom, deplacements, stages, voyages, isoWeek: week };
+  // Home Exchange
+  const homeExchange: { logement: string; voyageur: string; url: string }[] = [];
+  if (data.home_exchange) {
+    for (const he of data.home_exchange) {
+      if (inRange(ds, he.debut, he.fin)) {
+        homeExchange.push({ logement: he.logement, voyageur: he.voyageur, url: he.url });
+      }
+    }
+  }
+
+  return { date: ds, garde, gardeMatin, gardeSoir, gardeNote, isVacances, vacancesNom, isFerie, ferieNom, deplacements, stages, voyages, homeExchange, isoWeek: week };
 }
 
 export function usePlanningData() {
@@ -183,4 +201,5 @@ export const EVENT_COLORS = {
   stage: { bg: "#c0dd97", text: "#27500A" },
   festival: { bg: "#f5c4b3", text: "#712B13" },
   note: { bg: "#d3d1c7", text: "#2C2C2A" },
+  home_exchange: { bg: "#fde68a", text: "#92400e" },
 };
