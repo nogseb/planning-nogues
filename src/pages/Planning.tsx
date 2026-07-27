@@ -141,7 +141,7 @@ function DayCell({
       {/* HomeExchange indicator dot */}
       {info.homeExchange.length > 0 && (
         <span
-          className="absolute top-[3px] left-[3px] w-[6px] h-[6px] rounded-full"
+          className="absolute top-[3px] right-[3px] w-[6px] h-[6px] rounded-full"
           style={{ backgroundColor: EVENT_COLORS.home_exchange.text }}
           title="HomeExchange"
         />
