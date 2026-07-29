@@ -167,14 +167,6 @@ function LogementColumn({ title, subtitle, exchanges, conflictsMap }: { title: s
 export default function HomeExchangePage() {
   const { data: planningData, loading } = usePlanningData();
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-6 h-6 animate-spin text-primary" />
-      </div>
-    );
-  }
-
   const exchanges = planningData?.home_exchange || [];
   const bizet = exchanges.filter(e => e.logement.includes("Bizet"));
   const etoile = exchanges.filter(e => !e.logement.includes("Bizet"));
@@ -185,7 +177,8 @@ export default function HomeExchangePage() {
     const map = new Map<string, ConflictDay[]>();
     if (!planningData) return map;
 
-    for (const ex of bizet) {
+    const bizetExchanges = (planningData.home_exchange || []).filter(e => e.logement.includes("Bizet"));
+    for (const ex of bizetExchanges) {
       const conflicts: ConflictDay[] = [];
       const start = new Date(ex.debut + "T12:00:00");
       const end = new Date(ex.fin + "T12:00:00");
@@ -205,7 +198,15 @@ export default function HomeExchangePage() {
       }
     }
     return map;
-  }, [planningData, bizet]);
+  }, [planningData]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <Loader2 className="w-6 h-6 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="container py-5 sm:py-8 space-y-6">
