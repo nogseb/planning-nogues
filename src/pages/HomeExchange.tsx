@@ -2,9 +2,14 @@
  * Page dédiée HomeExchange
  * Deux colonnes : Bizet et Étoile, avec échanges passés et à venir
  */
+import { useMemo } from "react";
 import { usePlanningData, EVENT_COLORS } from "@/hooks/usePlanningData";
-import { Home, ExternalLink, Calendar, MapPin, User } from "lucide-react";
+import { Home, ExternalLink, Calendar, MapPin, User, ChevronLeft, ChevronRight } from "lucide-react";
 import { Loader2 } from "lucide-react";
+
+// Couleurs logements
+const BIZET_COLOR = { bg: "#1a4d2e", light: "#d4edda", text: "#ffffff" }; // vert bouteille
+const ETOILE_COLOR = { bg: "#e67e22", light: "#fdebd0", text: "#ffffff" }; // orange
 
 function formatDateRange(debut: string, fin: string): string {
   const d1 = new Date(debut + "T12:00:00");
@@ -190,12 +195,157 @@ export default function HomeExchangePage() {
         />
       </div>
 
+      {/* Calendrier des partages */}
+      {exchanges.length > 0 && (
+        <ExchangeCalendar exchanges={exchanges} />
+      )}
+
       {exchanges.length === 0 && (
         <div className="bento-card p-8 text-center">
           <Home className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
           <p className="text-muted-foreground">Aucun échange HomeExchange enregistré.</p>
         </div>
       )}
+    </div>
+  );
+}
+
+/* ── Calendrier des partages ── */
+const MOIS = [
+  "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+  "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre",
+];
+const JOURS_COURTS = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
+
+function getCalendarDays(year: number, month: number) {
+  const firstDay = new Date(year, month, 1);
+  let startDay = firstDay.getDay() - 1;
+  if (startDay < 0) startDay = 6;
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const days: (Date | null)[] = [];
+  for (let i = 0; i < startDay; i++) days.push(null);
+  for (let i = 1; i <= daysInMonth; i++) days.push(new Date(year, month, i));
+  while (days.length % 7 !== 0) days.push(null);
+  return days;
+}
+
+function inRange(ds: string, debut: string, fin: string): boolean {
+  return ds >= debut && ds <= fin;
+}
+
+function ExchangeCalendar({ exchanges }: { exchanges: Exchange[] }) {
+  const today = new Date();
+  const startMonth = today.getMonth();
+  const startYear = today.getFullYear();
+
+  // 3 mois : mois courant + 2 suivants
+  const months = useMemo(() => {
+    const result: { year: number; month: number }[] = [];
+    for (let i = 0; i < 3; i++) {
+      let m = startMonth + i;
+      let y = startYear;
+      if (m > 11) { m -= 12; y += 1; }
+      result.push({ year: y, month: m });
+    }
+    return result;
+  }, [startMonth, startYear]);
+
+  return (
+    <div className="space-y-4">
+      <h2 className="font-heading font-bold text-lg flex items-center gap-2">
+        <Calendar className="w-4 h-4" />
+        Calendrier des partages
+      </h2>
+      <div className="grid sm:grid-cols-3 gap-4">
+        {months.map(({ year, month }) => (
+          <MonthCalendar key={`${year}-${month}`} year={year} month={month} exchanges={exchanges} />
+        ))}
+      </div>
+      {/* Légende */}
+      <div className="flex items-center gap-4 text-xs text-muted-foreground">
+        <span className="inline-flex items-center gap-1.5">
+          <span className="w-3.5 h-3.5 rounded-md" style={{ backgroundColor: BIZET_COLOR.bg }} />
+          Bizet
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="w-3.5 h-3.5 rounded-md" style={{ backgroundColor: ETOILE_COLOR.bg }} />
+          Étoile
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="w-3.5 h-3.5 rounded-md" style={{ background: `linear-gradient(135deg, ${BIZET_COLOR.bg} 50%, ${ETOILE_COLOR.bg} 50%)` }} />
+          Les deux
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function MonthCalendar({ year, month, exchanges }: { year: number; month: number; exchanges: Exchange[] }) {
+  const days = useMemo(() => getCalendarDays(year, month), [year, month]);
+  const todayStr = new Date().toISOString().split("T")[0];
+
+  return (
+    <div className="bento-card p-4">
+      <h3 className="font-heading font-bold text-sm text-center mb-3">
+        {MOIS[month]} {year}
+      </h3>
+      {/* Header jours */}
+      <div className="grid grid-cols-7 text-center text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+        {JOURS_COURTS.map((j) => (
+          <div key={j} className="py-1">{j}</div>
+        ))}
+      </div>
+      {/* Grille jours */}
+      <div className="grid grid-cols-7 gap-0.5">
+        {days.map((day, i) => {
+          if (!day) {
+            return <div key={`empty-${i}`} className="aspect-square" />;
+          }
+
+          const dateStr = day.toISOString().split("T")[0];
+          const isToday = dateStr === todayStr;
+
+          // Check which logements are booked
+          const hasBizet = exchanges.some(e => e.logement.includes("Bizet") && inRange(dateStr, e.debut, e.fin));
+          const hasEtoile = exchanges.some(e => !e.logement.includes("Bizet") && inRange(dateStr, e.debut, e.fin));
+
+          let cellBg: string | undefined;
+          let cellStyle: React.CSSProperties = {};
+          let textColor = "inherit";
+
+          if (hasBizet && hasEtoile) {
+            cellStyle = { background: `linear-gradient(135deg, ${BIZET_COLOR.bg} 50%, ${ETOILE_COLOR.bg} 50%)` };
+            textColor = "#ffffff";
+          } else if (hasBizet) {
+            cellStyle = { backgroundColor: BIZET_COLOR.bg };
+            textColor = "#ffffff";
+          } else if (hasEtoile) {
+            cellStyle = { backgroundColor: ETOILE_COLOR.bg };
+            textColor = "#ffffff";
+          }
+
+          return (
+            <div
+              key={dateStr}
+              className={`aspect-square flex items-center justify-center rounded-md text-[11px] font-medium relative ${
+                isToday ? "ring-2 ring-foreground/40 ring-offset-1" : ""
+              }`}
+              style={{ ...cellStyle, color: textColor }}
+              title={
+                hasBizet && hasEtoile
+                  ? `Bizet + Étoile`
+                  : hasBizet
+                  ? exchanges.find(e => e.logement.includes("Bizet") && inRange(dateStr, e.debut, e.fin))?.voyageur || "Bizet"
+                  : hasEtoile
+                  ? exchanges.find(e => !e.logement.includes("Bizet") && inRange(dateStr, e.debut, e.fin))?.voyageur || "Étoile"
+                  : undefined
+              }
+            >
+              {day.getDate()}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
