@@ -1,11 +1,18 @@
 /*
  * Page dédiée HomeExchange
  * Deux colonnes : Bizet et Étoile, avec échanges passés et à venir
+ * Alertes de conflit quand un échange Bizet chevauche une garde Sébastien
+ * Calendrier avec tooltips au survol
  */
 import { useMemo } from "react";
-import { usePlanningData, EVENT_COLORS } from "@/hooks/usePlanningData";
-import { Home, ExternalLink, Calendar, MapPin, User, ChevronLeft, ChevronRight } from "lucide-react";
+import { usePlanningData, getDayInfo, EVENT_COLORS } from "@/hooks/usePlanningData";
+import { Home, ExternalLink, Calendar, MapPin, User, AlertTriangle } from "lucide-react";
 import { Loader2 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 
 // Couleurs logements
 const BIZET_COLOR = { bg: "#1a4d2e", light: "#d4edda", text: "#ffffff" }; // vert bouteille
@@ -41,13 +48,19 @@ interface Exchange {
   url: string;
 }
 
-function ExchangeCard({ ex }: { ex: Exchange }) {
+interface ConflictDay {
+  date: string;
+  garde: string;
+}
+
+function ExchangeCard({ ex, conflicts }: { ex: Exchange; conflicts?: ConflictDay[] }) {
   const status = getStatus(ex.debut, ex.fin);
   const duration = getDuration(ex.debut, ex.fin);
   const isPast = ex.fin < new Date().toISOString().split("T")[0];
+  const hasConflict = conflicts && conflicts.length > 0;
 
   return (
-    <div className={`bento-card p-4 hover:shadow-md transition-all ${isPast ? "opacity-60 hover:opacity-100" : ""}`}>
+    <div className={`bento-card p-4 hover:shadow-md transition-all ${isPast ? "opacity-60 hover:opacity-100" : ""} ${hasConflict ? "ring-2 ring-amber-500/50" : ""}`}>
       <div className="flex items-start justify-between gap-2">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
@@ -69,6 +82,23 @@ function ExchangeCard({ ex }: { ex: Exchange }) {
             <User className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
             <span className="font-medium">{ex.voyageur}</span>
           </div>
+          {/* Alerte conflit */}
+          {hasConflict && (
+            <div className="mt-3 p-2.5 rounded-xl bg-amber-50 border border-amber-200">
+              <div className="flex items-center gap-1.5 text-amber-700 text-xs font-semibold mb-1">
+                <AlertTriangle className="w-3.5 h-3.5" />
+                Conflit garde
+              </div>
+              <p className="text-[11px] text-amber-600 leading-relaxed">
+                {conflicts!.length} jour{conflicts!.length > 1 ? "s" : ""} de chevauchement avec la garde Sébastien :{" "}
+                {conflicts!.slice(0, 4).map(c => {
+                  const d = new Date(c.date + "T12:00:00");
+                  return d.toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short" });
+                }).join(", ")}
+                {conflicts!.length > 4 ? ` (+${conflicts!.length - 4})` : ""}
+              </p>
+            </div>
+          )}
         </div>
         <a
           href={ex.url}
@@ -84,7 +114,7 @@ function ExchangeCard({ ex }: { ex: Exchange }) {
   );
 }
 
-function LogementColumn({ title, subtitle, exchanges }: { title: string; subtitle: string; exchanges: Exchange[] }) {
+function LogementColumn({ title, subtitle, exchanges, conflictsMap }: { title: string; subtitle: string; exchanges: Exchange[]; conflictsMap: Map<string, ConflictDay[]> }) {
   const today = new Date().toISOString().split("T")[0];
   const upcoming = exchanges.filter(e => e.fin >= today).sort((a, b) => a.debut.localeCompare(b.debut));
   const past = exchanges.filter(e => e.fin < today).sort((a, b) => b.debut.localeCompare(a.debut));
@@ -110,7 +140,7 @@ function LogementColumn({ title, subtitle, exchanges }: { title: string; subtitl
         <div className="space-y-2">
           <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider px-1">À venir</p>
           {upcoming.map((ex, i) => (
-            <ExchangeCard key={`up-${i}`} ex={ex} />
+            <ExchangeCard key={`up-${i}`} ex={ex} conflicts={conflictsMap.get(`${ex.debut}-${ex.voyageur}`)} />
           ))}
         </div>
       )}
@@ -120,7 +150,7 @@ function LogementColumn({ title, subtitle, exchanges }: { title: string; subtitl
         <div className="space-y-2">
           <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider px-1">Terminés</p>
           {past.map((ex, i) => (
-            <ExchangeCard key={`past-${i}`} ex={ex} />
+            <ExchangeCard key={`past-${i}`} ex={ex} conflicts={conflictsMap.get(`${ex.debut}-${ex.voyageur}`)} />
           ))}
         </div>
       )}
@@ -149,6 +179,33 @@ export default function HomeExchangePage() {
   const bizet = exchanges.filter(e => e.logement.includes("Bizet"));
   const etoile = exchanges.filter(e => !e.logement.includes("Bizet"));
   const totalNights = exchanges.reduce((sum, e) => sum + getDuration(e.debut, e.fin) - 1, 0);
+
+  // Calculer les conflits pour Bizet (chevauchement avec garde Sébastien)
+  const conflictsMap = useMemo(() => {
+    const map = new Map<string, ConflictDay[]>();
+    if (!planningData) return map;
+
+    for (const ex of bizet) {
+      const conflicts: ConflictDay[] = [];
+      const start = new Date(ex.debut + "T12:00:00");
+      const end = new Date(ex.fin + "T12:00:00");
+      const current = new Date(start);
+
+      while (current <= end) {
+        const dayInfo = getDayInfo(current, planningData);
+        const garde = dayInfo.gardeMatin || dayInfo.garde;
+        if (garde === "sebastien" || dayInfo.gardeSoir === "sebastien") {
+          conflicts.push({ date: dayInfo.date, garde: "sebastien" });
+        }
+        current.setDate(current.getDate() + 1);
+      }
+
+      if (conflicts.length > 0) {
+        map.set(`${ex.debut}-${ex.voyageur}`, conflicts);
+      }
+    }
+    return map;
+  }, [planningData, bizet]);
 
   return (
     <div className="container py-5 sm:py-8 space-y-6">
@@ -187,11 +244,13 @@ export default function HomeExchangePage() {
           title="Maison rue Bizet"
           subtitle="Maison avec jardin — idéale familles"
           exchanges={bizet}
+          conflictsMap={conflictsMap}
         />
         <LogementColumn
           title="Appartement rue de l'Étoile"
           subtitle="Appartement centre-ville — couples et solo"
           exchanges={etoile}
+          conflictsMap={new Map()}
         />
       </div>
 
@@ -306,10 +365,11 @@ function MonthCalendar({ year, month, exchanges }: { year: number; month: number
           const isToday = dateStr === todayStr;
 
           // Check which logements are booked
-          const hasBizet = exchanges.some(e => e.logement.includes("Bizet") && inRange(dateStr, e.debut, e.fin));
-          const hasEtoile = exchanges.some(e => !e.logement.includes("Bizet") && inRange(dateStr, e.debut, e.fin));
+          const bizetExchange = exchanges.find(e => e.logement.includes("Bizet") && inRange(dateStr, e.debut, e.fin));
+          const etoileExchange = exchanges.find(e => !e.logement.includes("Bizet") && inRange(dateStr, e.debut, e.fin));
+          const hasBizet = !!bizetExchange;
+          const hasEtoile = !!etoileExchange;
 
-          let cellBg: string | undefined;
           let cellStyle: React.CSSProperties = {};
           let textColor = "inherit";
 
@@ -324,26 +384,43 @@ function MonthCalendar({ year, month, exchanges }: { year: number; month: number
             textColor = "#ffffff";
           }
 
-          return (
+          // Build tooltip text
+          let tooltipText = "";
+          if (hasBizet && hasEtoile) {
+            tooltipText = `Bizet : ${bizetExchange.voyageur}\nÉtoile : ${etoileExchange.voyageur}`;
+          } else if (hasBizet) {
+            tooltipText = `Bizet : ${bizetExchange.voyageur}`;
+          } else if (hasEtoile) {
+            tooltipText = `Étoile : ${etoileExchange.voyageur}`;
+          }
+
+          const hasBooking = hasBizet || hasEtoile;
+
+          const dayCell = (
             <div
-              key={dateStr}
               className={`aspect-square flex items-center justify-center rounded-md text-[11px] font-medium relative ${
                 isToday ? "ring-2 ring-foreground/40 ring-offset-1" : ""
-              }`}
+              } ${hasBooking ? "cursor-pointer" : ""}`}
               style={{ ...cellStyle, color: textColor }}
-              title={
-                hasBizet && hasEtoile
-                  ? `Bizet + Étoile`
-                  : hasBizet
-                  ? exchanges.find(e => e.logement.includes("Bizet") && inRange(dateStr, e.debut, e.fin))?.voyageur || "Bizet"
-                  : hasEtoile
-                  ? exchanges.find(e => !e.logement.includes("Bizet") && inRange(dateStr, e.debut, e.fin))?.voyageur || "Étoile"
-                  : undefined
-              }
             >
               {day.getDate()}
             </div>
           );
+
+          if (hasBooking) {
+            return (
+              <Tooltip key={dateStr}>
+                <TooltipTrigger asChild>
+                  {dayCell}
+                </TooltipTrigger>
+                <TooltipContent side="top" className="text-xs whitespace-pre-line">
+                  {tooltipText}
+                </TooltipContent>
+              </Tooltip>
+            );
+          }
+
+          return <div key={dateStr}>{dayCell}</div>;
         })}
       </div>
     </div>
