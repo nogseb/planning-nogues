@@ -795,22 +795,29 @@
   "home_exchange": [
     {
       "logement": "Maison rue Bizet",
+      "debut": "2026-08-12",
+      "fin": "2026-08-16",
+      "voyageur": "Ana (à confirmer)",
+      "url": "https://www.homeexchange.fr/conversations/94674826"
+    },
+    {
+      "logement": "Maison rue Bizet",
       "debut": "2026-08-17",
       "fin": "2026-08-18",
       "voyageur": "Mylène",
       "url": "https://www.homeexchange.fr/conversations/94391278"
     },
     {
-      "logement": "Maison rue Bizet",
-      "debut": "2026-08-19",
-      "fin": "2026-08-22",
-      "voyageur": "Simone",
-      "url": "https://www.homeexchange.fr/conversations/94503087"
+      "logement": "Appartement rue de l'Étoile",
+      "debut": "2026-08-29",
+      "fin": "2026-09-05",
+      "voyageur": "Gemma",
+      "url": "https://www.homeexchange.fr/conversations/94746363"
     },
     {
       "logement": "Appartement rue de l'Étoile",
       "debut": "2026-09-07",
-      "fin": "2026-09-09",
+      "fin": "2026-09-10",
       "voyageur": "Lady",
       "url": "https://www.homeexchange.fr/conversations/94370994"
     },

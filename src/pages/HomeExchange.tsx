@@ -342,7 +342,8 @@ function ExchangeCalendar({ exchanges }: { exchanges: Exchange[] }) {
 
 function MonthCalendar({ year, month, exchanges }: { year: number; month: number; exchanges: Exchange[] }) {
   const days = useMemo(() => getCalendarDays(year, month), [year, month]);
-  const todayStr = new Date().toISOString().split("T")[0];
+  const now = new Date();
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
 
   return (
     <div className="bento-card p-4">
@@ -362,7 +363,7 @@ function MonthCalendar({ year, month, exchanges }: { year: number; month: number
             return <div key={`empty-${i}`} className="aspect-square" />;
           }
 
-          const dateStr = day.toISOString().split("T")[0];
+          const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
           const isToday = dateStr === todayStr;
 
           // Check which logements are booked
