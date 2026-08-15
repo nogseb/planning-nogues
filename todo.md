@@ -1,3 +1,3 @@
 - [x] Remplacer les données HomeExchange par les cinq prêts retenus.
 - [x] Vérifier la validité du JSON et le rendu de la page HomeExchange.
-- [ ] Sauvegarder le projet puis synchroniser la mise à jour vers GitHub.
+- [x] Sauvegarder le projet puis synchroniser la mise à jour vers GitHub.
