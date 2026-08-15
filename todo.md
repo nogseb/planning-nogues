@@ -1,3 +1,6 @@
 - [x] Remplacer les données HomeExchange par les cinq prêts retenus.
 - [x] Vérifier la validité du JSON et le rendu de la page HomeExchange.
 - [x] Sauvegarder le projet puis synchroniser la mise à jour vers GitHub.
+- [x] Appliquer la palette sombre « Ardoise & terre cuite » aux couleurs de garde.
+- [x] Vérifier l’accessibilité et le rendu du planning en mode sombre (contraste des cellules et légendes contrôlé).
+- [x] Sauvegarder la palette et synchroniser la mise à jour vers GitHub.

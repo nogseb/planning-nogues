@@ -89,6 +89,20 @@
   --sidebar-accent-foreground: oklch(0.15 0.01 260);
   --sidebar-border: oklch(0.92 0.006 85);
   --sidebar-ring: oklch(0.45 0.18 260);
+
+  /* Couleurs de garde — version claire */
+  --garde-sebastien-bg: #f8d7da;
+  --garde-sebastien-text: #721c24;
+  --garde-nathalie-bg: #d4edda;
+  --garde-nathalie-text: #155724;
+  --garde-rosy-bernard-bg: #fff3cd;
+  --garde-rosy-bernard-text: #856404;
+  --garde-famille-elargie-bg: #d6e9f8;
+  --garde-famille-elargie-text: #0c4a6e;
+  --garde-a-determiner-bg: #e2e3e5;
+  --garde-a-determiner-text: #383d41;
+  --garde-partage-bg: #f0e6f6;
+  --garde-partage-text: #5b2d8e;
 }
 
 /* ── Dark theme (Bento Box: deep slate) ── */
@@ -125,6 +139,20 @@
   --sidebar-accent-foreground: oklch(0.92 0.006 85);
   --sidebar-border: oklch(0.28 0.015 260);
   --sidebar-ring: oklch(0.60 0.18 260);
+
+  /* Palette sombre « Ardoise & terre cuite » : contrastée et harmonieuse */
+  --garde-sebastien-bg: #6b2933;
+  --garde-sebastien-text: #ffd6db;
+  --garde-nathalie-bg: #1f5446;
+  --garde-nathalie-text: #c4f0da;
+  --garde-rosy-bernard-bg: #65461c;
+  --garde-rosy-bernard-text: #ffe9b4;
+  --garde-famille-elargie-bg: #234e70;
+  --garde-famille-elargie-text: #d7edff;
+  --garde-a-determiner-bg: #3f4653;
+  --garde-a-determiner-text: #e1e6ee;
+  --garde-partage-bg: #4b3b73;
+  --garde-partage-text: #e6dbff;
 }
 
 @layer base {

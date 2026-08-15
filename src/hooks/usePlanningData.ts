@@ -185,14 +185,14 @@ export function usePlanningData() {
   return { data, loading, error };
 }
 
-// Color constants for garde types — ROUGE = Sébastien, VERT = Nathalie
+// Couleurs de garde : variables CSS pour conserver la palette claire et adapter la palette sombre.
 export const GARDE_COLORS: Record<string, { bg: string; text: string; label: string }> = {
-  sebastien: { bg: "#f8d7da", text: "#721c24", label: "Sébastien" },
-  nathalie: { bg: "#d4edda", text: "#155724", label: "Nathalie" },
-  rosy_bernard: { bg: "#fff3cd", text: "#856404", label: "Rosy & Bernard" },
-  famille_elargie: { bg: "#d6e9f8", text: "#0c4a6e", label: "Famille élargie" },
-  a_determiner: { bg: "#e2e3e5", text: "#383d41", label: "À déterminer" },
-  partage: { bg: "#f0e6f6", text: "#5b2d8e", label: "Jour d'échange" },
+  sebastien: { bg: "var(--garde-sebastien-bg)", text: "var(--garde-sebastien-text)", label: "Sébastien" },
+  nathalie: { bg: "var(--garde-nathalie-bg)", text: "var(--garde-nathalie-text)", label: "Nathalie" },
+  rosy_bernard: { bg: "var(--garde-rosy-bernard-bg)", text: "var(--garde-rosy-bernard-text)", label: "Rosy & Bernard" },
+  famille_elargie: { bg: "var(--garde-famille-elargie-bg)", text: "var(--garde-famille-elargie-text)", label: "Famille élargie" },
+  a_determiner: { bg: "var(--garde-a-determiner-bg)", text: "var(--garde-a-determiner-text)", label: "À déterminer" },
+  partage: { bg: "var(--garde-partage-bg)", text: "var(--garde-partage-text)", label: "Jour d'échange" },
 };
 
 export const EVENT_COLORS = {
