@@ -795,13 +795,6 @@
   "home_exchange": [
     {
       "logement": "Maison rue Bizet",
-      "debut": "2026-08-12",
-      "fin": "2026-08-16",
-      "voyageur": "Ana (à confirmer)",
-      "url": "https://www.homeexchange.fr/conversations/94674826"
-    },
-    {
-      "logement": "Maison rue Bizet",
       "debut": "2026-08-17",
       "fin": "2026-08-18",
       "voyageur": "Mylène",
