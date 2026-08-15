@@ -36,7 +36,9 @@
       "transport": "velo",
       "distance_temps": "15 min",
       "compatible_rituel": "aucun",
-      "note_papa": "Âge conseillé 3 à 10 ans : les deux enfants sont dans la cible. Les séances des 26 et 27 septembre à 16 h sont publiées par le théâtre."
+      "note_papa": "Âge conseillé 3 à 10 ans : les deux enfants sont dans la cible. Les séances des 26 et 27 septembre à 16 h sont publiées par le théâtre.",
+      "reservation": "recommandee",
+      "reservation_avant": "Réserver dès maintenant"
     }
   ]
 }

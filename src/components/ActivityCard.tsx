@@ -1,6 +1,5 @@
 /*
- * Bento Box design: rounded card with colored accent top strip
- * Hover lifts card with shadow. Incontournable cards get span-2 class.
+ * Bento Box design: cartes d’activité et alertes de réservation intégrées.
  */
 import type { Activity } from "@/lib/types";
 import { TYPE_COLORS, TYPE_LABELS, RITUEL_ICONS } from "@/lib/types";
@@ -16,6 +15,8 @@ import {
   Dice5,
   Star,
   Baby,
+  BellRing,
+  CalendarClock,
 } from "lucide-react";
 
 interface Props {
@@ -28,6 +29,16 @@ export default function ActivityCard({ activity, compact, onClick }: Props) {
   const color = TYPE_COLORS[activity.type] || "#666";
   const label = TYPE_LABELS[activity.type] || activity.type;
   const rituelIcon = RITUEL_ICONS[activity.compatible_rituel];
+  const reservationLabels = {
+    obligatoire: "Réservation obligatoire",
+    recommandee: "Réservation conseillée",
+    a_surveille: "Ouverture à surveiller",
+  } as const;
+  const reservationStyle = activity.reservation === "obligatoire"
+    ? "bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-200"
+    : activity.reservation === "recommandee"
+      ? "bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-200"
+      : "bg-sky-100 text-sky-800 dark:bg-sky-950/50 dark:text-sky-200";
 
   return (
     <div
@@ -57,6 +68,12 @@ export default function ActivityCard({ activity, compact, onClick }: Props) {
                 {rituelIcon === "chef-hat" && <ChefHat className="w-3 h-3" />}
                 {rituelIcon === "dice-5" && <Dice5 className="w-3 h-3" />}
                 Rituel
+              </span>
+            )}
+            {activity.reservation && (
+              <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-bold ${reservationStyle}`}>
+                <BellRing className="w-3 h-3" />
+                {reservationLabels[activity.reservation]}
               </span>
             )}
           </div>
@@ -107,6 +124,16 @@ export default function ActivityCard({ activity, compact, onClick }: Props) {
           <div className="mt-3 p-3 rounded-xl bg-muted/40 text-[12px] text-muted-foreground italic border border-border/50">
             <span className="font-semibold not-italic text-foreground/70">Note :</span>{" "}
             {activity.note_papa}
+          </div>
+        )}
+
+        {!compact && activity.reservation && (
+          <div className={`mt-3 flex items-start gap-2 p-3 rounded-xl text-[12px] font-medium ${reservationStyle}`}>
+            <CalendarClock className="w-4 h-4 mt-0.5 shrink-0" />
+            <span>
+              <strong>{reservationLabels[activity.reservation]}.</strong>{" "}
+              {activity.reservation_avant || "Consulter la billetterie avant de programmer la sortie."}
+            </span>
           </div>
         )}
 

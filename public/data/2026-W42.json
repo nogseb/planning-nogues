@@ -36,7 +36,9 @@
       "transport": "velo",
       "distance_temps": "10 min",
       "compatible_rituel": "aucun",
-      "note_papa": "Le festival est publié du 17 octobre au 1er novembre. Vérifier les activités labellisées famille et les éventuelles réservations dès la mise en ligne du programme."
+      "note_papa": "Le festival est publié du 17 octobre au 1er novembre. Vérifier les activités labellisées famille et les éventuelles réservations dès la mise en ligne du programme.",
+      "reservation": "a_surveille",
+      "reservation_avant": "Dès la publication des ateliers"
     },
     {
       "titre": "Minéraux, bien plus que des cailloux",

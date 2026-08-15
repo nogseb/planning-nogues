@@ -1,6 +1,5 @@
 /*
- * Bento Box design: Map page — Google Maps via built-in proxy
- * Rounded map container, floating bento sidebar, pill filters
+ * Bento Box design: carte Google et alertes de réservation dans les infobulles.
  */
 import { useState, useRef, useMemo, useCallback, useEffect } from "react";
 import { useWeekData } from "@/hooks/useWeekData";
@@ -115,6 +114,13 @@ export default function Carte() {
 
       marker.addListener("click", () => {
         setSelectedActivity(a);
+        const reservationText = a.reservation === "obligatoire"
+          ? "Réservation obligatoire"
+          : a.reservation === "recommandee"
+            ? "Réservation conseillée"
+            : a.reservation === "a_surveille"
+              ? "Ouverture à surveiller"
+              : "";
         const popupContent = `
           <div style="font-family:'DM Sans',sans-serif;max-width:270px;">
             <div style="display:inline-block;padding:3px 10px;border-radius:8px;font-size:11px;font-weight:600;color:white;background:${color};margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">
@@ -129,6 +135,7 @@ export default function Carte() {
               <div>${a.transport === "velo" ? "🚲" : "🚗"} ${a.distance_km} km — ${a.distance_temps}</div>
               <div>💰 ${a.tarif}</div>
             </div>
+            ${reservationText ? `<div style="margin-top:8px;padding:7px 9px;border-radius:8px;font-size:11px;font-weight:600;background:${a.reservation === "obligatoire" ? "#ffe4e6" : a.reservation === "recommandee" ? "#fef3c7" : "#e0f2fe"};color:#3f3f46;">🔔 ${reservationText}${a.reservation_avant ? ` — ${a.reservation_avant}` : ""}</div>` : ""}
             ${a.url && a.url !== "https://metropole.toulouse.fr/agenda" ? `<a href="${a.url}" target="_blank" style="display:inline-block;margin-top:8px;font-size:11px;color:#7c3aed;font-weight:600;text-decoration:none;">Plus d'infos →</a>` : ""}
           </div>
         `;

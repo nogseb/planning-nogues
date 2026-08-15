@@ -37,6 +37,28 @@
       "distance_temps": "25 min",
       "compatible_rituel": "aucun",
       "note_papa": "Programme familial très riche en extérieur. Les horaires du samedi après-midi et du dimanche sont confirmés par la ville ; sélectionner les spectacles adaptés au moment de la venue."
+    },
+    {
+      "titre": "Festival de rue de Ramonville — soirée d'ouverture",
+      "description": "Ouverture du Festival de rue de Ramonville : arts de la rue, spectacles et déambulations en extérieur.",
+      "type": "spectacle",
+      "lieu": "Place Jean-Jaurès et centre-ville, Ramonville-Saint-Agne",
+      "latitude": 43.5484,
+      "longitude": 1.4780,
+      "date": "2026-09-11",
+      "horaire": "19:00 - 23:00",
+      "duree": "Au choix",
+      "age_min": 5,
+      "creneau": "vendredi-soir",
+      "priorite": "optionnel",
+      "gratuit": true,
+      "tarif": "Accès libre ; certains spectacles payants",
+      "url": "https://www.ramonville.fr/evenements/festival-de-rue-de-ramonville-2026/",
+      "distance_km": 7,
+      "transport": "velo",
+      "distance_temps": "25 min",
+      "compatible_rituel": "aucun",
+      "note_papa": "La soirée d'ouverture est publiée de 19 h à 2 h. Viser le début de soirée pour une sortie adaptée aux enfants."
     }
   ]
 }

@@ -27,6 +27,8 @@ export interface Activity {
   distance_temps: string;
   compatible_rituel: string;
   note_papa: string;
+  reservation?: "obligatoire" | "recommandee" | "a_surveille";
+  reservation_avant?: string;
 }
 
 export interface JeuMercredi {
@@ -122,6 +124,7 @@ export const PRIORITE_LABELS: Record<string, string> = {
 
 export const CRENEAU_LABELS: Record<string, string> = {
   "semaine-soir": "Semaine soir",
+  "vendredi-soir": "Vendredi soir",
   "samedi-matin": "Samedi matin",
   "samedi-aprem": "Samedi aprem",
   dimanche: "Dimanche",

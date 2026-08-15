@@ -1,6 +1,5 @@
 /*
- * Bento Box design: Filterable list page
- * Pill-shaped toggle filters, bento grid results
+ * Bento Box design: liste filtrable avec disponibilité selon la garde.
  */
 import { useState, useMemo } from "react";
 import { useWeekData } from "@/hooks/useWeekData";
@@ -8,7 +7,7 @@ import { usePlanningData, getDayInfo, GARDE_COLORS } from "@/hooks/usePlanningDa
 import ActivityCard from "@/components/ActivityCard";
 import { TYPE_COLORS, TYPE_LABELS, PRIORITE_LABELS, CRENEAU_LABELS, AVAILABLE_WEEKS } from "@/lib/types";
 import WeekSelector, { getDefaultWeekIdx } from "@/components/WeekSelector";
-import { Search, X, SlidersHorizontal, Bike, Car, RotateCcw, ChevronDown, Check } from "lucide-react";
+import { Search, X, SlidersHorizontal, Bike, Car, RotateCcw, ChevronDown, Check, CalendarCheck } from "lucide-react";
 import { Loader2 } from "lucide-react";
 
 function ToggleChip({
@@ -44,6 +43,7 @@ export default function Liste() {
   const { data: planningData } = usePlanningData();
   const [search, setSearch] = useState("");
   const [gardeFilter, setGardeFilter] = useState<string | null>(null);
+  const [disponibleSelonGarde, setDisponibleSelonGarde] = useState(false);
   const [typeFilters, setTypeFilters] = useState<Set<string>>(new Set());
   const [jourFilters, setJourFilters] = useState<Set<string>>(new Set());
   const [prioFilters, setPrioFilters] = useState<Set<string>>(new Set());
@@ -94,6 +94,16 @@ export default function Liste() {
         return info.garde === gardeFilter;
       });
     }
+    if (disponibleSelonGarde && planningData) {
+      list = list.filter((a) => {
+        const info = getDayInfo(new Date(`${a.date}T12:00:00`), planningData);
+        if (info.garde === "sebastien") return true;
+        if (info.garde !== "partage") return false;
+        const startHour = Number.parseInt(a.horaire.match(/\d{1,2}(?=[:h])/i)?.[0] || "12", 10);
+        const isEvening = a.creneau === "vendredi-soir" || startHour >= 16;
+        return isEvening ? info.gardeSoir === "sebastien" : info.gardeMatin === "sebastien";
+      });
+    }
 
     const prioOrder: Record<string, number> = { incontournable: 0, recommande: 1, optionnel: 2 };
     if (sortBy === "date") {
@@ -102,17 +112,17 @@ export default function Liste() {
       list.sort((a, b) => (prioOrder[a.priorite] ?? 3) - (prioOrder[b.priorite] ?? 3));
     }
     return list;
-  }, [data, search, typeFilters, jourFilters, prioFilters, creneauFilters, gratuitFilter, transportFilter, gardeFilter, planningData, sortBy]);
+  }, [data, search, typeFilters, jourFilters, prioFilters, creneauFilters, gratuitFilter, transportFilter, gardeFilter, disponibleSelonGarde, planningData, sortBy]);
 
   const hasActiveFilters =
     search.trim() !== "" || typeFilters.size > 0 || jourFilters.size > 0 ||
     prioFilters.size > 0 || creneauFilters.size > 0 ||
-    gratuitFilter !== null || transportFilter !== null || gardeFilter !== null;
+    gratuitFilter !== null || transportFilter !== null || gardeFilter !== null || disponibleSelonGarde;
 
   const resetFilters = () => {
     setSearch(""); setTypeFilters(new Set()); setJourFilters(new Set());
     setPrioFilters(new Set()); setCreneauFilters(new Set());
-    setGratuitFilter(null); setTransportFilter(null); setGardeFilter(null);
+    setGratuitFilter(null); setTransportFilter(null); setGardeFilter(null); setDisponibleSelonGarde(false);
   };
 
   if (loading) {
@@ -198,6 +208,17 @@ export default function Liste() {
         <div>
           <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider mb-2">Garde</p>
           <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setDisponibleSelonGarde(!disponibleSelonGarde)}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-semibold border transition-all duration-150 ${
+                disponibleSelonGarde
+                  ? "bg-emerald-700 text-white border-emerald-700 shadow-sm"
+                  : "text-muted-foreground border-border/60 hover:border-emerald-600/50 bg-card hover:bg-emerald-500/10"
+              }`}
+            >
+              <CalendarCheck className="w-3.5 h-3.5" />
+              Disponible selon ma garde
+            </button>
             {Object.entries(GARDE_COLORS).map(([key, val]) => (
               <ToggleChip key={key} label={val.label} active={gardeFilter === key} color={val.text}
                 onClick={() => setGardeFilter(gardeFilter === key ? null : key)} />
