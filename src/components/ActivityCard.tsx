@@ -1,5 +1,5 @@
 /*
- * Bento Box design: cartes d’activité et alertes de réservation intégrées.
+ * Bento Box design: cartes d’activité, sélection personnelle et alertes de réservation.
  */
 import type { Activity } from "@/lib/types";
 import { TYPE_COLORS, TYPE_LABELS, RITUEL_ICONS } from "@/lib/types";
@@ -17,7 +17,10 @@ import {
   Baby,
   BellRing,
   CalendarClock,
+  Bookmark,
+  BookmarkCheck,
 } from "lucide-react";
+import { useSavedActivities } from "@/contexts/SavedActivitiesContext";
 
 interface Props {
   activity: Activity;
@@ -26,6 +29,7 @@ interface Props {
 }
 
 export default function ActivityCard({ activity, compact, onClick }: Props) {
+  const { isSaved, toggleActivity } = useSavedActivities();
   const color = TYPE_COLORS[activity.type] || "#666";
   const label = TYPE_LABELS[activity.type] || activity.type;
   const rituelIcon = RITUEL_ICONS[activity.compatible_rituel];
@@ -39,6 +43,12 @@ export default function ActivityCard({ activity, compact, onClick }: Props) {
     : activity.reservation === "recommandee"
       ? "bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-200"
       : "bg-sky-100 text-sky-800 dark:bg-sky-950/50 dark:text-sky-200";
+  const isSelected = isSaved(activity);
+  const targetDate = new Date(`${activity.date}T00:00:00`);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const daysUntil = Math.round((targetDate.getTime() - today.getTime()) / 86400000);
+  const isReservationReminder = Boolean(activity.reservation && daysUntil >= 0 && daysUntil <= 7);
 
   return (
     <div
@@ -77,6 +87,22 @@ export default function ActivityCard({ activity, compact, onClick }: Props) {
               </span>
             )}
           </div>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              toggleActivity(activity);
+            }}
+            aria-label={isSelected ? "Retirer de mes sorties" : "Ajouter à mes sorties"}
+            title={isSelected ? "Retirer de mes sorties" : "Ajouter à mes sorties"}
+            className={`shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-xl border transition-colors ${
+              isSelected
+                ? "bg-primary text-primary-foreground border-primary"
+                : "bg-card text-muted-foreground border-border hover:border-primary hover:text-primary"
+            }`}
+          >
+            {isSelected ? <BookmarkCheck className="w-4 h-4" /> : <Bookmark className="w-4 h-4" />}
+          </button>
         </div>
 
         {/* Title */}
@@ -133,6 +159,16 @@ export default function ActivityCard({ activity, compact, onClick }: Props) {
             <span>
               <strong>{reservationLabels[activity.reservation]}.</strong>{" "}
               {activity.reservation_avant || "Consulter la billetterie avant de programmer la sortie."}
+            </span>
+          </div>
+        )}
+
+        {!compact && isReservationReminder && (
+          <div className="mt-3 flex items-start gap-2 p-3 rounded-xl bg-rose-100 text-rose-900 dark:bg-rose-950/60 dark:text-rose-100 text-[12px] font-medium">
+            <BellRing className="w-4 h-4 mt-0.5 shrink-0" />
+            <span>
+              <strong>{daysUntil === 0 ? "C’est aujourd’hui." : daysUntil === 1 ? "Demain." : `J-${daysUntil}.`}</strong>{" "}
+              Vérifier ou finaliser la réservation avant la sortie.
             </span>
           </div>
         )}

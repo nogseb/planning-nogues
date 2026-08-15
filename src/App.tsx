@@ -12,6 +12,8 @@ import Carte from "./pages/Carte";
 import Planning from "./pages/Planning";
 import Stats from "./pages/Stats";
 import HomeExchangePage from "./pages/HomeExchange";
+import MesSorties from "./pages/MesSorties";
+import { SavedActivitiesProvider } from "./contexts/SavedActivitiesContext";
 
 function Router() {
   return (
@@ -23,6 +25,7 @@ function Router() {
       <Route path="/carte" component={Carte} />
       <Route path="/stats" component={Stats} />
       <Route path="/homeexchange" component={HomeExchangePage} />
+      <Route path="/mes-sorties" component={MesSorties} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
@@ -35,12 +38,14 @@ function App() {
       <ThemeProvider defaultTheme="light" switchable>
         <TooltipProvider>
           <Toaster />
-          <div className="min-h-screen flex flex-col">
-            <Header />
-            <main className="flex-1">
-              <Router />
-            </main>
-          </div>
+          <SavedActivitiesProvider>
+            <div className="min-h-screen flex flex-col">
+              <Header />
+              <main className="flex-1">
+                <Router />
+              </main>
+            </div>
+          </SavedActivitiesProvider>
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

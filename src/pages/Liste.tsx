@@ -1,5 +1,5 @@
 /*
- * Bento Box design: liste filtrable avec disponibilité selon la garde.
+ * Bento Box design: liste filtrable avec disponibilité garde et réservation.
  */
 import { useState, useMemo } from "react";
 import { useWeekData } from "@/hooks/useWeekData";
@@ -50,6 +50,7 @@ export default function Liste() {
   const [creneauFilters, setCreneauFilters] = useState<Set<string>>(new Set());
   const [gratuitFilter, setGratuitFilter] = useState<boolean | null>(null);
   const [transportFilter, setTransportFilter] = useState<string | null>(null);
+  const [sansReservation, setSansReservation] = useState(false);
   const [sortBy, setSortBy] = useState<"date" | "priorite">("date");
   const [showFilters, setShowFilters] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -88,6 +89,7 @@ export default function Liste() {
     if (creneauFilters.size > 0) list = list.filter(a => creneauFilters.has(a.creneau));
     if (gratuitFilter !== null) list = list.filter(a => a.gratuit === gratuitFilter);
     if (transportFilter) list = list.filter(a => a.transport === transportFilter);
+    if (sansReservation) list = list.filter((a) => !a.reservation);
     if (gardeFilter && planningData) {
       list = list.filter(a => {
         const info = getDayInfo(new Date(a.date + "T12:00:00"), planningData);
@@ -112,17 +114,17 @@ export default function Liste() {
       list.sort((a, b) => (prioOrder[a.priorite] ?? 3) - (prioOrder[b.priorite] ?? 3));
     }
     return list;
-  }, [data, search, typeFilters, jourFilters, prioFilters, creneauFilters, gratuitFilter, transportFilter, gardeFilter, disponibleSelonGarde, planningData, sortBy]);
+  }, [data, search, typeFilters, jourFilters, prioFilters, creneauFilters, gratuitFilter, transportFilter, sansReservation, gardeFilter, disponibleSelonGarde, planningData, sortBy]);
 
   const hasActiveFilters =
     search.trim() !== "" || typeFilters.size > 0 || jourFilters.size > 0 ||
     prioFilters.size > 0 || creneauFilters.size > 0 ||
-    gratuitFilter !== null || transportFilter !== null || gardeFilter !== null || disponibleSelonGarde;
+    gratuitFilter !== null || transportFilter !== null || sansReservation || gardeFilter !== null || disponibleSelonGarde;
 
   const resetFilters = () => {
     setSearch(""); setTypeFilters(new Set()); setJourFilters(new Set());
     setPrioFilters(new Set()); setCreneauFilters(new Set());
-    setGratuitFilter(null); setTransportFilter(null); setGardeFilter(null); setDisponibleSelonGarde(false);
+    setGratuitFilter(null); setTransportFilter(null); setSansReservation(false); setGardeFilter(null); setDisponibleSelonGarde(false);
   };
 
   if (loading) {
@@ -306,6 +308,15 @@ export default function Liste() {
                 <Car className="w-3.5 h-3.5" /> Voiture
               </button>
             </div>
+          </div>
+          <div>
+            <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider mb-2">Réservation</p>
+            <ToggleChip
+              label="Sans réservation"
+              active={sansReservation}
+              color="#2f855a"
+              onClick={() => setSansReservation(!sansReservation)}
+            />
           </div>
           <div className="flex items-center gap-3 ml-auto">
             <select

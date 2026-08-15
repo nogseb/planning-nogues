@@ -1,9 +1,9 @@
 /*
- * Bento Box design: clean floating header with pill navigation (desktop)
+ * Bento Box design: navigation compacte incluant la liste personnelle Mes sorties.
  * Mobile: burger menu with full-screen overlay navigation
  */
 import { Link, useLocation } from "wouter";
-import { Calendar, List, Map, LayoutGrid, Sun, Moon, CalendarDays, BarChart3, Menu, X, Home } from "lucide-react";
+import { Calendar, List, Map, LayoutGrid, Sun, Moon, CalendarDays, BarChart3, Menu, X, Home, Bookmark } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useState, useEffect } from "react";
 
@@ -15,6 +15,7 @@ const NAV_ITEMS = [
   { path: "/carte", label: "Carte", icon: Map },
   { path: "/stats", label: "Stats", icon: BarChart3 },
   { path: "/homeexchange", label: "HomeExchange", icon: Home },
+  { path: "/mes-sorties", label: "Mes sorties", icon: Bookmark },
 ];
 
 export default function Header() {
