@@ -65,6 +65,23 @@ export const AVAILABLE_WEEKS = [
   { id: "2026-W29", label: "S29 — 13-19 juil.", short: "S29" },
   { id: "2026-W32", label: "S32 — 3-9 août", short: "S32" },
   { id: "2026-W33", label: "S33 — 10-16 août", short: "S33" },
+  { id: "2026-W36", label: "S36 — 31 août-6 sept.", short: "S36" },
+  { id: "2026-W37", label: "S37 — 7-13 sept.", short: "S37" },
+  { id: "2026-W38", label: "S38 — 14-20 sept.", short: "S38" },
+  { id: "2026-W39", label: "S39 — 21-27 sept.", short: "S39" },
+  { id: "2026-W40", label: "S40 — 28 sept.-4 oct.", short: "S40" },
+  { id: "2026-W41", label: "S41 — 5-11 oct.", short: "S41" },
+  { id: "2026-W42", label: "S42 — 12-18 oct.", short: "S42" },
+  { id: "2026-W43", label: "S43 — 19-25 oct.", short: "S43" },
+  { id: "2026-W44", label: "S44 — 26 oct.-1 nov.", short: "S44" },
+  { id: "2026-W45", label: "S45 — 2-8 nov.", short: "S45" },
+  { id: "2026-W46", label: "S46 — 9-15 nov.", short: "S46" },
+  { id: "2026-W47", label: "S47 — 16-22 nov.", short: "S47" },
+  { id: "2026-W48", label: "S48 — 23-29 nov.", short: "S48" },
+  { id: "2026-W49", label: "S49 — 30 nov.-6 déc.", short: "S49" },
+  { id: "2026-W50", label: "S50 — 7-13 déc.", short: "S50" },
+  { id: "2026-W51", label: "S51 — 14-20 déc.", short: "S51" },
+  { id: "2026-W52", label: "S52 — 21-27 déc.", short: "S52" },
 ];
 
 export const TYPE_COLORS: Record<string, string> = {

@@ -1,0 +1,43 @@
+{
+  "semaine": "2026-W44",
+  "date_debut": "2026-10-26",
+  "date_fin": "2026-11-01",
+  "semaine_garde": false,
+  "genere_le": "2026-08-15T23:13:43",
+  "contexte_semaine": "Sélection d'activités familiales confirmées, limitée au week-end d'Halloween des 31 octobre et 1er novembre.",
+  "meteo_prevue": {},
+  "alertes": ["Le Muséum est ouvert le dimanche 1er novembre ; vérifier la billetterie avant la venue."],
+  "suggestion_jeu_mercredi": {
+    "nom": "Concept Kids Animaux",
+    "editeur": "Repos Production",
+    "age": "4+",
+    "duree": "20 min",
+    "joueurs": "2-12",
+    "pourquoi": "Jeu coopératif accessible aux enfants de 5 et 8 ans, utile pour prolonger une sortie en famille."
+  },
+  "activites": [
+    {
+      "titre": "Minéraux, bien plus que des cailloux",
+      "description": "Exposition temporaire du Muséum consacrée aux minéraux, à leurs usages et aux enjeux environnementaux associés.",
+      "type": "culture",
+      "lieu": "Muséum de Toulouse, 35 allées Jules-Guesde, Toulouse",
+      "latitude": 43.5942,
+      "longitude": 1.4489,
+      "date": "2026-10-31",
+      "horaire": "10:00 - 18:00 samedi et dimanche",
+      "duree": "1 h",
+      "age_min": 5,
+      "creneau": "samedi-matin",
+      "priorite": "recommande",
+      "gratuit": false,
+      "tarif": "12 € plein tarif / 8 € réduit ; consulter les gratuités",
+      "url": "https://metropole.toulouse.fr/agenda/mineraux-bien-plus-que-des-cailloux",
+      "distance_km": 3,
+      "transport": "velo",
+      "distance_temps": "10 min",
+      "compatible_rituel": "aucun",
+      "note_papa": "Option intérieure confirmée pour les deux jours d'Halloween ; un créneau de matinée évite généralement la plus forte affluence."
+    }
+  ]
+}
+

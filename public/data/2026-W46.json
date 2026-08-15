@@ -1,0 +1,7 @@
+{
+  "semaine": "2026-W46", "date_debut": "2026-11-09", "date_fin": "2026-11-15", "semaine_garde": false,
+  "genere_le": "2026-08-15T23:13:43", "contexte_semaine": "Sélection d'activités familiales confirmées, limitée au week-end des 14 et 15 novembre.", "meteo_prevue": {},
+  "alertes": ["La Marche des Lumières est une marche de 5 km : évaluer l'endurance de l'enfant de 5 ans avant inscription."],
+  "suggestion_jeu_mercredi": {"nom":"Concept Kids Animaux","editeur":"Repos Production","age":"4+","duree":"20 min","joueurs":"2-12","pourquoi":"Jeu coopératif accessible aux enfants de 5 et 8 ans."},
+  "activites": [{"titre":"Course des Lumières — Marche des Lumières","description":"Marche non chronométrée de 5 km, festive et solidaire, au bénéfice de la Fondation Toulouse Cancer Santé.","type":"sport","lieu":"Départ Pont-Saint-Pierre, arrivée Cours Dillon, Toulouse","latitude":43.6061,"longitude":1.4346,"date":"2026-11-14","horaire":"Départs 16:00 - 18:30 ; village 15:00 - 21:00","duree":"Environ 1 h 30","age_min":5,"creneau":"samedi-aprem","priorite":"recommande","gratuit":false,"tarif":"Inscription obligatoire","url":"https://www.coursedeslumieres.com/toulouse/","distance_km":4,"transport":"velo","distance_temps":"15 min","compatible_rituel":"aucun","note_papa":"La page officielle présente la Marche des Lumières comme une marche de 5 km en famille et entre amis. Prévoir un objet lumineux et une tenue chaude."}]
+}

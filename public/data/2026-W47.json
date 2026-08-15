@@ -1,0 +1,7 @@
+{
+  "semaine": "2026-W47", "date_debut": "2026-11-16", "date_fin": "2026-11-22", "semaine_garde": false,
+  "genere_le": "2026-08-15T23:13:43", "contexte_semaine": "Sélection d'activités familiales confirmées, limitée au week-end des 21 et 22 novembre.", "meteo_prevue": {},
+  "alertes": ["Réservation recommandée auprès de la Comédie de la Roseraie."],
+  "suggestion_jeu_mercredi": {"nom":"Concept Kids Animaux","editeur":"Repos Production","age":"4+","duree":"20 min","joueurs":"2-12","pourquoi":"Jeu coopératif accessible aux enfants de 5 et 8 ans."},
+  "activites": [{"titre":"Les aventures du Capitaine Frimousse","description":"Comédie musicale jeune public : un jeune corsaire affronte une tempête, une île mystérieuse et une malédiction.","type":"spectacle","lieu":"La Comédie de la Roseraie, 156 bis avenue de Lavaur, Toulouse","latitude":43.6260,"longitude":1.4830,"date":"2026-11-21","horaire":"15:00 samedi et dimanche","duree":"50 min","age_min":3,"creneau":"samedi-aprem","priorite":"incontournable","gratuit":false,"tarif":"Tarif et réservation en ligne","url":"https://comediedelaroseraie.fr/spectacles/les-aventures-du-capitaine-frimousse-2026-11/","distance_km":4,"transport":"velo","distance_temps":"15 min","compatible_rituel":"aucun","note_papa":"Aventure musicale publiée pour 3 à 10 ans ; les séances du samedi 21 et dimanche 22 à 15 h sont confirmées."}]
+}

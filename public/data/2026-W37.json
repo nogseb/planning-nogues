@@ -1,0 +1,42 @@
+{
+  "semaine": "2026-W37",
+  "date_debut": "2026-09-07",
+  "date_fin": "2026-09-13",
+  "semaine_garde": false,
+  "genere_le": "2026-08-15T23:13:43",
+  "contexte_semaine": "Sélection d'activités familiales confirmées, limitée au week-end des 12 et 13 septembre.",
+  "meteo_prevue": {},
+  "alertes": ["Festival en plein air : prendre une gourde et vérifier les spectacles éventuellement sur réservation."],
+  "suggestion_jeu_mercredi": {
+    "nom": "Concept Kids Animaux",
+    "editeur": "Repos Production",
+    "age": "4+",
+    "duree": "20 min",
+    "joueurs": "2-12",
+    "pourquoi": "Jeu coopératif accessible aux enfants de 5 et 8 ans, utile pour prolonger une sortie en famille."
+  },
+  "activites": [
+    {
+      "titre": "Festival de rue de Ramonville",
+      "description": "39e édition du festival d'arts de la rue : théâtre, cirque, danse, musique, installations et déambulations.",
+      "type": "spectacle",
+      "lieu": "Place Jean-Jaurès et centre-ville, Ramonville-Saint-Agne",
+      "latitude": 43.5484,
+      "longitude": 1.4780,
+      "date": "2026-09-12",
+      "horaire": "Samedi 14:00 - 02:00 ; dimanche 12:30 - 20:00",
+      "duree": "Au choix",
+      "age_min": 5,
+      "creneau": "samedi-aprem",
+      "priorite": "incontournable",
+      "gratuit": true,
+      "tarif": "Accès libre ; certains spectacles payants",
+      "url": "https://www.ramonville.fr/evenements/festival-de-rue-de-ramonville-2026/",
+      "distance_km": 7,
+      "transport": "velo",
+      "distance_temps": "25 min",
+      "compatible_rituel": "aucun",
+      "note_papa": "Programme familial très riche en extérieur. Les horaires du samedi après-midi et du dimanche sont confirmés par la ville ; sélectionner les spectacles adaptés au moment de la venue."
+    }
+  ]
+}

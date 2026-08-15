@@ -1,0 +1,42 @@
+{
+  "semaine": "2026-W38",
+  "date_debut": "2026-09-14",
+  "date_fin": "2026-09-20",
+  "semaine_garde": false,
+  "genere_le": "2026-08-15T23:13:43",
+  "contexte_semaine": "Sélection d'activités familiales confirmées, limitée au week-end des 19 et 20 septembre.",
+  "meteo_prevue": {},
+  "alertes": ["Entrée libre et sans réservation ; privilégier les transports en commun autour de Saint-Sernin."],
+  "suggestion_jeu_mercredi": {
+    "nom": "Concept Kids Animaux",
+    "editeur": "Repos Production",
+    "age": "4+",
+    "duree": "20 min",
+    "joueurs": "2-12",
+    "pourquoi": "Jeu coopératif accessible aux enfants de 5 et 8 ans, utile pour prolonger une sortie en famille."
+  },
+  "activites": [
+    {
+      "titre": "Vivez l'histoire !",
+      "description": "Neuf troupes de reconstitution investissent la place Saint-Sernin et la cour du Musée Saint-Raymond, avec démonstrations et ateliers autour de plusieurs périodes historiques.",
+      "type": "culture",
+      "lieu": "Musée Saint-Raymond et place Saint-Sernin, Toulouse",
+      "latitude": 43.6084,
+      "longitude": 1.4420,
+      "date": "2026-09-19",
+      "horaire": "10:00 - 18:00 samedi et dimanche",
+      "duree": "Au choix",
+      "age_min": 5,
+      "creneau": "samedi-matin",
+      "priorite": "incontournable",
+      "gratuit": true,
+      "tarif": "Entrée libre, sans réservation",
+      "url": "https://saintraymond.toulouse.fr/vivez-lhistoire-19-20-septembre-2026/",
+      "distance_km": 4,
+      "transport": "velo",
+      "distance_temps": "15 min",
+      "compatible_rituel": "aucun",
+      "note_papa": "Très adapté aux deux enfants : démonstrations de gladiateurs, guerriers grecs et ateliers de reconstitution. Le site publie un programme détaillé par horaire."
+    }
+  ]
+}

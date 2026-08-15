@@ -4,3 +4,8 @@
 - [x] Appliquer la palette sombre « Ardoise & terre cuite » aux couleurs de garde.
 - [x] Vérifier l’accessibilité et le rendu du planning en mode sombre (contraste des cellules et légendes contrôlé).
 - [x] Sauvegarder la palette et synchroniser la mise à jour vers GitHub.
+- [x] Recenser les activités familiales vérifiées, uniquement les week-ends de septembre à décembre 2026.
+- [x] Intégrer les activités retenues dans les fichiers hebdomadaires du site.
+- [x] Valider les données, le rendu, puis sauvegarder et synchroniser la mise à jour.
+
+Contrôle interface : le 15 août 2026, la sélection affiche bien les semaines S36 à S52 ; S36 charge la Grande Braderie le samedi 5 septembre avec son lien source. La page Liste affiche également ces semaines dans son sélecteur et conserve les filtres dédiés aux créneaux samedi/dimanche ; S50 présente ses trois activités. La page Carte affiche également le sélecteur S36–S52 sans erreur de chargement, et S50 y liste les trois lieux géolocalisés.

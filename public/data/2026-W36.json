@@ -1,0 +1,42 @@
+{
+  "semaine": "2026-W36",
+  "date_debut": "2026-08-31",
+  "date_fin": "2026-09-06",
+  "semaine_garde": false,
+  "genere_le": "2026-08-15T23:13:43",
+  "contexte_semaine": "Sélection d'activités familiales confirmées, limitée au week-end des 5 et 6 septembre.",
+  "meteo_prevue": {},
+  "alertes": ["Horaires et conditions d'accès à vérifier avant le départ."],
+  "suggestion_jeu_mercredi": {
+    "nom": "Concept Kids Animaux",
+    "editeur": "Repos Production",
+    "age": "4+",
+    "duree": "20 min",
+    "joueurs": "2-12",
+    "pourquoi": "Jeu coopératif accessible aux enfants de 5 et 8 ans, utile pour prolonger une sortie en famille."
+  },
+  "activites": [
+    {
+      "titre": "La Grande Braderie de Toulouse",
+      "description": "Centre-ville piétonnier, commerçants et animations de rue pour la 14e édition de la Grande Braderie.",
+      "type": "evenement",
+      "lieu": "Centre-ville, Toulouse",
+      "latitude": 43.6045,
+      "longitude": 1.4440,
+      "date": "2026-09-05",
+      "horaire": "11:00 - 19:30",
+      "duree": "Au choix",
+      "age_min": 5,
+      "creneau": "samedi-aprem",
+      "priorite": "recommande",
+      "gratuit": true,
+      "tarif": "Entrée gratuite",
+      "url": "https://metropole.toulouse.fr/agenda/la-grande-braderie-de-toulouse",
+      "distance_km": 3,
+      "transport": "velo",
+      "distance_temps": "12 min",
+      "compatible_rituel": "aucun",
+      "note_papa": "Bonne option de balade courte en centre-ville. Les animations sont annoncées par Toulouse Métropole ; prévoir la foule et privilégier le vélo ou le métro."
+    }
+  ]
+}

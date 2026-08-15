@@ -1,0 +1,42 @@
+{
+  "semaine": "2026-W39",
+  "date_debut": "2026-09-21",
+  "date_fin": "2026-09-27",
+  "semaine_garde": false,
+  "genere_le": "2026-08-15T23:13:43",
+  "contexte_semaine": "Sélection d'activités familiales confirmées, limitée au week-end des 26 et 27 septembre.",
+  "meteo_prevue": {},
+  "alertes": ["Réservation recommandée auprès de la Comédie de la Roseraie."],
+  "suggestion_jeu_mercredi": {
+    "nom": "Concept Kids Animaux",
+    "editeur": "Repos Production",
+    "age": "4+",
+    "duree": "20 min",
+    "joueurs": "2-12",
+    "pourquoi": "Jeu coopératif accessible aux enfants de 5 et 8 ans, utile pour prolonger une sortie en famille."
+  },
+  "activites": [
+    {
+      "titre": "L'aventure farfelue du professeur Zikmu",
+      "description": "Spectacle musical jeune public : le professeur Zikmu doit résoudre une situation mystérieuse grâce à la magie de la musique.",
+      "type": "spectacle",
+      "lieu": "La Comédie de la Roseraie, 156 bis avenue de Lavaur, Toulouse",
+      "latitude": 43.6260,
+      "longitude": 1.4830,
+      "date": "2026-09-26",
+      "horaire": "16:00 samedi et dimanche",
+      "duree": "50 min",
+      "age_min": 3,
+      "creneau": "samedi-aprem",
+      "priorite": "incontournable",
+      "gratuit": false,
+      "tarif": "Tarif et réservation en ligne",
+      "url": "https://comediedelaroseraie.fr/spectacles/laventure-farfelue-du-professeur-zikmu/",
+      "distance_km": 4,
+      "transport": "velo",
+      "distance_temps": "15 min",
+      "compatible_rituel": "aucun",
+      "note_papa": "Âge conseillé 3 à 10 ans : les deux enfants sont dans la cible. Les séances des 26 et 27 septembre à 16 h sont publiées par le théâtre."
+    }
+  ]
+}
