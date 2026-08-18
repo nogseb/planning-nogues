@@ -1,0 +1,36 @@
+{
+  "annee": 2027,
+  "derniere_maj": "2026-08-18T12:00",
+  "point_reference": {
+    "nom": "Guilheméry, Toulouse",
+    "latitude": 43.59833,
+    "longitude": 1.47278
+  },
+  "enfants": [
+    { "prenom": "Hélia", "age": 9, "naissance": "2017" },
+    { "prenom": "Noé", "age": 7, "naissance": "2019" }
+  ],
+  "regle_garde": {
+    "type": "a_determiner",
+    "pere": "Sébastien",
+    "mere": "Nathalie",
+    "semaines_pere": "à déterminer",
+    "jour_echange": "vendredi",
+    "heure_coucher": "20:00"
+  },
+  "exceptions_garde": [],
+  "vacances_scolaires": [
+    { "nom": "Noël 2026-2027", "debut": "2027-01-01", "fin": "2027-01-03" },
+    { "nom": "Hiver", "debut": "2027-02-06", "fin": "2027-02-21" },
+    { "nom": "Printemps", "debut": "2027-04-03", "fin": "2027-04-18" },
+    { "nom": "Pont de l'Ascension", "debut": "2027-05-07", "fin": "2027-05-07" },
+    { "nom": "Été", "debut": "2027-07-03", "fin": "2027-09-01" },
+    { "nom": "Toussaint", "debut": "2027-10-23", "fin": "2027-11-07" },
+    { "nom": "Noël 2027-2028", "debut": "2027-12-18", "fin": "2028-01-02" }
+  ],
+  "deplacements": [],
+  "stages_enfants": [],
+  "voyages_famille": [],
+  "jours_feries": [],
+  "home_exchange": []
+}

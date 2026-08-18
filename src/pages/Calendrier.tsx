@@ -1,6 +1,6 @@
 /*
  * Bento Box design: Calendar page
- * Clean rounded calendar grid with garde colors from planning data
+ * Clean rounded calendar grid with garde colors and planning data by selected year.
  */
 import { useState, useMemo, useEffect } from "react";
 import { useSearch } from "wouter";
@@ -48,19 +48,23 @@ export default function Calendrier() {
     if (w19.data) acts.push(...w19.data.activites);
     return acts;
   }, [w17.data, w19.data]);
-  const loading = w17.loading || w19.loading;
-  const { data: planningData } = usePlanningData();
   const searchString = useSearch();
   const params = new URLSearchParams(searchString);
   const initialMonth = params.get("month") !== null ? parseInt(params.get("month")!, 10) : 3;
-  const [year, setYear] = useState(2026);
+  const initialYear = params.get("year") !== null ? parseInt(params.get("year")!, 10) : 2026;
+  const [year, setYear] = useState(initialYear);
   const [month, setMonth] = useState(initialMonth);
+  const { data: planningData } = usePlanningData(year);
+  const loading = w17.loading || w19.loading;
 
   // Sync month from URL when navigating from Planning
   useEffect(() => {
     const p = new URLSearchParams(searchString);
     if (p.get("month") !== null) {
       setMonth(parseInt(p.get("month")!, 10));
+    }
+    if (p.get("year") !== null) {
+      setYear(parseInt(p.get("year")!, 10));
     }
   }, [searchString]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);

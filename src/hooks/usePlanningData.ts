@@ -87,8 +87,11 @@ export function getDayInfo(date: Date, data: PlanningData): DayInfo {
   const ds = dateStr(date);
   const week = getISOWeek(date);
 
-  // Default garde based on odd/even week
-  let garde: GardeType = week % 2 === 1 ? "sebastien" : "nathalie";
+  // Sans accord de garde saisi, l'année est volontairement affichée « à déterminer ».
+  // Cela évite de projeter une alternance non confirmée sur une année future.
+  let garde: GardeType = data.regle_garde.type === "a_determiner"
+    ? "a_determiner"
+    : week % 2 === 1 ? "sebastien" : "nathalie";
   let gardeNote: string | undefined;
   let gardeMatin: GardeType | undefined;
   let gardeSoir: GardeType | undefined;
@@ -167,20 +170,20 @@ export function getDayInfo(date: Date, data: PlanningData): DayInfo {
   return { date: ds, garde, gardeMatin, gardeSoir, gardeNote, isVacances, vacancesNom, isFerie, ferieNom, deplacements, stages, voyages, homeExchange, isoWeek: week };
 }
 
-export function usePlanningData() {
+export function usePlanningData(year = 2026) {
   const [data, setData] = useState<PlanningData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`/data/planning-2026.json?v=${Date.now()}`)
+    fetch(`/data/planning-${year}.json?v=${Date.now()}`)
       .then((r) => {
         if (!r.ok) throw new Error("Erreur chargement planning");
         return r.json();
       })
       .then((d) => { setData(d); setLoading(false); })
       .catch((e) => { setError(e.message); setLoading(false); });
-  }, []);
+  }, [year]);
 
   return { data, loading, error };
 }

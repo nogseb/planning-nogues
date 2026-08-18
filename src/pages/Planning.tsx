@@ -1,10 +1,11 @@
 /*
  * Bento Box design: Planning page — Annual custody calendar
- * 12-month grid with color-coded custody, vacation hatching, event badges
+ * 12-month grid with color-coded custody, vacation hatching, event badges.
+ * L’année sélectionnée reste lisible : les gardes non définies ne sont pas extrapolées.
  * Interactive legend, day detail panel, and timeline
  * Features: click month → /calendrier, hide past months, PDF export
  */
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { useLocation } from "wouter";
 import {
   usePlanningData,
@@ -403,8 +404,9 @@ function DayDetail({ info, onClose }: { info: DayInfo; onClose: () => void }) {
 
 /* ── Timeline ── */
 function Timeline({ data }: { data: PlanningData }) {
-  const startDate = new Date(2026, 2, 1); // March 1
-  const endDate = new Date(2026, 11, 31); // Dec 31
+  const year = data.annee;
+  const startDate = new Date(year, 0, 1);
+  const endDate = new Date(year, 11, 31);
   const totalDays = Math.ceil((endDate.getTime() - startDate.getTime()) / 86400000) + 1;
 
   const dayToPercent = (d: Date) => {
@@ -420,14 +422,14 @@ function Timeline({ data }: { data: PlanningData }) {
 
   // Month markers
   const months = [];
-  for (let m = 2; m <= 11; m++) {
-    const d = new Date(2026, m, 1);
+  for (let m = 0; m <= 11; m++) {
+    const d = new Date(year, m, 1);
     months.push({ label: MONTH_NAMES[m].slice(0, 3), pct: dayToPercent(d) });
   }
 
   return (
     <div className="bento-card p-4 mt-6 print:break-before-page">
-      <h3 className="font-heading font-bold text-sm mb-4">Frise chronologique Mars — Décembre 2026</h3>
+      <h3 className="font-heading font-bold text-sm mb-4">Frise chronologique Janvier — Décembre {year}</h3>
 
       <div className="relative" style={{ height: "210px" }}>
         {/* Month labels */}
@@ -572,9 +574,9 @@ function Timeline({ data }: { data: PlanningData }) {
 }
 
 /* ── PDF Export ── */
-async function generatePDF(data: PlanningData) {
+async function generatePDF(data: PlanningData, year: number) {
   const { jsPDF } = await import("jspdf");
-  const currentMonth = new Date().getMonth(); // 0-indexed
+  const currentMonth = new Date().getFullYear() === year ? new Date().getMonth() : 0;
 
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
   const pageW = 210;
@@ -591,7 +593,7 @@ async function generatePDF(data: PlanningData) {
     doc.setFontSize(16);
     doc.setFont("helvetica", "bold");
     doc.setTextColor(40, 40, 40);
-    doc.text(`${MONTH_NAMES[m]} 2026`, pageW / 2, margin + 6, { align: "center" });
+    doc.text(`${MONTH_NAMES[m]} ${year}`, pageW / 2, margin + 6, { align: "center" });
 
     // Legend bar
     const legendY = margin + 12;
@@ -631,8 +633,8 @@ async function generatePDF(data: PlanningData) {
 
     // Calendar grid
     const gridTop = legendY + 8;
-    const numDays = daysInMonth(2026, m);
-    const startDayIdx = firstDayOfMonth(2026, m);
+    const numDays = daysInMonth(year, m);
+    const startDayIdx = firstDayOfMonth(year, m);
     const weekColW = 8;
     const colW = (contentW - weekColW) / 7;
     const rowH = 28;
@@ -651,7 +653,7 @@ async function generatePDF(data: PlanningData) {
     let col = startDayIdx;
 
     for (let d = 1; d <= numDays; d++) {
-      const date = new Date(2026, m, d);
+      const date = new Date(year, m, d);
       const info = getDayInfo(date, data);
       const gc = GARDE_COLORS[info.garde] || GARDE_COLORS.a_determiner;
 
@@ -748,15 +750,16 @@ async function generatePDF(data: PlanningData) {
     doc.setFontSize(7);
     doc.setFont("helvetica", "italic");
     doc.setTextColor(160, 160, 160);
-    doc.text(`Planning Helia & Noe — ${MONTH_NAMES[m]} 2026`, pageW / 2, pageH - 8, { align: "center" });
+    doc.text(`Planning Helia & Noe — ${MONTH_NAMES[m]} ${year}`, pageW / 2, pageH - 8, { align: "center" });
   }
 
-  doc.save("planning-2026.pdf");
+  doc.save(`planning-${year}.pdf`);
 }
 
 /* ── Main page ── */
 export default function Planning() {
-  const { data, loading } = usePlanningData();
+  const [year, setYear] = useState(2026);
+  const { data, loading } = usePlanningData(year);
   const [, navigate] = useLocation();
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedInfo, setSelectedInfo] = useState<DayInfo | null>(null);
@@ -766,7 +769,15 @@ export default function Planning() {
   const [mobileMonth, setMobileMonth] = useState(new Date().getMonth());
   const [mobileLegendOpen, setMobileLegendOpen] = useState(false);
 
-  const currentMonth = new Date().getMonth(); // 0-indexed, April = 3
+  const currentMonth = new Date().getFullYear() === year ? new Date().getMonth() : 0;
+
+  useEffect(() => {
+    setSelectedDate(null);
+    setSelectedInfo(null);
+    setHighlightFilter(null);
+    setMobileMonth(currentMonth);
+    setShowAllMonths(year !== new Date().getFullYear());
+  }, [year, currentMonth]);
 
   const handleSelectDate = useCallback((date: string, info: DayInfo) => {
     setSelectedDate(date);
@@ -778,20 +789,20 @@ export default function Planning() {
   }, []);
 
   const handleMonthClick = useCallback((month: number) => {
-    navigate(`/calendrier?month=${month}`);
-  }, [navigate]);
+    navigate(`/calendrier?year=${year}&month=${month}`);
+  }, [navigate, year]);
 
   const handlePdfExport = useCallback(async () => {
     if (!data) return;
     setPdfLoading(true);
     try {
-      await generatePDF(data);
+      await generatePDF(data, year);
     } catch (e) {
       console.error("PDF generation error:", e);
     } finally {
       setPdfLoading(false);
     }
-  }, [data]);
+  }, [data, year]);
 
   // Months to display: current month → December, or all if showAllMonths
   const monthsToShow = useMemo(() => {
@@ -813,13 +824,24 @@ export default function Planning() {
       <div className="flex items-center justify-between mb-4">
         <div>
           <h1 className="font-heading font-bold text-2xl tracking-tight">
-            Planning 2026
+            Planning {year}
           </h1>
           <p className="text-sm text-muted-foreground">
             Calendrier de garde, vacances et événements {data?.derniere_maj && <span className="text-muted-foreground/60">&mdash; {(() => { const d = new Date(data.derniere_maj); const tz = "Europe/Paris"; const date = d.toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric", timeZone: tz }); const hStr = d.toLocaleString("fr-FR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: tz }); return `${date}, ${hStr.replace(":", "h")}`; })()}</span>}
           </p>
         </div>
         <div className="flex items-center gap-2">
+          <div className="flex items-center rounded-xl border border-border/60 p-0.5 bg-card">
+            {[2026, 2027].map((option) => (
+              <button
+                key={option}
+                onClick={() => setYear(option)}
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${year === option ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
           {/* Toggle show all months */}
           <button
             onClick={() => setShowAllMonths(!showAllMonths)}
@@ -981,7 +1003,7 @@ export default function Planning() {
             {monthsToShow.map((i) => (
               <MonthGrid
                 key={i}
-                year={2026}
+                year={year}
                 month={i}
                 data={data}
                 selectedDate={selectedDate}
@@ -1006,7 +1028,7 @@ export default function Planning() {
                 className="font-heading font-bold text-base cursor-pointer hover:text-primary hover:underline underline-offset-2 transition-colors"
                 onClick={() => handleMonthClick(mobileMonth)}
               >
-                {MONTH_NAMES[mobileMonth]} 2026
+                {MONTH_NAMES[mobileMonth]} {year}
               </span>
               <button
                 onClick={() => setMobileMonth(Math.min(11, mobileMonth + 1))}
@@ -1017,7 +1039,7 @@ export default function Planning() {
               </button>
             </div>
             <MonthGrid
-              year={2026}
+              year={year}
               month={mobileMonth}
               data={data}
               selectedDate={selectedDate}
