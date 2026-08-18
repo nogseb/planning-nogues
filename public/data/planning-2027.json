@@ -11,14 +11,51 @@
     { "prenom": "Noé", "age": 7, "naissance": "2019" }
   ],
   "regle_garde": {
-    "type": "a_determiner",
+    "type": "alternance_semaine_weekend",
     "pere": "Sébastien",
     "mere": "Nathalie",
-    "semaines_pere": "à déterminer",
+    "semaines_pere": "impaires",
     "jour_echange": "vendredi",
     "heure_coucher": "20:00"
   },
-  "exceptions_garde": [],
+  "exceptions_garde": [
+    {
+      "debut": "2027-01-01",
+      "fin": "2027-01-03",
+      "garde": "a_determiner",
+      "note": "Garde à confirmer — vacances de Noël commencées en 2026"
+    },
+    {
+      "debut": "2027-02-06",
+      "fin": "2027-02-12",
+      "garde": "rosy_bernard",
+      "note": "1re semaine des vacances d'hiver"
+    },
+    {
+      "debut": "2027-04-03",
+      "fin": "2027-04-09",
+      "garde": "rosy_bernard",
+      "note": "1re semaine des vacances de printemps"
+    },
+    {
+      "debut": "2027-07-03",
+      "fin": "2027-07-09",
+      "garde": "rosy_bernard",
+      "note": "1re semaine des vacances d'été"
+    },
+    {
+      "debut": "2027-10-23",
+      "fin": "2027-10-29",
+      "garde": "rosy_bernard",
+      "note": "1re semaine des vacances de Toussaint"
+    },
+    {
+      "debut": "2027-12-18",
+      "fin": "2027-12-24",
+      "garde": "rosy_bernard",
+      "note": "1re semaine des vacances de Noël"
+    }
+  ],
   "vacances_scolaires": [
     { "nom": "Noël 2026-2027", "debut": "2027-01-01", "fin": "2027-01-03" },
     { "nom": "Hiver", "debut": "2027-02-06", "fin": "2027-02-21" },

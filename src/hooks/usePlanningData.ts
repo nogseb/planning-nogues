@@ -91,10 +91,19 @@ export function getDayInfo(date: Date, data: PlanningData): DayInfo {
   // Cela évite de projeter une alternance non confirmée sur une année future.
   let garde: GardeType = data.regle_garde.type === "a_determiner"
     ? "a_determiner"
-    : week % 2 === 1 ? "sebastien" : "nathalie";
+    : data.regle_garde.type === "alternance_semaine_weekend"
+      ? (() => {
+          const day = date.getDay(); // 0 dimanche, 5 vendredi, 6 samedi
+          const isWeekend = day === 0 || day === 6;
+          const isFriday = day === 5;
+          if (isFriday) return "partage" as GardeType;
+          const sebastien = isWeekend ? week % 2 === 0 : week % 2 === 1;
+          return sebastien ? "sebastien" as GardeType : "nathalie" as GardeType;
+        })()
+      : week % 2 === 1 ? "sebastien" : "nathalie";
   let gardeNote: string | undefined;
-  let gardeMatin: GardeType | undefined;
-  let gardeSoir: GardeType | undefined;
+  let gardeMatin: GardeType | undefined = garde === "partage" ? (week % 2 === 1 ? "sebastien" : "nathalie") : undefined;
+  let gardeSoir: GardeType | undefined = garde === "partage" ? (week % 2 === 1 ? "nathalie" : "sebastien") : undefined;
 
   // Check exceptions
   for (const ex of data.exceptions_garde) {

@@ -33,3 +33,9 @@ Contrôle interface : le filtre « Sans réservation », le lien « Mes sorties 
 - [x] Valider, sauvegarder et synchroniser l’extension du planning scolaire.
 
 Contrôle interface : le sélecteur 2026/2027 du planning annuel charge bien les douze mois de 2027 et les dates de vacances associées. Le détail du 1er janvier indique « Vacances scolaires — Noël 2026-2027 ». Le lien de janvier ouvre correctement le calendrier mensuel sur `calendrier?year=2027&month=0`. Les gardes 2027 restent volontairement indiquées « à déterminer » tant qu’un accord n’est pas saisi.
+
+- [x] Enregistrer le rythme de garde alternée 2027 et les échanges du vendredi.
+- [x] Affecter Rosy & Bernard à la première semaine des vacances démarrant en 2027.
+- [x] Vérifier, sauvegarder et synchroniser le planning de garde 2027.
+
+Contrôle interface : en 2027, les lundis à jeudis suivent les semaines impaires Sébastien / paires Nathalie ; les vendredis sont affichés comme jours d’échange et les week-ends pairs reviennent à Sébastien. Les périodes Rosy & Bernard sont visibles du 6 au 12 février, du 3 au 9 avril, du 3 au 9 juillet, du 23 au 29 octobre et du 18 au 24 décembre.
