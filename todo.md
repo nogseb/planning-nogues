@@ -39,3 +39,12 @@ Contrôle interface : le sélecteur 2026/2027 du planning annuel charge bien les
 - [x] Vérifier, sauvegarder et synchroniser le planning de garde 2027.
 
 Contrôle interface : en 2027, les lundis à jeudis suivent les semaines impaires Sébastien / paires Nathalie ; les vendredis sont affichés comme jours d’échange et les week-ends pairs reviennent à Sébastien. Les périodes Rosy & Bernard sont visibles du 6 au 12 février, du 3 au 9 avril, du 3 au 9 juillet, du 23 au 29 octobre et du 18 au 24 décembre.
+
+- [x] Ajouter le sélecteur 2026/2027 à la page Statistiques.
+- [x] Ajouter le sélecteur 2026/2027 à la page HomeExchange.
+- [x] Recalculer les indicateurs et graphiques à partir de l’année sélectionnée.
+- [x] Vérifier, sauvegarder et synchroniser les pages Statistiques et HomeExchange multi-années.
+
+Contrôle Statistiques : le sélecteur 2027 charge 365 jours, les jours d’échange du vendredi et les semaines Rosy & Bernard. Les graphiques d’activités indiquent correctement qu’aucune donnée 2027 n’est encore disponible.
+
+Contrôle HomeExchange : le sélecteur 2027 affiche les compteurs à zéro et un calendrier janvier-mars 2027 sans données fictives ; le sélecteur 2026 conserve les cinq échanges et son calendrier août-octobre.

@@ -1,10 +1,9 @@
 /*
- * Page dédiée HomeExchange
- * Deux colonnes : Bizet et Étoile, avec échanges passés et à venir
+ * Page dédiée HomeExchange multi-années : Bizet et Étoile par année sélectionnée.
  * Alertes de conflit quand un échange Bizet chevauche une garde Sébastien
  * Calendrier avec tooltips au survol
  */
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { usePlanningData, getDayInfo, EVENT_COLORS } from "@/hooks/usePlanningData";
 import { Home, ExternalLink, Calendar, MapPin, User, AlertTriangle } from "lucide-react";
 import { Loader2 } from "lucide-react";
@@ -165,7 +164,8 @@ function LogementColumn({ title, subtitle, exchanges, conflictsMap }: { title: s
 }
 
 export default function HomeExchangePage() {
-  const { data: planningData, loading } = usePlanningData();
+  const [year, setYear] = useState(2026);
+  const { data: planningData, loading } = usePlanningData(year);
 
   const exchanges = planningData?.home_exchange || [];
   const bizet = exchanges.filter(e => e.logement.includes("Bizet"));
@@ -221,12 +221,22 @@ export default function HomeExchangePage() {
               HomeExchange
             </h1>
             <p className="text-sm text-muted-foreground">
-              Échanges de logements — planning et suivi
+              Échanges de logements — planning et suivi {year}
             </p>
           </div>
         </div>
-        {/* Global stats */}
-        <div className="flex items-center gap-4 text-sm">
+        <div className="flex items-center gap-4 text-sm flex-wrap justify-end">
+          <div className="flex items-center rounded-xl border border-border/60 p-0.5 bg-card">
+            {[2026, 2027].map((option) => (
+              <button
+                key={option}
+                onClick={() => setYear(option)}
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${year === option ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
           <div className="text-center">
             <p className="text-xl font-heading font-extrabold">{exchanges.length}</p>
             <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Échanges</p>
@@ -256,16 +266,7 @@ export default function HomeExchangePage() {
       </div>
 
       {/* Calendrier des partages */}
-      {exchanges.length > 0 && (
-        <ExchangeCalendar exchanges={exchanges} />
-      )}
-
-      {exchanges.length === 0 && (
-        <div className="bento-card p-8 text-center">
-          <Home className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
-          <p className="text-muted-foreground">Aucun échange HomeExchange enregistré.</p>
-        </div>
-      )}
+      <ExchangeCalendar exchanges={exchanges} year={year} />
     </div>
   );
 }
@@ -293,22 +294,20 @@ function inRange(ds: string, debut: string, fin: string): boolean {
   return ds >= debut && ds <= fin;
 }
 
-function ExchangeCalendar({ exchanges }: { exchanges: Exchange[] }) {
-  const today = new Date();
-  const startMonth = today.getMonth();
-  const startYear = today.getFullYear();
+function ExchangeCalendar({ exchanges, year }: { exchanges: Exchange[]; year: number }) {
+  const startMonth = year === new Date().getFullYear() ? new Date().getMonth() : 0;
 
   // 3 mois : mois courant + 2 suivants
   const months = useMemo(() => {
     const result: { year: number; month: number }[] = [];
     for (let i = 0; i < 3; i++) {
       let m = startMonth + i;
-      let y = startYear;
+      let y = year;
       if (m > 11) { m -= 12; y += 1; }
       result.push({ year: y, month: m });
     }
     return result;
-  }, [startMonth, startYear]);
+  }, [startMonth, year]);
 
   return (
     <div className="space-y-4">
@@ -321,6 +320,9 @@ function ExchangeCalendar({ exchanges }: { exchanges: Exchange[] }) {
           <MonthCalendar key={`${year}-${month}`} year={year} month={month} exchanges={exchanges} />
         ))}
       </div>
+      {exchanges.length === 0 && (
+        <p className="text-sm text-muted-foreground text-center">Aucun échange HomeExchange enregistré en {year}.</p>
+      )}
       {/* Légende */}
       <div className="flex items-center gap-4 text-xs text-muted-foreground">
         <span className="inline-flex items-center gap-1.5">

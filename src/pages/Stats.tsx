@@ -18,9 +18,8 @@ function countDaysBetween(start: string, end: string): number {
 }
 
 function computeStats(data: PlanningData) {
-  // Iterate every day from March 1 to Dec 31
-  const startDate = new Date(2026, 2, 1); // March 1
-  const endDate = new Date(2026, 11, 31); // Dec 31
+  const startDate = new Date(data.annee, 0, 1);
+  const endDate = new Date(data.annee, 11, 31);
   const totalDays = Math.round((endDate.getTime() - startDate.getTime()) / 86400000) + 1;
 
   const gardeCounts: Record<string, number> = {};
@@ -29,6 +28,7 @@ function computeStats(data: PlanningData) {
   let vacancesDays = 0;
   let ferieDays = 0;
   let weekendDays = 0;
+  let partageDays = 0;
 
   for (let i = 0; i < totalDays; i++) {
     const d = new Date(startDate.getTime() + i * 86400000);
@@ -38,6 +38,7 @@ function computeStats(data: PlanningData) {
 
     // Garde counts
     gardeCounts[info.garde] = (gardeCounts[info.garde] || 0) + 1;
+    if (info.garde === "partage") partageDays++;
 
     // Garde by month
     if (!gardeByMonth[month]) gardeByMonth[month] = {};
@@ -92,7 +93,7 @@ function computeStats(data: PlanningData) {
 
   // Exceptions count
   const totalExceptions = data.exceptions_garde.length;
-  const partageCount = data.exceptions_garde.filter(e => e.garde === "partage").length;
+  const partageCount = partageDays;
 
   return {
     totalDays,
@@ -189,14 +190,14 @@ function MonthGardeRow({ month, gardeData, monthNames }: {
 }
 
 /* ── Activities Line Chart ── */
-function ActivitiesChart() {
+function ActivitiesChart({ year }: { year: number }) {
   const [allWeeks, setAllWeeks] = useState<WeekData[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAll = async () => {
       const results: WeekData[] = [];
-      for (const week of AVAILABLE_WEEKS) {
+      for (const week of AVAILABLE_WEEKS.filter((item) => item.id.startsWith(`${year}-`))) {
         try {
           const res = await fetch(`/data/${week.id}.json?v=${Date.now()}`);
           if (res.ok) {
@@ -414,14 +415,14 @@ function ActivitiesChart() {
 }
 
 /* ── Activities Pie Chart ── */
-function ActivitiesPieChart() {
+function ActivitiesPieChart({ year }: { year: number }) {
   const [allWeeks, setAllWeeks] = useState<WeekData[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAll = async () => {
       const results: WeekData[] = [];
-      for (const week of AVAILABLE_WEEKS) {
+      for (const week of AVAILABLE_WEEKS.filter((item) => item.id.startsWith(`${year}-`))) {
         try {
           const res = await fetch(`/data/${week.id}.json?v=${Date.now()}`);
           if (res.ok) {
@@ -596,7 +597,8 @@ function ActivitiesPieChart() {
 
 /* ── Main page ── */
 export default function Stats() {
-  const { data, loading } = usePlanningData();
+  const [year, setYear] = useState(2026);
+  const { data, loading } = usePlanningData(year);
 
   const MONTH_NAMES = [
     "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
@@ -621,18 +623,27 @@ export default function Stats() {
   return (
     <div className="container py-5 sm:py-8 space-y-6 max-w-4xl">
       {/* Header */}
-      <div className="flex items-center gap-3">
-        <Link href="/" className="p-2 rounded-xl border border-border/60 text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all no-underline">
-          <ArrowLeft className="w-4 h-4" />
-        </Link>
-        <div>
-          <h1 className="font-heading font-extrabold text-2xl tracking-tight flex items-center gap-2">
-            <BarChart3 className="w-6 h-6 text-primary" />
-            Statistiques 2026
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Indicateurs calculés sur la période mars – décembre ({stats.totalDays} jours)
-          </p>
+      <div className="flex items-center justify-between gap-3 flex-wrap">
+        <div className="flex items-center gap-3">
+          <Link href="/" className="p-2 rounded-xl border border-border/60 text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all no-underline">
+            <ArrowLeft className="w-4 h-4" />
+          </Link>
+          <div>
+            <h1 className="font-heading font-extrabold text-2xl tracking-tight flex items-center gap-2">
+              <BarChart3 className="w-6 h-6 text-primary" />
+              Statistiques {year}
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Indicateurs calculés sur l’année complète ({stats.totalDays} jours)
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center rounded-xl border border-border/60 p-0.5 bg-card">
+          {[2026, 2027].map((option) => (
+            <button key={option} onClick={() => setYear(option)} className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${year === option ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+              {option}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -731,10 +742,10 @@ export default function Stats() {
       </div>
 
       {/* Graphique activités par jour */}
-      <ActivitiesChart />
+      <ActivitiesChart key={`line-${year}`} year={year} />
 
       {/* Camembert répartition par type */}
-      <ActivitiesPieChart />
+      <ActivitiesPieChart key={`pie-${year}`} year={year} />
 
       {/* Two columns: Vacances + Jours fériés */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -923,7 +934,7 @@ export default function Stats() {
 
       {/* Footer */}
       <p className="text-[11px] text-muted-foreground text-center pb-4">
-        Données calculées à partir de planning-2026.json
+        Données calculées à partir de planning-{year}.json
         {data.derniere_maj && (
           <> — dernière mise à jour : {new Date(data.derniere_maj).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric", timeZone: "Europe/Paris" })}</>
         )}
