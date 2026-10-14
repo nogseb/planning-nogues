@@ -1,0 +1,73 @@
+name: Publier sur nogues.app/kids
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-ovh-kids
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SFTP_HOST: ${{ secrets.OVH_SFTP_HOST }}
+      SFTP_USER: ${{ secrets.OVH_SFTP_USER }}
+      LFTP_PASSWORD: ${{ secrets.OVH_SFTP_PASSWORD }}
+      TARGET_DIR: ${{ vars.OVH_TARGET_DIR || 'www/kids' }}
+      PUBLISH_DIR: dist
+    steps:
+      - name: Vérifier la configuration
+        id: check
+        run: |
+          if [ -z "$SFTP_HOST" ] || [ -z "$SFTP_USER" ] || [ -z "$LFTP_PASSWORD" ]; then
+            echo "::warning::Secrets SFTP absents : publication ignorée."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          case "${TARGET_DIR%/}" in
+            ""|"."|"/"|"www"|"./www"|"/www")
+              echo "::error::Dossier cible refusé : la racine www appartient à la page d'accueil."
+              exit 1
+              ;;
+          esac
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+
+      - name: Récupérer le code
+        if: steps.check.outputs.ready == 'true'
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        if: steps.check.outputs.ready == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Construire le site statique
+        if: steps.check.outputs.ready == 'true'
+        run: |
+          npm ci
+          npm run build
+
+      - name: Installer lftp
+        if: steps.check.outputs.ready == 'true'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: Envoyer uniquement le build dans www/kids
+        if: steps.check.outputs.ready == 'true'
+        run: |
+          lftp --env-password -u "$SFTP_USER" "sftp://$SFTP_HOST" -e "
+            set sftp:auto-confirm yes;
+            set net:timeout 20;
+            set net:max-retries 3;
+            set net:reconnect-interval-base 5;
+            mkdir -p -f '$TARGET_DIR';
+            mirror --reverse --parallel=4 '$PUBLISH_DIR/' '$TARGET_DIR';
+            bye"

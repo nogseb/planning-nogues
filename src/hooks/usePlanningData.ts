@@ -185,7 +185,7 @@ export function usePlanningData(year = 2026) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`/data/planning-${year}.json?v=${Date.now()}`)
+    fetch(`${import.meta.env.BASE_URL}data/planning-${year}.json?v=${Date.now()}`)
       .then((r) => {
         if (!r.ok) throw new Error("Erreur chargement planning");
         return r.json();

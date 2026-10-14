@@ -48,3 +48,13 @@ Contrôle interface : en 2027, les lundis à jeudis suivent les semaines impaire
 Contrôle Statistiques : le sélecteur 2027 charge 365 jours, les jours d’échange du vendredi et les semaines Rosy & Bernard. Les graphiques d’activités indiquent correctement qu’aucune donnée 2027 n’est encore disponible.
 
 Contrôle HomeExchange : le sélecteur 2027 affiche les compteurs à zéro et un calendrier janvier-mars 2027 sans données fictives ; le sélecteur 2026 conserve les cinq échanges et son calendrier août-octobre.
+
+
+## Publication OVHcloud — nogues.app/kids
+
+- [x] Adapter le build Vite, les données statiques et le routeur React au sous-dossier `/kids/`.
+- [x] Remplacer la dépendance cartographique au proxy Manus par une carte Leaflet autonome.
+- [x] Ajouter la règle Apache de réécriture et le workflow GitHub Actions SFTP limité à `www/kids`.
+- [x] Valider le build de production et le contenu publiable, puis pousser le commit sur `main`.
+
+Contrôles effectués : build TypeScript/Vite réussi ; chargement sous `/kids/` validé en navigateur ; carte Leaflet et navigation interne testées ; rendu mobile contrôlé à 375 × 812 px.

@@ -821,8 +821,8 @@ export default function Planning() {
   return (
     <div className="container py-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <div>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
+        <div className="min-w-0">
           <h1 className="font-heading font-bold text-2xl tracking-tight">
             Planning {year}
           </h1>
@@ -830,7 +830,7 @@ export default function Planning() {
             Calendrier de garde, vacances et événements {data?.derniere_maj && <span className="text-muted-foreground/60">&mdash; {(() => { const d = new Date(data.derniere_maj); const tz = "Europe/Paris"; const date = d.toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric", timeZone: tz }); const hStr = d.toLocaleString("fr-FR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: tz }); return `${date}, ${hStr.replace(":", "h")}`; })()}</span>}
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="self-start sm:self-auto flex items-center gap-2">
           <div className="flex items-center rounded-xl border border-border/60 p-0.5 bg-card">
             {[2026, 2027].map((option) => (
               <button

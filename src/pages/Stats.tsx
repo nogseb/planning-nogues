@@ -199,7 +199,7 @@ function ActivitiesChart({ year }: { year: number }) {
       const results: WeekData[] = [];
       for (const week of AVAILABLE_WEEKS.filter((item) => item.id.startsWith(`${year}-`))) {
         try {
-          const res = await fetch(`/data/${week.id}.json?v=${Date.now()}`);
+          const res = await fetch(`${import.meta.env.BASE_URL}data/${week.id}.json?v=${Date.now()}`);
           if (res.ok) {
             const json: WeekData = await res.json();
             results.push(json);
@@ -424,7 +424,7 @@ function ActivitiesPieChart({ year }: { year: number }) {
       const results: WeekData[] = [];
       for (const week of AVAILABLE_WEEKS.filter((item) => item.id.startsWith(`${year}-`))) {
         try {
-          const res = await fetch(`/data/${week.id}.json?v=${Date.now()}`);
+          const res = await fetch(`${import.meta.env.BASE_URL}data/${week.id}.json?v=${Date.now()}`);
           if (res.ok) {
             const json: WeekData = await res.json();
             results.push(json);

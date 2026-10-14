@@ -40,11 +40,12 @@ export default function Header() {
         <div className="container flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 no-underline group">
-            <img
-              src="https://d2xsxph8kpxj0f.cloudfront.net/107695875/3qThhdLNSwZtCbMRAEQe6u/logo-v3-saute-3Q9asQwSoAsCdJi56v7R5v.webp"
-              alt="Hélia & Noé"
-              className="w-9 h-9 rounded-xl shadow-sm object-cover"
-            />
+            <span
+              aria-hidden="true"
+              className="w-9 h-9 rounded-xl shadow-sm bg-primary text-primary-foreground flex items-center justify-center text-[11px] font-bold tracking-tight"
+            >
+              H&N
+            </span>
             <div className="flex flex-col">
               <span className="font-heading font-bold text-sm leading-tight text-foreground">
                 Hélia & Noé

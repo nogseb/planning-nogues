@@ -2,6 +2,7 @@
  * Bento Box design: carte Google et alertes de réservation dans les infobulles.
  */
 import { useState, useRef, useMemo, useCallback, useEffect } from "react";
+import L, { type Circle, type Layer, type Map as LeafletMap, type Marker } from "leaflet";
 import { useWeekData } from "@/hooks/useWeekData";
 import { TYPE_COLORS, TYPE_LABELS, GUILHEMERY, AVAILABLE_WEEKS } from "@/lib/types";
 import type { Activity } from "@/lib/types";
@@ -34,10 +35,10 @@ export default function Carte() {
   const [weekIdx, setWeekIdx] = useState(getDefaultWeekIdx);
   const currentWeek = AVAILABLE_WEEKS[weekIdx];
   const { data, loading } = useWeekData(currentWeek.id);
-  const mapRef = useRef<google.maps.Map | null>(null);
-  const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([]);
-  const circlesRef = useRef<google.maps.Circle[]>([]);
-  const infoWindowRef = useRef<google.maps.InfoWindow | null>(null);
+  const mapRef = useRef<LeafletMap | null>(null);
+  const markersRef = useRef<Layer[]>([]);
+  const circlesRef = useRef<Circle[]>([]);
+  const homeMarkerRef = useRef<Marker | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [typeFilters, setTypeFilters] = useState<Set<string>>(new Set());
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
@@ -57,30 +58,25 @@ export default function Carte() {
     return list;
   }, [data, typeFilters]);
 
-  const handleMapReady = useCallback((map: google.maps.Map) => {
+  const handleMapReady = useCallback((map: LeafletMap) => {
     mapRef.current = map;
-    infoWindowRef.current = new google.maps.InfoWindow();
 
-    // Home marker
-    const homeEl = document.createElement("div");
-    homeEl.innerHTML = `<div style="width:28px;height:28px;border-radius:14px;background:#1C1C1E;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-    </div>`;
-    const homeMarker = new google.maps.marker.AdvancedMarkerElement({
-      map,
-      position: { lat: GUILHEMERY.lat, lng: GUILHEMERY.lng },
-      content: homeEl,
-  title: "Maison \u2014 Guilheméry",    });
-    homeMarker.addListener("click", () => {
-    infoWindowRef.current?.setContent("<strong style='font-family:Inter,sans-serif'>Maison \u2014 Guilheméry</strong>");    infoWindowRef.current?.open(map, homeMarker);
-    });
+    homeMarkerRef.current = L.marker([GUILHEMERY.lat, GUILHEMERY.lng], {
+      title: "Maison — Guilheméry",
+      icon: L.divIcon({
+        className: "",
+        html: '<div style="width:28px;height:28px;border-radius:14px;background:#1C1C1E;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;color:white;font-size:13px;">⌂</div>',
+        iconSize: [28, 28],
+        iconAnchor: [14, 14],
+      }),
+    }).addTo(map).bindPopup("<strong>Maison — Guilheméry</strong>");
 
     // Distance circles
-    const circleStyle = { fillOpacity: 0.03, strokeWeight: 1, strokeOpacity: 0.5 };
+    const circleStyle = { fillOpacity: 0.03, weight: 1, opacity: 0.5 };
     circlesRef.current = [
-      new google.maps.Circle({ map, center: { lat: GUILHEMERY.lat, lng: GUILHEMERY.lng }, radius: 5000, strokeColor: "#2d9d5f", fillColor: "#2d9d5f", ...circleStyle }),
-      new google.maps.Circle({ map, center: { lat: GUILHEMERY.lat, lng: GUILHEMERY.lng }, radius: 10000, strokeColor: "#0891b2", fillColor: "#0891b2", ...circleStyle }),
-      new google.maps.Circle({ map, center: { lat: GUILHEMERY.lat, lng: GUILHEMERY.lng }, radius: 30000, strokeColor: "#ca8a04", fillColor: "#ca8a04", ...circleStyle }),
+      L.circle([GUILHEMERY.lat, GUILHEMERY.lng], { radius: 5000, color: "#2d9d5f", fillColor: "#2d9d5f", ...circleStyle }).addTo(map),
+      L.circle([GUILHEMERY.lat, GUILHEMERY.lng], { radius: 10000, color: "#0891b2", fillColor: "#0891b2", ...circleStyle }).addTo(map),
+      L.circle([GUILHEMERY.lat, GUILHEMERY.lng], { radius: 30000, color: "#ca8a04", fillColor: "#ca8a04", ...circleStyle }).addTo(map),
     ];
 
     setMapReady(true);
@@ -92,7 +88,7 @@ export default function Carte() {
 
     // Clear old markers
     for (const m of markersRef.current) {
-      m.map = null;
+      mapRef.current.removeLayer(m);
     }
     markersRef.current = [];
 
@@ -102,17 +98,17 @@ export default function Carte() {
       const size = a.priorite === "incontournable" ? 18 : a.priorite === "recommande" ? 13 : 10;
       const border = a.priorite === "incontournable" ? 3 : 2;
 
-      const el = document.createElement("div");
-      el.innerHTML = `<div style="width:${size}px;height:${size}px;border-radius:${size/2}px;background:${color};border:${border}px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.25);cursor:pointer;"></div>`;
-
-      const marker = new google.maps.marker.AdvancedMarkerElement({
-        map: mapRef.current,
-        position: { lat: a.latitude, lng: a.longitude },
-        content: el,
+      const marker = L.marker([a.latitude, a.longitude], {
         title: a.titre,
-      });
+        icon: L.divIcon({
+          className: "",
+          html: `<div style="width:${size}px;height:${size}px;border-radius:${size / 2}px;background:${color};border:${border}px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.25);cursor:pointer;"></div>`,
+          iconSize: [size + border * 2, size + border * 2],
+          iconAnchor: [(size + border * 2) / 2, (size + border * 2) / 2],
+        }),
+      }).addTo(mapRef.current);
 
-      marker.addListener("click", () => {
+      marker.on("click", () => {
         setSelectedActivity(a);
         const reservationText = a.reservation === "obligatoire"
           ? "Réservation obligatoire"
@@ -139,8 +135,7 @@ export default function Carte() {
             ${a.url && a.url !== "https://metropole.toulouse.fr/agenda" ? `<a href="${a.url}" target="_blank" style="display:inline-block;margin-top:8px;font-size:11px;color:#7c3aed;font-weight:600;text-decoration:none;">Plus d'infos →</a>` : ""}
           </div>
         `;
-        infoWindowRef.current?.setContent(popupContent);
-        infoWindowRef.current?.open(mapRef.current!, marker);
+        marker.bindPopup(popupContent, { maxWidth: 300 }).openPopup();
       });
 
       markersRef.current.push(marker);
@@ -148,14 +143,12 @@ export default function Carte() {
   }, [filtered, mapReady]);
 
   const centerOnHome = useCallback(() => {
-    mapRef.current?.setCenter({ lat: GUILHEMERY.lat, lng: GUILHEMERY.lng });
-    mapRef.current?.setZoom(12);
+    mapRef.current?.setView([GUILHEMERY.lat, GUILHEMERY.lng], 12);
   }, []);
 
   const flyToActivity = useCallback((a: Activity) => {
     if (!mapRef.current) return;
-    mapRef.current.panTo({ lat: a.latitude, lng: a.longitude });
-    mapRef.current.setZoom(14);
+    mapRef.current.flyTo([a.latitude, a.longitude], 14);
     setSelectedActivity(a);
   }, []);
 

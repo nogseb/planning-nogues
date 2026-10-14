@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Route, Router as WouterRouter, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Header from "./components/Header";
@@ -15,7 +15,7 @@ import HomeExchangePage from "./pages/HomeExchange";
 import MesSorties from "./pages/MesSorties";
 import { SavedActivitiesProvider } from "./contexts/SavedActivitiesContext";
 
-function Router() {
+function AppRouter() {
   return (
     <Switch>
       <Route path="/" component={Planning} />
@@ -39,12 +39,14 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <SavedActivitiesProvider>
-            <div className="min-h-screen flex flex-col">
-              <Header />
-              <main className="flex-1">
-                <Router />
-              </main>
-            </div>
+            <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+              <div className="min-h-screen flex flex-col">
+                <Header />
+                <main className="flex-1">
+                  <AppRouter />
+                </main>
+              </div>
+            </WouterRouter>
           </SavedActivitiesProvider>
         </TooltipProvider>
       </ThemeProvider>
