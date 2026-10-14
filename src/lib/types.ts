@@ -123,12 +123,15 @@ export const PRIORITE_LABELS: Record<string, string> = {
 };
 
 export const CRENEAU_LABELS: Record<string, string> = {
+  lundi: "Lundi",
+  mardi: "Mardi",
   "semaine-soir": "Semaine soir",
+  mercredi: "Mercredi",
+  jeudi: "Jeudi",
   "vendredi-soir": "Vendredi soir",
   "samedi-matin": "Samedi matin",
   "samedi-aprem": "Samedi aprem",
   dimanche: "Dimanche",
-  mercredi: "Mercredi",
 };
 
 export const RITUEL_ICONS: Record<string, string> = {
