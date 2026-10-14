@@ -1,6 +1,6 @@
 {
   "annee": 2026,
-  "derniere_maj": "2026-08-18T16:34",
+  "derniere_maj": "2026-10-14T12:00",
   "point_reference": {
     "nom": "Guilheméry, Toulouse",
     "latitude": 43.59833,
@@ -155,6 +155,14 @@
     },
     {
       "debut": "2026-06-13",
+      "fin": "2026-06-13",
+      "garde": "partage",
+      "garde_matin": "sebastien",
+      "garde_soir": "nathalie",
+      "note": "Échange de garde — après-midi Nathalie"
+    },
+    {
+      "debut": "2026-06-14",
       "fin": "2026-06-15",
       "garde": "nathalie",
       "note": "Garde Nathalie — Déplacement Sébastien sur Lyon"
@@ -169,15 +177,23 @@
       "debut": "2026-06-19",
       "fin": "2026-06-19",
       "garde": "partage",
-      "garde_matin": "nathalie",
-      "garde_soir": "sebastien",
+      "garde_matin": "sebastien",
+      "garde_soir": "nathalie",
       "note": "Échange de garde"
     },
     {
       "debut": "2026-06-20",
-      "fin": "2026-06-26",
+      "fin": "2026-06-25",
       "garde": "sebastien",
       "note": "Garde Sébastien"
+    },
+    {
+      "debut": "2026-06-26",
+      "fin": "2026-06-26",
+      "garde": "partage",
+      "garde_matin": "nathalie",
+      "garde_soir": "sebastien",
+      "note": "Échange de garde"
     },
     {
       "debut": "2026-06-27",
@@ -271,9 +287,17 @@
     },
     {
       "debut": "2026-08-10",
-      "fin": "2026-08-16",
+      "fin": "2026-08-15",
       "garde": "sebastien",
       "note": "Garde Sébastien (vacances été)"
+    },
+    {
+      "debut": "2026-08-16",
+      "fin": "2026-08-16",
+      "garde": "partage",
+      "garde_matin": "sebastien",
+      "garde_soir": "nathalie",
+      "note": "Échange de garde"
     },
     {
       "debut": "2026-08-17",
