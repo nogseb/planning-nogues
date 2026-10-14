@@ -58,3 +58,12 @@ Contrôle HomeExchange : le sélecteur 2027 affiche les compteurs à zéro et un
 - [x] Valider le build de production et le contenu publiable, puis pousser le commit sur `main`.
 
 Contrôles effectués : build TypeScript/Vite réussi ; chargement sous `/kids/` validé en navigateur ; carte Leaflet et navigation interne testées ; rendu mobile contrôlé à 375 × 812 px.
+
+
+## Veille activités — semaines 42 à 45 de 2026
+
+- [x] Vérifier des activités familiales datées du 14 octobre au 8 novembre 2026 auprès de leurs organisateurs.
+- [x] Enrichir les quatre fichiers hebdomadaires sans dupliquer les activités déjà retenues.
+- [x] Contrôler les données, publier sur GitHub et vérifier la mise à jour OVHcloud.
+
+Contrôle avant publication : 5 activités en W42, 4 en W43, 5 en W44 et 4 en W45 ; dates incluses dans leurs semaines respectives, champs requis présents, build TypeScript/Vite réussi et rendu des quatre semaines vérifié dans l’aperçu statique.
