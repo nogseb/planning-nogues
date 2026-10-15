@@ -1,3 +1,4 @@
-# Application familiale privée : aucun contenu ne doit être exploré ou indexé.
+# Les pages doivent rester accessibles aux robots afin qu'ils lisent le X-Robots-Tag noindex.
+# L'indexation est interdite par la balise HTML et l'en-tête HTTP Apache.
 User-agent: *
-Disallow: /
+Allow: /
