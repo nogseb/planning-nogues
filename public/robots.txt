@@ -1,0 +1,3 @@
+# Application familiale privée : aucun contenu ne doit être exploré ou indexé.
+User-agent: *
+Disallow: /

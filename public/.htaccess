@@ -1,6 +1,11 @@
 RewriteEngine On
 RewriteBase /kids/
 
+# Données familiales privées : empêcher l'indexation des pages et ressources.
+<IfModule mod_headers.c>
+  Header always set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet"
+</IfModule>
+
 # Laisser Apache servir les fichiers et dossiers existants (assets, JSON, favicon).
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
