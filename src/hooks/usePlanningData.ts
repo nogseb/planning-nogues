@@ -18,6 +18,8 @@ export interface PlanningData {
     fin: string;
     garde: string;
     garde_matin?: string;
+    /** Facultatif : parent de l'après-midi quand la journée est découpée en trois créneaux. */
+    garde_aprem?: string;
     garde_soir?: string;
     note: string;
   }[];
@@ -52,6 +54,7 @@ export interface DayInfo {
   date: string;
   garde: GardeType;
   gardeMatin?: GardeType;
+  gardeAprem?: GardeType;
   gardeSoir?: GardeType;
   gardeNote?: string;
   isVacances: boolean;
@@ -104,6 +107,7 @@ export function getDayInfo(date: Date, data: PlanningData): DayInfo {
   let gardeNote: string | undefined;
   let gardeMatin: GardeType | undefined = garde === "partage" ? (week % 2 === 1 ? "sebastien" : "nathalie") : undefined;
   let gardeSoir: GardeType | undefined = garde === "partage" ? (week % 2 === 1 ? "nathalie" : "sebastien") : undefined;
+  let gardeAprem: GardeType | undefined;
 
   // Check exceptions
   for (const ex of data.exceptions_garde) {
@@ -113,6 +117,7 @@ export function getDayInfo(date: Date, data: PlanningData): DayInfo {
       if (ex.garde === "partage" && ex.garde_matin && ex.garde_soir) {
         gardeMatin = ex.garde_matin as GardeType;
         gardeSoir = ex.garde_soir as GardeType;
+        gardeAprem = ex.garde_aprem ? (ex.garde_aprem as GardeType) : undefined;
       }
       break;
     }
@@ -176,7 +181,7 @@ export function getDayInfo(date: Date, data: PlanningData): DayInfo {
     }
   }
 
-  return { date: ds, garde, gardeMatin, gardeSoir, gardeNote, isVacances, vacancesNom, isFerie, ferieNom, deplacements, stages, voyages, homeExchange, isoWeek: week };
+  return { date: ds, garde, gardeMatin, gardeAprem, gardeSoir, gardeNote, isVacances, vacancesNom, isFerie, ferieNom, deplacements, stages, voyages, homeExchange, isoWeek: week };
 }
 
 export function usePlanningData(year = 2026) {
@@ -206,6 +211,31 @@ export const GARDE_COLORS: Record<string, { bg: string; text: string; label: str
   a_determiner: { bg: "var(--garde-a-determiner-bg)", text: "var(--garde-a-determiner-text)", label: "À déterminer" },
   partage: { bg: "var(--garde-partage-bg)", text: "var(--garde-partage-text)", label: "Jour d'échange" },
 };
+
+type CreneauxGarde = Pick<DayInfo, "gardeMatin" | "gardeAprem" | "gardeSoir">;
+
+const couleurGarde = (g: GardeType) => GARDE_COLORS[g] || GARDE_COLORS.a_determiner;
+
+/**
+ * Fond d'un jour partagé : deux moitiés en diagonale (matin / soir),
+ * ou trois bandes quand l'après-midi est confié à un autre parent.
+ */
+export function partageBackground(info: CreneauxGarde): string | undefined {
+  if (!info.gardeMatin || !info.gardeSoir) return undefined;
+  const matin = couleurGarde(info.gardeMatin).bg;
+  const soir = couleurGarde(info.gardeSoir).bg;
+  if (!info.gardeAprem) return `linear-gradient(135deg, ${matin} 50%, ${soir} 50%)`;
+  const aprem = couleurGarde(info.gardeAprem).bg;
+  return `linear-gradient(135deg, ${matin} 33.34%, ${aprem} 33.34% 66.67%, ${soir} 66.67%)`;
+}
+
+/** Libellé court d'un jour partagé, dans l'ordre de la journée : « Sébastien → Nathalie → Sébastien ». */
+export function partageLabel(info: CreneauxGarde): string {
+  return [info.gardeMatin, info.gardeAprem, info.gardeSoir]
+    .filter((g): g is GardeType => Boolean(g))
+    .map((g) => couleurGarde(g).label)
+    .join(" → ");
+}
 
 export const EVENT_COLORS = {
   deplacement: { bg: "#e0cffc", text: "#3C3489" },

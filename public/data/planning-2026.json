@@ -1,6 +1,6 @@
 {
   "annee": 2026,
-  "derniere_maj": "2026-11-04T17:30",
+  "derniere_maj": "2026-11-04T17:50",
   "point_reference": {
     "nom": "Guilheméry, Toulouse",
     "latitude": 43.59833,
@@ -158,6 +158,7 @@
       "fin": "2026-06-13",
       "garde": "partage",
       "garde_matin": "sebastien",
+      "garde_aprem": "nathalie",
       "garde_soir": "nathalie",
       "note": "Échange de garde — après-midi Nathalie"
     },
@@ -324,6 +325,7 @@
       "fin": "2026-08-29",
       "garde": "partage",
       "garde_matin": "rosy_bernard",
+      "garde_aprem": "nathalie",
       "garde_soir": "nathalie",
       "note": "Échange de garde — fin garde Rosy & Bernard, après-midi Nathalie"
     },
@@ -372,6 +374,7 @@
       "fin": "2026-09-14",
       "garde": "partage",
       "garde_matin": "sebastien",
+      "garde_aprem": "nathalie",
       "garde_soir": "nathalie",
       "note": "Échange de garde — matin Sébastien, après-midi Nathalie"
     },
@@ -400,6 +403,7 @@
       "fin": "2026-09-20",
       "garde": "partage",
       "garde_matin": "nathalie",
+      "garde_aprem": "sebastien",
       "garde_soir": "sebastien",
       "note": "Échange de garde — matin Nathalie, après-midi Sébastien"
     },
@@ -548,6 +552,7 @@
       "fin": "2026-11-04",
       "garde": "partage",
       "garde_matin": "sebastien",
+      "garde_aprem": "nathalie",
       "garde_soir": "sebastien",
       "note": "Après-midi Nathalie — pédiatre et activités du mercredi"
     },

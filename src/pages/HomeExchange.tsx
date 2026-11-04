@@ -187,7 +187,7 @@ export default function HomeExchangePage() {
       while (current <= end) {
         const dayInfo = getDayInfo(current, planningData);
         const garde = dayInfo.gardeMatin || dayInfo.garde;
-        if (garde === "sebastien" || dayInfo.gardeSoir === "sebastien") {
+        if (garde === "sebastien" || dayInfo.gardeAprem === "sebastien" || dayInfo.gardeSoir === "sebastien") {
           conflicts.push({ date: dayInfo.date, garde: "sebastien" });
         }
         current.setDate(current.getDate() + 1);

@@ -12,6 +12,7 @@ import {
   getDayInfo,
   GARDE_COLORS,
   EVENT_COLORS,
+  partageBackground,
   type DayInfo,
   type PlanningData,
 } from "@/hooks/usePlanningData";
@@ -113,12 +114,12 @@ function DayCell({
   const soirColor = isPartage ? (GARDE_COLORS[info.gardeSoir!] || GARDE_COLORS.a_determiner) : null;
   const dimmed = highlightFilter !== null && !(
     highlightFilter === info.garde ||
-    (isPartage && (highlightFilter === info.gardeMatin || highlightFilter === info.gardeSoir))
+    (isPartage && (highlightFilter === info.gardeMatin || highlightFilter === info.gardeAprem || highlightFilter === info.gardeSoir))
   );
 
   const bgStyle: React.CSSProperties = isPartage && matinColor && soirColor
     ? {
-        background: `linear-gradient(135deg, ${matinColor.bg} 50%, ${soirColor.bg} 50%)`,
+        background: partageBackground(info),
         border: info.isFerie ? "2px solid #e24b4a" : "1px solid rgba(0,0,0,0.06)",
         borderRadius: "5px",
       }
@@ -287,6 +288,9 @@ function DayDetail({ info, onClose }: { info: DayInfo; onClose: () => void }) {
   const gardeColor = isPartage ? GARDE_COLORS.partage : (GARDE_COLORS[info.garde] || GARDE_COLORS.a_determiner);
   const matinColor = isPartage ? (GARDE_COLORS[info.gardeMatin!] || GARDE_COLORS.a_determiner) : null;
   const soirColor = isPartage ? (GARDE_COLORS[info.gardeSoir!] || GARDE_COLORS.a_determiner) : null;
+  const apremColor = isPartage && info.gardeAprem ? (GARDE_COLORS[info.gardeAprem] || GARDE_COLORS.a_determiner) : null;
+  // La note générique d'un échange standard n'apporte rien ; les notes précises sont affichées.
+  const noteVisible = info.gardeNote && (info.garde !== "partage" || info.gardeNote !== "Échange de garde");
   const d = new Date(info.date + "T12:00:00");
   const dayName = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"][d.getDay()];
   const monthName = MONTH_NAMES[d.getMonth()];
@@ -308,13 +312,23 @@ function DayDetail({ info, onClose }: { info: DayInfo; onClose: () => void }) {
       {/* Garde */}
       {isPartage && matinColor && soirColor ? (
         <div className="space-y-2">
-          <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Jour d'échange de garde</p>
+          <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+            {apremColor ? "Journée partagée" : "Jour d'échange de garde"}
+          </p>
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: matinColor.bg, border: `2px solid ${matinColor.text}` }} />
             <span className="text-sm font-semibold" style={{ color: matinColor.text }}>
               Matin (dépôt école) : {matinColor.label}
             </span>
           </div>
+          {apremColor && (
+            <div className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: apremColor.bg, border: `2px solid ${apremColor.text}` }} />
+              <span className="text-sm font-semibold" style={{ color: apremColor.text }}>
+                Après-midi : {apremColor.label}
+              </span>
+            </div>
+          )}
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: soirColor.bg, border: `2px solid ${soirColor.text}` }} />
             <span className="text-sm font-semibold" style={{ color: soirColor.text }}>
@@ -330,7 +344,7 @@ function DayDetail({ info, onClose }: { info: DayInfo; onClose: () => void }) {
           </span>
         </div>
       )}
-      {info.gardeNote && info.garde !== "partage" && (
+      {noteVisible && (
         <p className="text-xs text-muted-foreground italic pl-5">{info.gardeNote}</p>
       )}
 

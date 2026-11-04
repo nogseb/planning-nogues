@@ -5,7 +5,7 @@
  */
 import { useState, useMemo } from "react";
 import { useWeekData } from "@/hooks/useWeekData";
-import { usePlanningData, getDayInfo, GARDE_COLORS, EVENT_COLORS } from "@/hooks/usePlanningData";
+import { usePlanningData, getDayInfo, GARDE_COLORS, EVENT_COLORS, partageBackground, partageLabel } from "@/hooks/usePlanningData";
 import type { PlanningData } from "@/hooks/usePlanningData";
 import ActivityCard from "@/components/ActivityCard";
 import { formatDateFr, getDatesForWeek, isWeekend } from "@/lib/utils";
@@ -413,10 +413,9 @@ export default function Home() {
                   const info = getDayInfo(d, planningData);
                   if (info.garde === "partage" && info.gardeMatin && info.gardeSoir) {
                     const mc = GARDE_COLORS[info.gardeMatin];
-                    const sc = GARDE_COLORS[info.gardeSoir];
                     return (
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] font-semibold" style={{ background: `linear-gradient(135deg, ${mc.bg} 50%, ${sc.bg} 50%)`, color: mc.text }}>
-                        {mc.label} → {sc.label}
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] font-semibold" style={{ background: partageBackground(info), color: mc.text }}>
+                        {partageLabel(info)}
                       </span>
                     );
                   }

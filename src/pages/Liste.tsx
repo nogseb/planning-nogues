@@ -102,6 +102,13 @@ export default function Liste() {
         if (info.garde === "sebastien") return true;
         if (info.garde !== "partage") return false;
         const startHour = Number.parseInt(a.horaire.match(/\d{1,2}(?=[:h])/i)?.[0] || "12", 10);
+        if (info.gardeAprem) {
+          // Journée en trois créneaux : matin avant 12 h, après-midi jusqu'à 18 h, soir ensuite.
+          const parent = a.creneau === "vendredi-soir" || startHour >= 18
+            ? info.gardeSoir
+            : startHour >= 12 ? info.gardeAprem : info.gardeMatin;
+          return parent === "sebastien";
+        }
         const isEvening = a.creneau === "vendredi-soir" || startHour >= 16;
         return isEvening ? info.gardeSoir === "sebastien" : info.gardeMatin === "sebastien";
       });

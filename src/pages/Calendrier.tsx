@@ -5,7 +5,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useSearch } from "wouter";
 import { useWeekData } from "@/hooks/useWeekData";
-import { usePlanningData, getDayInfo, GARDE_COLORS, type PlanningData } from "@/hooks/usePlanningData";
+import { usePlanningData, getDayInfo, GARDE_COLORS, partageBackground, partageLabel, type PlanningData } from "@/hooks/usePlanningData";
 import ActivityCard from "@/components/ActivityCard";
 import { TYPE_COLORS, AVAILABLE_WEEKS } from "@/lib/types";
 import type { Activity } from "@/lib/types";
@@ -24,6 +24,10 @@ function getISOWeek(d: Date): number {
   date.setUTCDate(date.getUTCDate() + 4 - dayNum);
   const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
   return Math.ceil(((date.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+}
+
+function localDateStr(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
 function getCalendarDays(year: number, month: number) {
@@ -143,8 +147,9 @@ export default function Calendrier() {
                     return <div key={`empty-${ri}-${ci}`} className="min-h-[64px] sm:min-h-[84px] border-b border-r border-border/30 bg-muted/20" />;
                   }
 
-                  const dateStr = day.toISOString().split("T")[0];
-                  const isToday = dateStr === new Date().toISOString().split("T")[0];
+                  // Date locale : toISOString() convertit en UTC et décalerait d'un jour en France.
+                  const dateStr = localDateStr(day);
+                  const isToday = dateStr === localDateStr(new Date());
                   const isSelected = dateStr === selectedDate;
                   const dayActivities = activitiesByDate[dateStr] || [];
 
@@ -157,7 +162,7 @@ export default function Calendrier() {
 
                   const cellStyle: React.CSSProperties = isPartageDay && matinC && soirC
                     ? {
-                        background: `linear-gradient(135deg, ${matinC.bg} 50%, ${soirC.bg} 50%)`,
+                        background: partageBackground(dayInfo!),
                         borderColor: dayInfo?.isFerie ? "#e24b4a" : "rgba(0,0,0,0.06)",
                         borderWidth: dayInfo?.isFerie ? "2px" : undefined,
                       }
@@ -261,10 +266,9 @@ export default function Calendrier() {
               const info = getDayInfo(new Date(selectedDate + "T12:00:00"), planningData);
               if (info.garde === "partage" && info.gardeMatin && info.gardeSoir) {
                 const mc = GARDE_COLORS[info.gardeMatin];
-                const sc = GARDE_COLORS[info.gardeSoir];
                 return (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] font-semibold" style={{ background: `linear-gradient(135deg, ${mc.bg} 50%, ${sc.bg} 50%)`, color: mc.text }}>
-                    {mc.label} \u2192 {sc.label}
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] font-semibold" style={{ background: partageBackground(info), color: mc.text }}>
+                    {partageLabel(info)}
                   </span>
                 );
               }
