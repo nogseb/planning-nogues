@@ -1,6 +1,6 @@
 {
   "annee": 2026,
-  "derniere_maj": "2026-11-04T16:55",
+  "derniere_maj": "2026-11-04T17:30",
   "point_reference": {
     "nom": "Guilheméry, Toulouse",
     "latitude": 43.59833,
@@ -539,9 +539,17 @@
     },
     {
       "debut": "2026-11-02",
-      "fin": "2026-11-04",
+      "fin": "2026-11-03",
       "garde": "sebastien",
       "note": "Garde Sébastien"
+    },
+    {
+      "debut": "2026-11-04",
+      "fin": "2026-11-04",
+      "garde": "partage",
+      "garde_matin": "sebastien",
+      "garde_soir": "sebastien",
+      "note": "Après-midi Nathalie — pédiatre et activités du mercredi"
     },
     {
       "debut": "2026-11-05",
